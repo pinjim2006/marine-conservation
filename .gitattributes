@@ -1,0 +1,21 @@
+# Set default behavior to automatically normalize line endings
+* text=auto
+
+# Ensure all JS/TS/JSON/CSS/HTML files use LF
+*.js text eol=lf
+*.ts text eol=lf
+*.json text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.astro text eol=lf
+
+# Images treated as binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+
+# Prevent linguist from classifying minified files as source
+*.min.js linguist-generated
+*.min.css linguist-generated
