@@ -170,8 +170,8 @@ import Layout from '../layouts/Layout.astro';
 <script>
 	// 垃圾資訊
 	const trashItems = [
-		{ icon: '/pngtree/fishing/plastic_bags.png', name: '塑膠袋', time: '500年', message: '塑膠袋是海洋污染的主要元凶之一。它們易被海洋生物誤食，造成窒息或腸道損傷。' },
-		{ icon: '/pngtree/fishing/straw.png', name: '吸管', time: '200年', message: '拋棄式吸管每年造成數百萬噸海洋垃圾。許多海龜、海鳥因此受傷。' },
+		{ icon: '/marine-conservation/pngtree/fishing/plastic_bags.png', name: '塑膠袋', time: '500年', message: '塑膠袋是海洋污染的主要元凶之一。它們易被海洋生物誤食，造成窒息或腸道損傷。' },
+		{ icon: '/marine-conservation/pngtree/fishing/straw.png', name: '吸管', time: '200年', message: '拋棄式吸管每年造成數百萬噸海洋垃圾。許多海龜、海鳥因此受傷。' },
 	];
 
 	let castCount = 0;
@@ -261,7 +261,7 @@ import Layout from '../layouts/Layout.astro';
 				fishDiv.style.top = Math.random() * 60 + 20 + '%';
 				
 				const fishImg = document.createElement('img');
-				fishImg.src = '/pngtree/fishing/fish.png';
+				fishImg.src = '/marine-conservation/pngtree/fishing/fish.png';
 				fishImg.className = 'w-24 h-24 object-contain';
 				fishDiv.appendChild(fishImg);
 				itemsContainer.appendChild(fishDiv);
@@ -304,7 +304,7 @@ import Layout from '../layouts/Layout.astro';
 		const successIconEl = document.querySelector('#successPanel .text-5xl')!;
 		successIconEl.innerHTML = '';
 		const img = document.createElement('img');
-		img.src = '/pngtree/fishing/fish.png';
+		img.src = '/marine-conservation/pngtree/fishing/fish.png';
 		img.className = 'w-20 h-20 object-contain mx-auto';
 		successIconEl.appendChild(img);
 		successPanel.style.display = 'flex';
