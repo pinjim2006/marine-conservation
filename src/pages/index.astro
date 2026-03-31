@@ -1,11 +1,49 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="漁夫視角的海洋保育 | 首頁">
+	<section class="relative h-screen w-full flex items-center justify-center overflow-hidden">
+		<div class="absolute inset-0 z-0">
+			<img 
+				src="/hero-ocean.jpg" 
+				alt="Ocean Background" 
+				class="w-full h-full object-cover"
+			/>
+			<div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/40 to-slate-900"></div>
+		</div>
+
+		<div class="relative z-10 text-center px-6">
+			<h1 id="hero-title" class="text-white text-5xl md:text-7xl font-serif italic mb-6 opacity-0 translate-y-10">
+				A Fisherman's Perspective
+			</h1>
+			<p id="hero-desc" class="text-blue-200 text-lg md:text-2xl max-w-2xl mx-auto font-light leading-relaxed opacity-0 translate-y-10">
+				海洋曾經養活了我的家人，但現在，<br>
+				每一次撒網，我都在恐懼會撈起什麼...
+			</p>
+			<div id="hero-cta" class="mt-12 opacity-0 translate-y-10">
+				<a href="/story" class="px-10 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-full font-bold tracking-widest transition-all hover:scale-110 hover:shadow-[0_0_20px_rgba(37,99,235,0.5)]">
+					進入漁夫的故事
+				</a>
+			</div>
+		</div>
+
+		<div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/30 text-xs tracking-[0.3em] uppercase animate-bounce">
+			Scroll Down
+		</div>
+	</section>
 </Layout>
+
+<script>
+	// 引入 GSAP
+	import { gsap } from 'gsap';
+
+	// 當頁面載入完成後執行進場動畫
+	window.addEventListener('load', () => {
+		const tl = gsap.timeline();
+
+		tl.to("#hero-title", { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" })
+		  .to("#hero-desc", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8")
+		  .to("#hero-cta", { opacity: 1, y: 0, duration: 0.8, ease: "back.out(1.7)" }, "-=0.5");
+	});
+</script>
