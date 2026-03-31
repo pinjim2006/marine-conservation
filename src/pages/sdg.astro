@@ -110,14 +110,14 @@ const detailedTargets = [
 			<p class="mt-4 text-slate-600 leading-relaxed max-w-3xl">
 				將游標移到卡片上，或在手機上長按卡片，即可翻面閱讀完整目標內容。
 			</p>
-			<div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+			<div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
 				{detailedTargets.map((target) => (
-					<article class="group h-[750px] [perspective:1200px]" tabindex="0" aria-label={`${target.id} ${target.title}`}>
-						<div class="relative h-full w-full rounded-2xl transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] group-focus:[transform:rotateY(180deg)]">
-						<div class="absolute inset-0 rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-5 shadow-md [backface-visibility:hidden] flex flex-col items-start">
+					<article class="group h-full [perspective:1200px]" tabindex="0" aria-label={`${target.id} ${target.title}`}>
+						<div class="relative h-full min-h-[640px] w-full rounded-2xl transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] group-focus:[transform:rotateY(180deg)]">
+						<div class="absolute inset-0 rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-5 shadow-md [backface-visibility:hidden] flex flex-col">
 							<p class="text-xs font-semibold tracking-[0.2em] text-sky-700">TARGET {target.id}</p>
-							<img src={target.src} alt={`${target.id} ${target.title}`} class="mt-3 flex-1 w-full object-contain rounded-xl" loading="lazy" />
-								<h3 class="mt-4 text-lg font-semibold leading-snug">{target.title}</h3>
+							<img src={target.src} alt={`${target.id} ${target.title}`} class="mt-3 w-full aspect-[1524/2223] object-contain object-top rounded-xl bg-slate-100" loading="lazy" />
+							<h3 class="mt-4 text-lg font-semibold leading-snug min-h-[56px]">{target.title}</h3>
 							</div>
 							<div class="absolute inset-0 rounded-2xl border border-cyan-100 bg-slate-900 p-6 text-slate-100 [backface-visibility:hidden] [transform:rotateY(180deg)] shadow-xl overflow-y-auto">
 								<p class="text-xs font-semibold tracking-[0.2em] text-cyan-300">TARGET {target.id}</p>
