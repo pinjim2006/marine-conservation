@@ -90,7 +90,7 @@ import Layout from '../layouts/Layout.astro';
 			</div>
 
 			<!-- 垃圾分解信息面板 -->
-			<div id="trashInfoPanel" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+		<div id="trashInfoPanel" class="fixed inset-0 z-50 flex items-center justify-center" style="display: none;">
 				<div class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
 				<div class="relative bg-gradient-to-b from-orange-950 to-orange-900 border-2 border-orange-400 rounded-3xl p-8 max-w-md shadow-2xl mx-4">
 					<button id="closeInfoBtn" class="absolute top-4 right-4 text-2xl text-orange-200 hover:text-orange-100 transition">✕</button>
@@ -111,7 +111,7 @@ import Layout from '../layouts/Layout.astro';
 			</div>
 
 			<!-- 捕魚成功訊息 -->
-			<div id="successPanel" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+		<div id="successPanel" class="fixed inset-0 z-50 flex items-center justify-center" style="display: none;">
 				<div class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
 				<div class="relative bg-gradient-to-b from-green-950 to-emerald-900 border-2 border-green-400 rounded-3xl p-8 max-w-md shadow-2xl mx-4">
 					<button id="closeSuccessBtn" class="absolute top-4 right-4 text-2xl text-green-200 hover:text-green-100 transition">✕</button>
@@ -179,8 +179,8 @@ import Layout from '../layouts/Layout.astro';
 	let trashCount = 0;
 
 	// 獲取 DOM 元素
-	const castNetBtn = document.getElementById('castNetBtn')!;
-	const resetBtn = document.getElementById('resetBtn')!;
+	const castNetBtn = document.getElementById('castNetBtn') as HTMLButtonElement;
+	const resetBtn = document.getElementById('resetBtn') as HTMLButtonElement;
 	const castCountEl = document.getElementById('castCount')!;
 	const fishCountEl = document.getElementById('fishCount')!;
 	const trashCountEl = document.getElementById('trashCount')!;
@@ -296,7 +296,7 @@ import Layout from '../layouts/Layout.astro';
 		document.getElementById('trashName')!.textContent = trash.name;
 		document.getElementById('decompositionTime')!.textContent = trash.time;
 		document.getElementById('trashMessage')!.textContent = trash.message;
-		trashInfoPanel.classList.remove('hidden');
+		trashInfoPanel.style.display = 'flex';
 	}
 
 	// 顯示成功訊息面板
@@ -307,24 +307,24 @@ import Layout from '../layouts/Layout.astro';
 		img.src = '/pngtree/fishing/fish.png';
 		img.className = 'w-20 h-20 object-contain mx-auto';
 		successIconEl.appendChild(img);
-		successPanel.classList.remove('hidden');
+		successPanel.style.display = 'flex';
 	}
 
 	// 關閉面板按鈕
 	document.getElementById('closeInfoBtn')!.addEventListener('click', () => {
-		trashInfoPanel.classList.add('hidden');
+		trashInfoPanel.style.display = 'none';
 	});
 
 	document.getElementById('acknowledgeBtn')!.addEventListener('click', () => {
-		trashInfoPanel.classList.add('hidden');
+		trashInfoPanel.style.display = 'none';
 	});
 
 	document.getElementById('closeSuccessBtn')!.addEventListener('click', () => {
-		successPanel.classList.add('hidden');
+		successPanel.style.display = 'none';
 	});
 
 	document.getElementById('closeSuccessBtnConfirm')!.addEventListener('click', () => {
-		successPanel.classList.add('hidden');
+		successPanel.style.display = 'none';
 	});
 
 	// 重置按鈕
