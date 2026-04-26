@@ -66,8 +66,9 @@ const detailedTargets = [
 ---
 
 <Layout title="SDG 14：保育海洋生態 | 漁夫視角的海洋保育">
-	<section class="relative overflow-hidden bg-sky-950 text-white">
-		<div class="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(56,189,248,0.28),transparent_40%),radial-gradient(circle_at_82%_12%,rgba(2,132,199,0.23),transparent_35%)]"></div>
+	<section id="sdgHero" class="relative overflow-hidden bg-sky-950 text-white">
+		<div class="absolute inset-0 sdg-water-base"></div>
+		<div class="absolute inset-0 sdg-water-ripple" aria-hidden="true"></div>
 		<div class="relative max-w-6xl mx-auto px-6 py-20 md:py-28 grid gap-10 md:grid-cols-[260px_1fr] items-center">
 			<img
 				src="/marine-conservation/sdg/TheGlobalGoals_Icons_Color_Goal_14.png"
@@ -76,7 +77,7 @@ const detailedTargets = [
 			/>
 			<div>
 				<p class="text-cyan-200/90 uppercase tracking-[0.24em] text-xs md:text-sm">Sustainable Development Goals</p>
-				<h1 class="mt-4 text-3xl md:text-5xl font-serif italic leading-tight">SDG 14：保育及永續利用海洋與海洋資源</h1>
+				<h1 class="mt-4 text-3xl md:text-5xl font-serif leading-tight">SDG 14：保育及永續利用海洋與海洋資源</h1>
 				<p class="mt-6 text-slate-200/90 leading-relaxed md:text-lg">
 					SDG 14 是聯合國永續發展目標中，專注於海洋生態的重要目標。它希望透過減少污染、保護生態系、強化漁業管理與國際合作，讓海洋資源能被長期、永續地使用，並保障依賴海洋維生的社群。
 				</p>
@@ -86,7 +87,7 @@ const detailedTargets = [
 
 	<section class="bg-slate-100 text-slate-900">
 		<div class="max-w-6xl mx-auto px-6 py-16 md:py-20">
-			<h2 class="text-2xl md:text-4xl font-serif italic">為什麼 SDG 14 很重要？</h2>
+			<h2 class="text-2xl md:text-4xl font-serif">為什麼 SDG 14 很重要？</h2>
 			<div class="mt-8 grid gap-6 md:grid-cols-3">
 				<article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
 					<h3 class="text-lg font-semibold">守護生物多樣性</h3>
@@ -143,3 +144,123 @@ const detailedTargets = [
 		</div>
 	</section>
 </Layout>
+
+<style>
+	.sdg-water-base {
+		background:
+			radial-gradient(circle at 18% 20%, rgba(56, 189, 248, 0.34), transparent 38%),
+			radial-gradient(circle at 82% 12%, rgba(2, 132, 199, 0.3), transparent 34%),
+			linear-gradient(180deg, rgba(8, 47, 73, 0.94) 0%, rgba(12, 74, 110, 0.78) 54%, rgba(7, 38, 60, 0.95) 100%);
+		isolation: isolate;
+	}
+
+	.sdg-water-base::before,
+	.sdg-water-base::after {
+		content: '';
+		position: absolute;
+		inset: -18%;
+		background-repeat: repeat;
+		pointer-events: none;
+	}
+
+	.sdg-water-base::before {
+		opacity: 0.32;
+		background-image: repeating-linear-gradient(
+			100deg,
+			rgba(186, 230, 253, 0.22) 0 2px,
+			rgba(186, 230, 253, 0) 2px 24px
+		);
+		background-size: 420px 220px;
+		animation: sdg-wave-drift 16s linear infinite;
+	}
+
+	.sdg-water-base::after {
+		opacity: 0.24;
+		background-image:
+			radial-gradient(circle at 25% 35%, rgba(125, 211, 252, 0.34), transparent 25%),
+			radial-gradient(circle at 70% 58%, rgba(56, 189, 248, 0.26), transparent 28%),
+			radial-gradient(circle at 50% 12%, rgba(14, 165, 233, 0.28), transparent 18%);
+		animation: sdg-tide-shift 19s ease-in-out infinite alternate;
+	}
+
+	.sdg-water-ripple {
+		--mx: 50%;
+		--my: 50%;
+		background:
+			radial-gradient(circle at var(--mx) var(--my), rgba(186, 230, 253, 0.38) 0 8%, rgba(186, 230, 253, 0) 30%),
+			repeating-radial-gradient(circle at var(--mx) var(--my), rgba(125, 211, 252, 0.18) 0 2px, rgba(125, 211, 252, 0) 10px 26px);
+		mix-blend-mode: screen;
+		opacity: 0.5;
+		animation: sdg-ripple-pulse 5s ease-in-out infinite;
+		pointer-events: none;
+	}
+
+	@keyframes sdg-wave-drift {
+		0% {
+			transform: translate3d(-4%, -1%, 0) scale(1.04);
+		}
+		50% {
+			transform: translate3d(4%, 2%, 0) scale(1.06);
+		}
+		100% {
+			transform: translate3d(-4%, -1%, 0) scale(1.04);
+		}
+	}
+
+	@keyframes sdg-tide-shift {
+		0% {
+			transform: translate3d(-2%, -3%, 0) scale(1.02);
+		}
+		100% {
+			transform: translate3d(3%, 4%, 0) scale(1.08);
+		}
+	}
+
+	@keyframes sdg-ripple-pulse {
+		0%,
+		100% {
+			opacity: 0.34;
+		}
+		50% {
+			opacity: 0.62;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.sdg-water-ripple {
+			opacity: 0.42;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.sdg-water-base::before,
+		.sdg-water-base::after,
+		.sdg-water-ripple {
+			animation: none;
+		}
+	}
+</style>
+
+<script is:inline>
+	const hero = document.getElementById('sdgHero');
+	const rippleLayer = hero?.querySelector('.sdg-water-ripple');
+
+	if (hero && rippleLayer) {
+		const setRipplePosition = (x, y) => {
+			const rect = hero.getBoundingClientRect();
+			const px = ((x - rect.left) / rect.width) * 100;
+			const py = ((y - rect.top) / rect.height) * 100;
+			rippleLayer.style.setProperty('--mx', `${Math.max(0, Math.min(100, px))}%`);
+			rippleLayer.style.setProperty('--my', `${Math.max(0, Math.min(100, py))}%`);
+		};
+
+		hero.addEventListener('pointermove', (event) => {
+			setRipplePosition(event.clientX, event.clientY);
+		});
+
+		hero.addEventListener('pointerleave', () => {
+			rippleLayer.style.setProperty('--mx', '50%');
+			rippleLayer.style.setProperty('--my', '50%');
+		});
+	}
+</script>
