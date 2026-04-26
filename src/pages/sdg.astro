@@ -67,9 +67,9 @@ const detailedTargets = [
 
 <Layout title="SDG 14：保育海洋生態 | 漁夫視角的海洋保育">
 	<section id="sdgHero" class="relative overflow-hidden bg-sky-950 text-white">
-		<div class="absolute inset-0 sdg-water-base"></div>
-		<div class="absolute inset-0 sdg-water-highlight" aria-hidden="true"></div>
-		<div class="relative max-w-6xl mx-auto px-6 py-20 md:py-28 grid gap-10 md:grid-cols-[260px_1fr] items-center">
+		<canvas id="sdgHeroCanvas" class="sdg-hero-canvas" aria-hidden="true"></canvas>
+		<div class="absolute inset-0 sdg-hero-vignette" aria-hidden="true"></div>
+		<div class="relative z-10 max-w-6xl mx-auto px-6 py-20 md:py-28 grid gap-10 md:grid-cols-[260px_1fr] items-center">
 			<img
 				src="/marine-conservation/sdg/TheGlobalGoals_Icons_Color_Goal_14.png"
 				alt="聯合國永續發展目標 SDG14 圖示"
@@ -146,119 +146,264 @@ const detailedTargets = [
 </Layout>
 
 <style>
-	.sdg-water-base {
-		background:
-			radial-gradient(circle at 20% 15%, rgba(14, 116, 144, 0.28), transparent 42%),
-			radial-gradient(circle at 80% 12%, rgba(8, 145, 178, 0.2), transparent 38%),
-			linear-gradient(180deg, rgba(2, 28, 53, 0.98) 0%, rgba(3, 48, 86, 0.9) 54%, rgba(2, 24, 44, 0.98) 100%);
+	#sdgHero {
 		isolation: isolate;
 	}
 
-	.sdg-water-base::after {
-		content: '';
+	.sdg-hero-canvas {
 		position: absolute;
-		inset: -18%;
-		background-repeat: repeat;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 0;
 		pointer-events: none;
 	}
 
-	.sdg-water-base::after {
-		opacity: 0.24;
-		background-image:
-			radial-gradient(circle at 25% 35%, rgba(125, 211, 252, 0.34), transparent 25%),
-			radial-gradient(circle at 70% 58%, rgba(56, 189, 248, 0.26), transparent 28%),
-			radial-gradient(circle at 50% 12%, rgba(14, 165, 233, 0.28), transparent 18%);
-		animation: sdg-tide-shift 19s ease-in-out infinite alternate;
-	}
-
-	.sdg-water-highlight {
-		--mx: 50%;
-		--my: 50%;
+	.sdg-hero-vignette {
+		z-index: 1;
+		pointer-events: none;
 		background:
-			radial-gradient(circle at var(--mx) var(--my), rgba(56, 189, 248, 0.4) 0 10%, rgba(56, 189, 248, 0.22) 18%, rgba(56, 189, 248, 0.08) 34%, rgba(56, 189, 248, 0) 56%);
-		mix-blend-mode: screen;
-		opacity: 0.52;
-		transition: opacity 260ms ease;
-		pointer-events: none;
-	}
-
-	@keyframes sdg-tide-shift {
-		0% {
-			transform: translate3d(-2%, -3%, 0) scale(1.02);
-		}
-		100% {
-			transform: translate3d(3%, 4%, 0) scale(1.08);
-		}
-	}
-
-	@media (max-width: 768px) {
-		.sdg-water-highlight {
-			opacity: 0.44;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.sdg-water-base::after,
-		.sdg-water-highlight {
-			animation: none;
-		}
+			radial-gradient(circle at 50% 35%, rgba(125, 211, 252, 0.08), rgba(125, 211, 252, 0) 52%),
+			linear-gradient(180deg, rgba(2, 6, 23, 0.14) 0%, rgba(2, 6, 23, 0.36) 100%);
 	}
 </style>
 
 <script is:inline>
 	const hero = document.getElementById('sdgHero');
-	const highlightLayer = hero?.querySelector('.sdg-water-highlight');
+	const canvas = document.getElementById('sdgHeroCanvas');
 
-	if (hero && highlightLayer) {
-		let targetX = 50;
-		let targetY = 50;
-		let currentX = 50;
-		let currentY = 50;
-		let velocityX = 0;
-		let velocityY = 0;
+	if (hero && canvas instanceof HTMLCanvasElement) {
+		const ctx = canvas.getContext('2d');
+		if (!ctx) {
+			throw new Error('Canvas 2D context not available');
+		}
+
+		const pointer = {
+			x: 0,
+			y: 0,
+			active: false,
+			radius: 160,
+			force: 0.18,
+		};
+
+		let dpr = window.devicePixelRatio || 1;
+		let width = 0;
+		let height = 0;
 		let rafId = 0;
+		let meshPhase = 0;
 
-		const setTargetPosition = (x, y) => {
+		/** @type {Array<{x:number,y:number,vx:number,vy:number,r:number,alpha:number,kind:'bubble'|'diamond'}>} */
+		let particles = [];
+
+		const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+
+		const createParticle = () => {
+			const bubbleChance = Math.random() < 0.82;
+			const speed = 0.08 + Math.random() * 0.22;
+			const angle = Math.random() * Math.PI * 2;
+
+			return {
+				x: Math.random() * width,
+				y: Math.random() * height,
+				vx: Math.cos(angle) * speed,
+				vy: Math.sin(angle) * speed,
+				r: bubbleChance ? 1.8 + Math.random() * 7.5 : 2.6 + Math.random() * 4.2,
+				alpha: bubbleChance ? 0.16 + Math.random() * 0.36 : 0.12 + Math.random() * 0.22,
+				kind: bubbleChance ? 'bubble' : 'diamond',
+			};
+		};
+
+		const resetParticles = () => {
+			const area = width * height;
+			const count = clamp(Math.round(area / 22000), 24, 78);
+			particles = Array.from({ length: count }, createParticle);
+		};
+
+		const resizeCanvas = () => {
+			dpr = window.devicePixelRatio || 1;
 			const rect = hero.getBoundingClientRect();
-			const px = ((x - rect.left) / rect.width) * 100;
-			const py = ((y - rect.top) / rect.height) * 100;
-			targetX = Math.max(0, Math.min(100, px));
-			targetY = Math.max(0, Math.min(100, py));
+			width = Math.max(1, Math.floor(rect.width));
+			height = Math.max(1, Math.floor(rect.height));
+			canvas.width = Math.floor(width * dpr);
+			canvas.height = Math.floor(height * dpr);
+			canvas.style.width = `${width}px`;
+			canvas.style.height = `${height}px`;
+			ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+			resetParticles();
 		};
 
-		const animate = () => {
-			const dx = targetX - currentX;
-			const dy = targetY - currentY;
+		const drawMesh = () => {
+			ctx.save();
+			ctx.strokeStyle = 'rgba(165, 243, 252, 0.075)';
+			ctx.lineWidth = 0.6;
+			const step = 38;
+			meshPhase += 0.0016;
+			const shiftX = Math.sin(meshPhase) * 6;
+			const shiftY = Math.cos(meshPhase * 0.9) * 5;
 
-			velocityX += dx * 0.035;
-			velocityY += dy * 0.035;
-			velocityX *= 0.78;
-			velocityY *= 0.78;
+			for (let y = -step; y < height + step; y += step) {
+				ctx.beginPath();
+				ctx.moveTo(-step + shiftX, y + shiftY);
+				ctx.lineTo(width + step + shiftX, y + shiftY);
+				ctx.stroke();
+			}
 
-			currentX += velocityX;
-			currentY += velocityY;
+			for (let x = -step; x < width + step; x += step) {
+				ctx.beginPath();
+				ctx.moveTo(x + shiftX, -step + shiftY);
+				ctx.lineTo(x + shiftX + width * 0.18, height + step + shiftY);
+				ctx.stroke();
 
-			highlightLayer.style.setProperty('--mx', `${currentX}%`);
-			highlightLayer.style.setProperty('--my', `${currentY}%`);
-
-			rafId = window.requestAnimationFrame(animate);
+				ctx.beginPath();
+				ctx.moveTo(x + shiftX, -step + shiftY);
+				ctx.lineTo(x + shiftX - width * 0.18, height + step + shiftY);
+				ctx.stroke();
+			}
+			ctx.restore();
 		};
 
-		rafId = window.requestAnimationFrame(animate);
+		const drawBackground = () => {
+			const deepGradient = ctx.createRadialGradient(width * 0.5, height * 0.45, 10, width * 0.5, height * 0.5, Math.max(width, height));
+			deepGradient.addColorStop(0, '#0a4f8f');
+			deepGradient.addColorStop(0.42, '#053d74');
+			deepGradient.addColorStop(1, '#021125');
+			ctx.fillStyle = deepGradient;
+			ctx.fillRect(0, 0, width, height);
 
-		hero.addEventListener('pointermove', (event) => {
-			setTargetPosition(event.clientX, event.clientY);
-			highlightLayer.style.opacity = '0.6';
-		});
+			const spotX = pointer.active ? pointer.x : width * 0.5;
+			const spotY = pointer.active ? pointer.y : height * 0.45;
+			const cursorGlow = ctx.createRadialGradient(spotX, spotY, 0, spotX, spotY, Math.max(width, height) * 0.42);
+			cursorGlow.addColorStop(0, 'rgba(186, 230, 253, 0.28)');
+			cursorGlow.addColorStop(0.35, 'rgba(125, 211, 252, 0.14)');
+			cursorGlow.addColorStop(1, 'rgba(125, 211, 252, 0)');
+			ctx.fillStyle = cursorGlow;
+			ctx.fillRect(0, 0, width, height);
+		};
 
-		hero.addEventListener('pointerleave', () => {
-			targetX = 50;
-			targetY = 50;
-			highlightLayer.style.opacity = '0.5';
+		const drawCaustics = (time) => {
+			ctx.save();
+			ctx.globalCompositeOperation = 'screen';
+			ctx.globalAlpha = 0.22;
+
+			for (let i = 0; i < 4; i++) {
+				const waveX = width * (0.14 + i * 0.23) + Math.sin(time * 0.0006 + i * 1.4) * 24;
+				const waveY = height * (0.2 + i * 0.18) + Math.cos(time * 0.0005 + i) * 26;
+				const radius = Math.max(width, height) * (0.2 + i * 0.03);
+				const light = ctx.createRadialGradient(waveX, waveY, 0, waveX, waveY, radius);
+				light.addColorStop(0, 'rgba(186, 230, 253, 0.24)');
+				light.addColorStop(1, 'rgba(186, 230, 253, 0)');
+				ctx.fillStyle = light;
+				ctx.fillRect(0, 0, width, height);
+			}
+
+			ctx.restore();
+		};
+
+		const drawParticle = (particle) => {
+			ctx.save();
+			ctx.globalAlpha = particle.alpha;
+
+			if (particle.kind === 'bubble') {
+				ctx.beginPath();
+				ctx.fillStyle = 'rgba(240, 249, 255, 0.95)';
+				ctx.arc(particle.x, particle.y, particle.r, 0, Math.PI * 2);
+				ctx.fill();
+
+				ctx.beginPath();
+				ctx.fillStyle = 'rgba(255, 255, 255, 0.38)';
+				ctx.arc(particle.x - particle.r * 0.3, particle.y - particle.r * 0.3, particle.r * 0.3, 0, Math.PI * 2);
+				ctx.fill();
+			} else {
+				const size = particle.r;
+				ctx.translate(particle.x, particle.y);
+				ctx.rotate(Math.PI * 0.25);
+				ctx.fillStyle = 'rgba(224, 242, 254, 0.8)';
+				ctx.fillRect(-size * 0.45, -size * 0.45, size * 0.9, size * 0.9);
+			}
+
+			ctx.restore();
+		};
+
+		const updateParticle = (particle) => {
+			if (pointer.active) {
+				const dx = particle.x - pointer.x;
+				const dy = particle.y - pointer.y;
+				const dist = Math.hypot(dx, dy) || 0.0001;
+				if (dist < pointer.radius) {
+					const impact = (1 - dist / pointer.radius) * pointer.force;
+					particle.vx += (dx / dist) * impact;
+					particle.vy += (dy / dist) * impact;
+				}
+			}
+
+			particle.vx += (Math.random() - 0.5) * 0.0016;
+			particle.vy += (Math.random() - 0.5) * 0.0016;
+			particle.vx = clamp(particle.vx, -0.75, 0.75);
+			particle.vy = clamp(particle.vy, -0.75, 0.75);
+			particle.x += particle.vx;
+			particle.y += particle.vy;
+
+			if (particle.x - particle.r <= 0) {
+				particle.x = particle.r;
+				particle.vx = Math.abs(particle.vx) * 0.98;
+			}
+			if (particle.x + particle.r >= width) {
+				particle.x = width - particle.r;
+				particle.vx = -Math.abs(particle.vx) * 0.98;
+			}
+			if (particle.y - particle.r <= 0) {
+				particle.y = particle.r;
+				particle.vy = Math.abs(particle.vy) * 0.98;
+			}
+			if (particle.y + particle.r >= height) {
+				particle.y = height - particle.r;
+				particle.vy = -Math.abs(particle.vy) * 0.98;
+			}
+		};
+
+		const render = (time) => {
+			ctx.clearRect(0, 0, width, height);
+			drawBackground();
+			drawMesh();
+			drawCaustics(time);
+
+			for (const particle of particles) {
+				updateParticle(particle);
+				drawParticle(particle);
+			}
+
+			rafId = window.requestAnimationFrame(render);
+		};
+
+		const handlePointerMove = (event) => {
+			const rect = hero.getBoundingClientRect();
+			pointer.x = event.clientX - rect.left;
+			pointer.y = event.clientY - rect.top;
+			pointer.active = true;
+		};
+
+		const handlePointerLeave = () => {
+			pointer.active = false;
+		};
+
+		resizeCanvas();
+		rafId = window.requestAnimationFrame(render);
+
+		hero.addEventListener('pointermove', handlePointerMove);
+		hero.addEventListener('pointerleave', handlePointerLeave);
+		window.addEventListener('resize', resizeCanvas);
+
+		const resizeObserver = new ResizeObserver(() => {
+			resizeCanvas();
 		});
+		resizeObserver.observe(hero);
 
 		window.addEventListener('pagehide', () => {
 			window.cancelAnimationFrame(rafId);
+			window.removeEventListener('resize', resizeCanvas);
+			hero.removeEventListener('pointermove', handlePointerMove);
+			hero.removeEventListener('pointerleave', handlePointerLeave);
+			resizeObserver.disconnect();
 		});
 	}
 </script>
