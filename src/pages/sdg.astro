@@ -77,11 +77,14 @@ const detailedTargets = [
 			/>
 			<div>
 				<p class="text-cyan-200/90 uppercase tracking-[0.24em] text-xs md:text-sm">Sustainable Development Goals</p>
-				<h1 class="mt-4 text-3xl md:text-5xl font-serif leading-tight">SDG 14：保育及永續利用海洋與海洋資源</h1>
+				<h1 class="mt-4 text-3xl md:text-5xl font-serif leading-tight">SDG 14：永續海洋與保育</h1>
 				<p class="mt-6 text-slate-200/90 leading-relaxed md:text-lg">
 					SDG 14 是聯合國永續發展目標中，專注於海洋生態的重要目標。它希望透過減少污染、保護生態系、強化漁業管理與國際合作，讓海洋資源能被長期、永續地使用，並保障依賴海洋維生的社群。
 				</p>
 			</div>
+		</div>
+		<div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/30 text-xs tracking-[0.3em] uppercase animate-bounce">
+			Scroll Down
 		</div>
 	</section>
 
@@ -148,6 +151,8 @@ const detailedTargets = [
 <style>
 	#sdgHero {
 		isolation: isolate;
+		min-height: calc(100vh - var(--nav-height, 64px));
+		min-height: calc(100dvh - var(--nav-height, 64px));
 	}
 
 	.sdg-hero-canvas {
