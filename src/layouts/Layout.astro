@@ -19,7 +19,7 @@ const { title } = Astro.props;
 	</head>
 	<body class="bg-slate-50 text-slate-900 selection:bg-blue-200 selection:text-blue-900">
 		<nav class="fixed top-0 left-0 w-full z-50 bg-slate-900/80 backdrop-blur-md text-white border-b border-white/10">
-			<div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
 				<a href="/marine-conservation/">
 					<div class="flex items-center space-x-2">
 						<span class="text-2xl italic font-serif">Deep Blue</span>
@@ -27,7 +27,6 @@ const { title } = Astro.props;
 						<span class="text-sm tracking-widest uppercase opacity-70">SDG 14</span>
 					</div>
 				</a>
-				
 
 				<div class="hidden md:flex space-x-8 text-sm font-medium tracking-wide">
 					<a href="/marine-conservation/" class="hover:text-blue-400 transition-colors">首頁</a>
@@ -37,13 +36,37 @@ const { title } = Astro.props;
 					<a href="/marine-conservation/sdg" class="hover:text-blue-400 transition-colors">關於 SDG 14</a>
 				</div>
 
-				<div class="flex items-center">
-					<a href="/marine-conservation/sdg#how-to-participate" class="text-white hover:text-blue-400 transition-colors">
-						<button class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-full text-xs font-bold transition-all shadow-lg shadow-blue-500/20">
-							加入行動
-						</button>
+				<div class="hidden md:flex items-center">
+					<a href="/marine-conservation/sdg#how-to-participate" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-full text-xs font-bold transition-all shadow-lg shadow-blue-500/20">
+						加入行動
 					</a>
 				</div>
+
+				<details class="static block w-full md:hidden">
+					<summary class="ml-auto flex w-fit list-none cursor-pointer items-center justify-center p-2 text-white transition-colors hover:text-blue-400">
+						<span class="sr-only">開啟導覽選單</span>
+						<span aria-hidden="true" class="flex flex-col gap-1.5">
+							<span class="block h-0.5 w-6 bg-current"></span>
+							<span class="block h-0.5 w-6 bg-current"></span>
+							<span class="block h-0.5 w-6 bg-current"></span>
+						</span>
+					</summary>
+
+					<div class="absolute left-1/2 top-full z-50 mt-0 w-screen -translate-x-1/2 border-t border-white/10 bg-slate-950/95 shadow-2xl backdrop-blur-xl">
+						<div class="flex flex-col text-sm font-medium">
+							<a href="/marine-conservation/" class="border-b border-white/10 px-4 py-4 text-center text-white transition-colors hover:bg-white/10">首頁</a>
+							<a href="/marine-conservation/story" class="border-b border-white/10 px-4 py-4 text-center text-white transition-colors hover:bg-white/10">漁夫的故事</a>
+							<a href="/marine-conservation/game" class="border-b border-white/10 px-4 py-4 text-center text-white transition-colors hover:bg-white/10">撒網體驗</a>
+							<a href="/marine-conservation/news" class="border-b border-white/10 px-4 py-4 text-center text-white transition-colors hover:bg-white/10">相關新聞</a>
+							<a href="/marine-conservation/sdg" class="px-4 py-4 text-center text-white transition-colors hover:bg-white/10">關於 SDG 14</a>
+						</div>
+						<div class="border-t border-white/10">
+							<a href="/marine-conservation/sdg#how-to-participate" class="block px-4 py-4 text-center text-sm font-bold text-white transition-colors hover:bg-blue-600/30">
+								加入行動
+							</a>
+						</div>
+					</div>
+				</details>
 			</div>
 		</nav>
 
