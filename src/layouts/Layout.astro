@@ -43,7 +43,7 @@ const { title } = Astro.props;
 				</div>
 
 				<!--- Mobile Menu --->
-				<details class="mobile-menu static block w-full md:hidden">
+				<details class="mobile-menu static block w-full md:hidden" data-mobile-menu>
 					<summary class="ml-auto flex w-fit list-none cursor-pointer items-center justify-center p-2 text-white transition-colors hover:text-blue-400">
 						<span class="sr-only">開啟導覽選單</span>
 						<span aria-hidden="true" class="flex flex-col gap-1.5">
@@ -82,7 +82,7 @@ const { title } = Astro.props;
 				transition: max-height 320ms ease, opacity 220ms ease, transform 320ms ease;
 			}
 
-			.mobile-menu[open] > .mobile-menu-panel {
+			.mobile-menu[open]:not([data-closing]) > .mobile-menu-panel {
 				max-height: calc(100vh - 5rem);
 				opacity: 1;
 				transform: translate(-50%, 0);
@@ -102,5 +102,47 @@ const { title } = Astro.props;
 			<p>© 2026 網頁程式設計期末專案 - 漁夫視角的海洋保育</p>
 			<p class="mt-2 opacity-50">Developed with Astro + Tailwind CSS + GSAP</p>
 		</footer>
+
+		<script is:inline>
+			const mobileMenu = document.querySelector("[data-mobile-menu]");
+			if (mobileMenu) {
+				const panel = mobileMenu.querySelector(".mobile-menu-panel");
+				const summary = mobileMenu.querySelector("summary");
+				const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+				const transitionFallbackMs = 380;
+				let closeTimerId = 0;
+
+				const finishClosing = () => {
+					if (closeTimerId) {
+						window.clearTimeout(closeTimerId);
+						closeTimerId = 0;
+					}
+					mobileMenu.removeAttribute("data-closing");
+					mobileMenu.removeAttribute("open");
+				};
+
+				const closeMenu = () => {
+					if (mobileMenu.hasAttribute("data-closing")) {
+						return;
+					}
+					if (prefersReducedMotion.matches) {
+						finishClosing();
+						return;
+					}
+					mobileMenu.setAttribute("data-closing", "true");
+					if (panel) {
+						panel.addEventListener("transitionend", finishClosing, { once: true });
+					}
+					closeTimerId = window.setTimeout(finishClosing, transitionFallbackMs);
+				};
+
+				summary?.addEventListener("click", (event) => {
+					if (mobileMenu.hasAttribute("open")) {
+						event.preventDefault();
+						closeMenu();
+					}
+				});
+			}
+		</script>
 	</body>
 </html>
