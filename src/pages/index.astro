@@ -1,6 +1,12 @@
 ---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import '../styles/index.css';
+
+const latestNews = (await getCollection('news'))
+	.sort((a: CollectionEntry<'news'>, b: CollectionEntry<'news'>) => b.data.date.valueOf() - a.data.date.valueOf())
+	.slice(0, 3);
 ---
 
 <Layout title="漁夫視角的海洋保育 | 首頁">
@@ -95,6 +101,44 @@ import '../styles/index.css';
 					<li>支持永續漁業標章商品，讓市場反映生態價值。</li>
 					<li>轉發可信新聞與資料，提升身邊人的海洋意識。</li>
 				</ul>
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-slate-950 text-slate-100">
+		<div class="max-w-6xl mx-auto px-6 py-20 md:py-24">
+			<div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+				<div class="max-w-2xl">
+					<p class="text-cyan-300/80 tracking-[0.22em] uppercase text-xs md:text-sm">Latest News</p>
+					<h2 class="mt-4 text-3xl md:text-5xl font-serif leading-tight">把海洋新聞變成能採取行動的資訊</h2>
+					<p class="mt-5 text-slate-300/85 leading-relaxed md:text-lg">
+						整理最新的海洋保育與漁業新聞，讓你快速掌握政策、環境與生態變化。
+					</p>
+				</div>
+				<a href={`${import.meta.env.BASE_URL}news`} class="inline-flex w-fit items-center justify-center rounded-full border border-cyan-200/25 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
+					查看全部新聞
+				</a>
+			</div>
+
+			<div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+				{latestNews.map((item: CollectionEntry<'news'>) => (
+					<article class="group overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm shadow-[0_18px_60px_rgba(2,6,23,0.35)] transition-transform duration-300 hover:-translate-y-1">
+						<div class="relative aspect-[16/10] overflow-hidden bg-slate-800">
+							<img src={item.data.cover.src} alt={item.data.title} class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+							<div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/15 to-transparent"></div>
+						</div>
+						<div class="p-6">
+							<p class="text-xs tracking-[0.22em] uppercase text-cyan-300/80">News</p>
+							<h3 class="mt-3 text-xl font-semibold leading-snug text-white">{item.data.title}</h3>
+							<p class="mt-3 text-sm text-slate-300/80">{item.data.date.toLocaleDateString('zh-TW')}</p>
+							<p class="mt-4 line-clamp-4 text-slate-300/90 leading-relaxed">{item.data.summary}</p>
+							<a href={`${import.meta.env.BASE_URL}news/${item.slug}`} class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition-colors hover:text-cyan-200">
+								閱讀全文
+								<span aria-hidden="true">→</span>
+							</a>
+						</div>
+					</article>
+				))}
 			</div>
 		</div>
 	</section>
