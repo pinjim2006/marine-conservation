@@ -73,3 +73,50 @@ article .content a {
 article .content a:hover {
 	color: rgb(29 78 216);
 }
+
+/* Blockquote styling for Markdown > blockquotes */
+article .content blockquote {
+	margin: 1.25rem 0;
+	padding: 1rem 1.25rem;
+	border-left: 4px solid rgb(148 163 184);
+	background: rgb(248 250 252);
+	color: rgb(30 41 59);
+	border-radius: 0.5rem;
+}
+
+article .content blockquote p {
+	margin: 0;
+}
+
+/* Admonition / alert boxes usable from Markdown by writing HTML blocks */
+.admonition {
+	display: block;
+	padding: 1rem 1.25rem;
+	border-radius: 0.5rem;
+	margin: 1rem 0;
+	border-left: 6px solid transparent;
+}
+.admonition .admonition-title { font-weight: 700; margin-bottom: 0.25rem; }
+
+.admonition.info {
+	background: linear-gradient(180deg, rgba(219, 234, 254, 0.24), rgba(241, 245, 255, 0.6));
+	border-left-color: rgb(59 130 246);
+	color: rgb(15 41 88);
+}
+.admonition.success {
+	background: linear-gradient(180deg, rgba(220, 252, 231, 0.24), rgba(240, 253, 244, 0.6));
+	border-left-color: rgb(34 197 94);
+	color: rgb(6 78 59);
+}
+.admonition.warning {
+	background: linear-gradient(180deg, rgba(255, 247, 237, 0.24), rgba(255, 250, 240, 0.6));
+	border-left-color: rgb(245 158 11);
+	color: rgb(74 20 0);
+}
+.admonition.danger {
+	background: linear-gradient(180deg, rgba(254, 226, 226, 0.24), rgba(255, 243, 244, 0.6));
+	border-left-color: rgb(239 68 68);
+	color: rgb(88 20 20);
+}
+
+.admonition p { margin: 0; }

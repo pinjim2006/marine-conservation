@@ -3,7 +3,9 @@ import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Layout from "../../layouts/Layout.astro"
 
-const allNews = await getCollection('news');
+const allNews = await getCollection('news', ({ data }) => {
+  return import.meta.env.PROD ? data.draft !== true : true;
+});
 const sortedNews = allNews.sort((a: CollectionEntry<'news'>, b: CollectionEntry<'news'>) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 

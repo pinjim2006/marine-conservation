@@ -12,6 +12,7 @@ const newsCollection = defineCollection({
 		summary: z.string(),
 		cover: image(),
 		author: z.string(),
+        draft: z.boolean().default(false),
 	}),
 });
 
