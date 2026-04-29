@@ -8,6 +8,7 @@ const newsCollection = defineCollection({
     summary: z.string(),
     // 使用 image() 來確保 Astro 會優化 Page Bundle 內的圖片
     cover: image(),
+    author: z.string(),
   }),
 });
 

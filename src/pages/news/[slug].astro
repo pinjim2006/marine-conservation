@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+// 1. 產生所有路徑
+export async function getStaticPaths() {
+  const newsEntries = await getCollection('news');
+  return newsEntries.map(entry => ({
+    params: { slug: entry.slug }, props: { entry },
+  }));
+}
+
+// 2. 取得該篇新聞資料
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<Layout title={`${entry.data.title} | 漁夫視角的海洋保育`}>
+  <article>
+    <h1>{entry.data.title}</h1>
+    <p>發佈日期：{entry.data.date.toLocaleDateString()}</p>
+    <img src={entry.data.cover.src} alt={entry.data.title} />
+    <div class="content">
+      <Content />
+    </div>
+  </article>
+</Layout>

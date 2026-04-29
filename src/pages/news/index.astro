@@ -1,9 +1,22 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from "../../layouts/Layout.astro"
+
+const allNews = await getCollection('news');
+const sortedNews = allNews.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
-<Layout title="相關新聞 | 漁夫視角的海洋保育">
-    <div class="text-center py-12">
-        <h1 class="text-4xl font-bold mb-4">相關新聞</h1>
-    </div>
+<Layout title='相關新聞 | 漁夫視角的海洋保育'>
+  <h1>相關新聞</h1>
+  <div class="news-list">
+    {sortedNews.map(item => (
+      <div class="news-item">
+        <img src={item.data.cover.src} alt={item.data.title} width="300" />
+        <h2>{item.data.title}</h2>
+        <p>{item.data.date.toLocaleDateString()}</p>
+        <p>{item.data.summary}</p>
+        <a href={`/news/${item.slug}`}>閱讀全文</a>
+      </div>
+    ))}
+  </div>
 </Layout>
