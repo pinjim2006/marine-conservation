@@ -6,9 +6,6 @@ cover: "./ocean.jpg"
 author: "環境資訊中心綜合外電"
 ---
 
-## 新聞原文
-[https://csrone.com/news/9886](https://csrone.com/news/9886)
-
 今年，海洋保育邁入重要里程碑，根據世界保護與保育區資料庫（WDPCA）的數據，全球海洋保護區面積已達10%。雖然這一目標比預期晚了六年，但近兩年新增的保護區面積超過歐盟的總和，顯示出迅速的進展。
 
 ![這是一張海洋的圖片](./ocean.jpg)
@@ -54,3 +51,6 @@ author: "環境資訊中心綜合外電"
 - Pew（2024年5月1日），[A Path to Creating the First Generation of High Seas Protected Areas](https://www.pew.org/en/research-and-analysis/reports/2020/03/a-path-to-creating-the-first-generation-of-high-seas-protected-areas)
 - Conservation Corridor, [High Seas – Chile Proposes Protections for Salas y Gómez and Nazca Ridges in Anticipation of Global Treaty](https://conservationcorridor.org/ccsg/working-groups/mcwg/mcwg-activities/case-studies/chile/)
 - High Seas Alliance, [Saya de Malha](https://conservationcorridor.org/ccsg/working-groups/mcwg/mcwg-activities/case-studies/chile/)
+
+## 新聞原文連結
+[https://csrone.com/news/9886](https://csrone.com/news/9886)

@@ -26,7 +26,7 @@ const { Content } = await render(entry);
         </a>
         <p class="mt-6 text-cyan-300/80 tracking-[0.22em] uppercase text-xs md:text-sm">News Detail</p>
         <h1 class="mt-4 text-4xl md:text-6xl font-serif leading-tight text-white">{entry.data.title}</h1>
-        <p class="mt-5 text-slate-300/85">{entry.data.date.toLocaleDateString('zh-TW')} · {entry.data.author}</p>
+        <p class="mt-5 text-slate-300/85">{entry.data.date.toLocaleDateString('zh-TW')} · 作者 {entry.data.author}</p>
       </div>
     </header>
 
