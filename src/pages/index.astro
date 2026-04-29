@@ -13,6 +13,8 @@ import Layout from '../layouts/Layout.astro';
 			<div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/40 to-slate-900 scale-110"></div>
 		</div>
 
+		<div id="hero-rain" class="pointer-events-none absolute inset-0 z-[5] overflow-hidden" aria-hidden="true"></div>
+
 		<div id="hero-content" class="relative z-10 text-center px-6 will-change-transform">
 			<h1 id="hero-title" class="text-white text-5xl md:text-7xl font-serif mb-6 opacity-0 translate-y-10">
 				A Fisherman's Perspective
@@ -91,78 +93,42 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <script>
-	// 引入 GSAP
-	import { gsap } from 'gsap';
-
-	// 當頁面載入完成後執行進場動畫
-	window.addEventListener('load', () => {
-		const hero = document.getElementById('hero');
-		const heroBg = document.getElementById('hero-bg');
-		const heroContent = document.getElementById('hero-content');
-		const tl = gsap.timeline();
-
-		tl.to("#hero-title", { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" })
-		  .to("#hero-desc", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8")
-		  .to("#hero-cta", { opacity: 1, y: 0, duration: 0.8, ease: "back.out(1.7)" }, "-=0.5");
-
-		window.addEventListener("mousemove", (e) => {
-			const { clientX, clientY } = e;
-			
-			// 計算滑鼠位置相對於視窗中心點的偏移比例 (-0.5 ~ 0.5)
-			const xPos = (clientX / window.innerWidth) - 0.5;
-			const yPos = (clientY / window.innerHeight) - 0.5;
-
-			// 移動背景圖 (移動量不宜過大，約 10~30px 即可，太大会破圖)
-			gsap.to("#hero-bg", {
-				duration: 1.5,
-				x: xPos * 30, 
-				y: yPos * 30,
-				ease: "power2.out",
-				overwrite: "auto" // 確保新動畫會覆蓋舊的，避免衝突
-			});
-
-			// 讓內容文字朝「反方向」輕微移動，增加深度感
-			gsap.to("#hero-content", {
-				duration: 2,
-				x: xPos * -15,
-				y: yPos * -15,
-				ease: "power3.out",
-				overwrite: "auto"
-			});
-		});
-
-		if (!hero || !heroBg || !heroContent) return;
-
-		let ticking = false;
-
-		const updateParallax = () => {
-			const rect = hero.getBoundingClientRect();
-			const visible = rect.bottom > 0 && rect.top < window.innerHeight;
-
-			if (!visible) {
-				ticking = false;
-				return;
-			}
-
-			const offset = Math.max(0, window.scrollY);
-			const bgY = Math.min(offset * 0.25, 200);
-			const contentY = Math.max(offset * -0.35, -220);
-
-			heroBg.style.transform = `translate3d(0, ${bgY}px, 0)`;
-			heroContent.style.transform = `translate3d(0, ${contentY}px, 0)`;
-
-			ticking = false;
-		};
-
-		const onScroll = () => {
-			if (!ticking) {
-				window.requestAnimationFrame(updateParallax);
-				ticking = true;
-			}
-		};
-
-		window.addEventListener('scroll', onScroll, { passive: true });
-		window.addEventListener('resize', onScroll);
-		onScroll();
-	});
+	import '../scripts/index-hero.js';
 </script>
+
+<style is:global>
+	#hero-rain {
+		mix-blend-mode: screen;
+	}
+
+	#hero-rain .rain-drop {
+		position: absolute;
+		top: -24%;
+		background: linear-gradient(to bottom, rgba(186, 230, 253, 0), rgba(186, 230, 253, 0.85));
+		border-radius: 999px;
+		animation-name: rain-fall;
+		animation-timing-function: linear;
+		animation-iteration-count: infinite;
+		will-change: transform, opacity;
+	}
+
+	@keyframes rain-fall {
+		0% {
+			transform: translate3d(0, -24vh, 0) skewX(-14deg);
+			opacity: 0;
+		}
+		12% {
+			opacity: 1;
+		}
+		100% {
+			transform: translate3d(-26vw, 125vh, 0) skewX(-14deg);
+			opacity: 0;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		#hero-rain {
+			display: none;
+		}
+	}
+</style>
