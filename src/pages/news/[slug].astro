@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
@@ -7,13 +7,13 @@ import Layout from '../../layouts/Layout.astro';
 export async function getStaticPaths() {
   const newsEntries = await getCollection('news');
   return newsEntries.map((entry: CollectionEntry<'news'>) => ({
-    params: { slug: entry.slug }, props: { entry },
+    params: { slug: entry.id }, props: { entry },
   }));
 }
 
 // 2. 取得該篇新聞資料
 const { entry } = Astro.props as { entry: CollectionEntry<'news'> };
-const { Content } = await entry.render();
+const { Content } = await render(entry);
 ---
 
 <Layout title={`${entry.data.title} | 漁夫視角的海洋保育`}>
@@ -31,7 +31,6 @@ const { Content } = await entry.render();
     </header>
 
     <div class="max-w-4xl mx-auto px-6 py-12 md:py-16">
-      <img src={entry.data.cover.src} alt={entry.data.title} class="w-full rounded-3xl shadow-[0_18px_60px_rgba(2,6,23,0.18)]" />
       <div class="content prose prose-slate prose-lg max-w-none mt-10 prose-headings:font-serif prose-a:text-sky-700 hover:prose-a:text-sky-600">
         <Content />
       </div>
