@@ -90,20 +90,20 @@ import Layout from '../layouts/Layout.astro';
 			</div>
 
 			<!-- 垃圾分解信息面板 -->
-		<div id="trashInfoPanel" class="fixed inset-0 z-50 flex items-center justify-center" style="display: none;">
+			<div id="trashInfoPanel" class="fixed inset-0 z-50 flex items-center justify-center" style="display: none;">
 				<div class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
-				<div class="relative bg-gradient-to-b from-orange-950 to-orange-900 border-2 border-orange-400 rounded-3xl p-8 max-w-md shadow-2xl mx-4">
-					<button id="closeInfoBtn" class="absolute top-4 right-4 text-2xl text-orange-200 hover:text-orange-100 transition">✕</button>
+				<div class="relative bg-gradient-to-b from-slate-900 to-slate-800 border border-white/10 rounded-3xl p-8 max-w-md shadow-2xl mx-4">
+					<button id="closeInfoBtn" class="absolute top-4 right-4 text-sm text-slate-300 hover:text-white transition">關閉</button>
 					
 					<div class="text-center">
-						<div id="trashIcon" class="mb-4"></div>
-						<h3 id="trashName" class="text-2xl font-bold text-orange-100 mb-2">垃圾類型</h3>
-						<div class="bg-orange-950/50 rounded-xl p-4 mb-6 border border-orange-400/30">
-							<p class="text-sm text-orange-200/60 mb-2">在海洋中分解所需時間</p>
-							<p id="decompositionTime" class="text-3xl font-bold text-orange-300">未知</p>
+						<div id="trashIcon" class="mb-4 flex justify-center items-center"></div>
+						<h3 id="trashName" class="text-2xl font-bold text-slate-100 mb-2">垃圾類型</h3>
+						<div class="bg-white/5 rounded-xl p-4 mb-6 border border-white/10">
+							<p class="text-sm text-slate-400 mb-2">在海洋中分解所需時間</p>
+							<p id="decompositionTime" class="text-3xl font-bold text-slate-200">未知</p>
 						</div>
-						<p id="trashMessage" class="text-orange-100/80 leading-relaxed mb-6 text-sm"></p>
-						<button id="acknowledgeBtn" class="px-6 py-3 rounded-full border border-white/10 bg-orange-500 hover:bg-orange-600 text-white font-bold transition-all duration-300">
+						<p id="trashMessage" class="text-slate-300 leading-relaxed mb-6 text-sm"></p>
+						<button id="acknowledgeBtn" class="px-6 py-3 rounded-full border border-white/10 bg-white/10 hover:bg-white/15 text-white font-bold transition-all duration-300">
 							我明白了
 						</button>
 					</div>
@@ -111,16 +111,16 @@ import Layout from '../layouts/Layout.astro';
 			</div>
 
 			<!-- 捕魚成功訊息 -->
-		<div id="successPanel" class="fixed inset-0 z-50 flex items-center justify-center" style="display: none;">
+			<div id="successPanel" class="fixed inset-0 z-50 flex items-center justify-center" style="display: none;">
 				<div class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
-				<div class="relative bg-gradient-to-b from-green-950 to-emerald-900 border-2 border-green-400 rounded-3xl p-8 max-w-md shadow-2xl mx-4">
-						<button id="closeSuccessBtn" class="absolute top-4 right-4 text-sm text-green-200 hover:text-green-100 transition">關閉</button>
+				<div class="relative bg-gradient-to-b from-slate-900 to-slate-800 border border-white/10 rounded-3xl p-8 max-w-md shadow-2xl mx-4">
+						<button id="closeSuccessBtn" class="absolute top-4 right-4 text-sm text-slate-300 hover:text-white transition">關閉</button>
 					
 					<div class="text-center">
-						<div id="successIcon" class="mb-4"></div>
-						<h3 class="text-2xl font-bold text-green-100 mb-4">太棒了</h3>
-						<p class="text-green-100/80 leading-relaxed mb-6">您成功捕到了一條魚，但請記住，適度捕撈才是永續漁業的關鍵。</p>
-						<button id="closeSuccessBtnConfirm" class="px-6 py-3 rounded-full border border-white/10 bg-green-500 hover:bg-green-600 text-white font-bold transition-all duration-300">
+						<div id="successIcon" class="mb-4 flex justify-center items-center"></div>
+						<h3 class="text-2xl font-bold text-slate-100 mb-4">太棒了</h3>
+						<p class="text-slate-300 leading-relaxed mb-6">您成功捕到了一條魚，但請記住，適度捕撈才是永續漁業的關鍵。</p>
+						<button id="closeSuccessBtnConfirm" class="px-6 py-3 rounded-full border border-white/10 bg-white/10 hover:bg-white/15 text-white font-bold transition-all duration-300">
 							繼續
 						</button>
 					</div>

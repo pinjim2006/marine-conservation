@@ -1,7 +1,58 @@
+// 捕獲內容的多種呈現方式
+const fishVariants = [
+	{
+		src: '/marine-conservation/pngtree/fishing/fish.png',
+		className: 'w-20 h-20 object-contain',
+		style: 'filter: saturate(0.7) brightness(0.88) contrast(0.95); transform: rotate(-10deg);',
+	},
+	{
+		src: '/marine-conservation/pngtree/fishing/fish.png',
+		className: 'w-20 h-20 object-contain scale-x-[-1]',
+		style: 'filter: saturate(0.65) brightness(0.9) contrast(0.95); transform: rotate(8deg);',
+	},
+	{
+		src: '/marine-conservation/pngtree/fishing/fish.png',
+		className: 'w-20 h-20 object-contain',
+		style: 'filter: saturate(0.62) brightness(0.86) contrast(0.9); transform: rotate(4deg) scale(0.96);',
+	},
+];
+
 // 垃圾資訊
 const trashItems = [
-	{ icon: '/marine-conservation/pngtree/fishing/plastic_bags.png', name: '塑膠袋', time: '500年', message: '塑膠袋是海洋污染的主要元凶之一。它們易被海洋生物誤食，造成窒息或腸道損傷。' },
-	{ icon: '/marine-conservation/pngtree/fishing/straw.png', name: '吸管', time: '200年', message: '拋棄式吸管每年造成數百萬噸海洋垃圾。許多海龜、海鳥因此受傷。' },
+	{
+		name: '塑膠袋',
+		time: '500年',
+		message: '塑膠袋是海洋污染的主要元凶之一。它們易被海洋生物誤食，造成窒息或腸道損傷。',
+		variants: [
+			{
+				src: '/marine-conservation/pngtree/fishing/plastic_bags.png',
+				className: 'w-20 h-20 object-contain',
+				style: 'filter: saturate(0.55) brightness(0.82) contrast(0.92); transform: rotate(-12deg);',
+			},
+			{
+				src: '/marine-conservation/pngtree/fishing/plastic_bags.png',
+				className: 'w-20 h-20 object-contain',
+				style: 'filter: saturate(0.5) brightness(0.8) contrast(0.9); transform: rotate(10deg) scale(0.95);',
+			},
+		],
+	},
+	{
+		name: '吸管',
+		time: '200年',
+		message: '拋棄式吸管每年造成數百萬噸海洋垃圾。許多海龜、海鳥因此受傷。',
+		variants: [
+			{
+				src: '/marine-conservation/pngtree/fishing/straw.png',
+				className: 'w-20 h-20 object-contain',
+				style: 'filter: saturate(0.55) brightness(0.82) contrast(0.92); transform: rotate(14deg);',
+			},
+			{
+				src: '/marine-conservation/pngtree/fishing/straw.png',
+				className: 'w-20 h-20 object-contain',
+				style: 'filter: saturate(0.5) brightness(0.78) contrast(0.9); transform: rotate(-6deg) scale(1.03);',
+			},
+		],
+	},
 ];
 
 let castCount = 0;
@@ -20,6 +71,7 @@ const networkEffect = document.getElementById('networkEffect');
 const centerText = document.getElementById('centertext');
 const trashInfoPanel = document.getElementById('trashInfoPanel');
 const successPanel = document.getElementById('successPanel');
+const oceanBackground = document.getElementById('oceanBackground');
 
 // 撒網夠率計算
 function calculateSuccessRate() {
@@ -33,6 +85,41 @@ function updateStats() {
 	fishCountEl.textContent = fishCount.toString();
 	trashCountEl.textContent = trashCount.toString();
 	successRateEl.textContent = calculateSuccessRate() + '%';
+}
+
+function getRandomCatchPosition() {
+	if (!oceanBackground) {
+		return { left: 50, top: 50 };
+	}
+
+	const bounds = oceanBackground.getBoundingClientRect();
+	const widthRatio = bounds.width > 0 ? 24 / bounds.width : 0;
+	const heightRatio = bounds.height > 0 ? 24 / bounds.height : 0;
+	const left = 16 + Math.random() * (68 - widthRatio * 50);
+	const top = 18 + Math.random() * (56 - heightRatio * 50);
+
+	return {
+		left: Math.max(12, Math.min(88, left)),
+		top: Math.max(14, Math.min(78, top)),
+	};
+}
+
+function createCatchNode(sprite) {
+	const wrapper = document.createElement('div');
+	wrapper.className = 'absolute pointer-events-none flex items-center justify-center';
+	wrapper.style.left = `${sprite.left}%`;
+	wrapper.style.top = `${sprite.top}%`;
+	wrapper.style.transform = 'translate(-50%, -50%)';
+	wrapper.style.zIndex = '10';
+
+	const image = document.createElement('img');
+	image.src = sprite.src;
+	image.alt = sprite.alt;
+	image.className = `${sprite.className} block mx-auto`;
+	image.style.cssText = sprite.style;
+
+	wrapper.appendChild(image);
+	return wrapper;
 }
 
 // 撒網動作
@@ -60,46 +147,33 @@ castNetBtn.addEventListener('click', () => {
 			// 顯示垃圾
 			trashCount++;
 			const randomTrash = trashItems[Math.floor(Math.random() * trashItems.length)];
+			const randomTrashVariant = randomTrash.variants[Math.floor(Math.random() * randomTrash.variants.length)];
 
 			// 展示垃圾信息面板
-			showTrashInfo(randomTrash);
+			showTrashInfo(randomTrash, randomTrashVariant);
 
 			// 添加垃圾圖示到畫面
-			const trashDiv = document.createElement('div');
-			trashDiv.className = 'absolute animate-bounce';
-			trashDiv.style.left = Math.random() * 70 + 15 + '%';
-			trashDiv.style.top = Math.random() * 60 + 20 + '%';
-			
-			if (randomTrash.icon.endsWith('.png')) {
-				const img = document.createElement('img');
-				img.src = randomTrash.icon;
-				img.className = 'w-24 h-24 object-contain';
-				trashDiv.appendChild(img);
-			} else {
-				trashDiv.textContent = randomTrash.icon;
-				trashDiv.className = 'absolute text-6xl animate-bounce';
-			}
-			itemsContainer.appendChild(trashDiv);
+			const trashSprite = createCatchNode({
+				...randomTrashVariant,
+				...getRandomCatchPosition(),
+				alt: randomTrash.name,
+			});
+			itemsContainer.appendChild(trashSprite);
 
-			setTimeout(() => trashDiv.remove(), 3000);
 		} else {
 			// 顯示魚
 			fishCount++;
-			const fishDiv = document.createElement('div');
-			fishDiv.className = 'absolute animate-bounce';
-			fishDiv.style.left = Math.random() * 70 + 15 + '%';
-			fishDiv.style.top = Math.random() * 60 + 20 + '%';
-			
-			const fishImg = document.createElement('img');
-			fishImg.src = '/marine-conservation/pngtree/fishing/fish.png';
-			fishImg.className = 'w-24 h-24 object-contain';
-			fishDiv.appendChild(fishImg);
-			itemsContainer.appendChild(fishDiv);
+			const fishVariant = fishVariants[Math.floor(Math.random() * fishVariants.length)];
+			const fishSprite = createCatchNode({
+				...fishVariant,
+				...getRandomCatchPosition(),
+				alt: '魚',
+			});
+			itemsContainer.appendChild(fishSprite);
 
 			// 顯示成功訊息
 			showSuccessPanel();
 
-			setTimeout(() => fishDiv.remove(), 3000);
 		}
 
 		updateStats();
@@ -109,18 +183,20 @@ castNetBtn.addEventListener('click', () => {
 });
 
 // 顯示垃圾信息面板
-function showTrashInfo(trash) {
+function showTrashInfo(trash, variant) {
 	const trashIconEl = document.getElementById('trashIcon');
 	if (trashIconEl) {
 		trashIconEl.innerHTML = '';
-		if (trash.icon && trash.icon.endsWith && trash.icon.endsWith('.png')) {
+		if (variant && variant.src) {
 			const img = document.createElement('img');
-			img.src = trash.icon;
-			img.className = 'w-20 h-20 object-contain mx-auto';
+			img.src = variant.src;
+			img.alt = trash.name;
+			img.className = variant.className || 'w-20 h-20 object-contain mx-auto';
+			img.style.cssText = variant.style || 'filter: saturate(0.55) brightness(0.82) contrast(0.92);';
 			trashIconEl.appendChild(img);
 		} else {
-			trashIconEl.textContent = trash.icon || '';
-			trashIconEl.className = 'text-4xl';
+			trashIconEl.textContent = trash.name || '';
+			trashIconEl.className = 'text-lg text-slate-300';
 		}
 	}
 	
@@ -135,9 +211,12 @@ function showSuccessPanel() {
 	const successIconEl = document.getElementById('successIcon');
 	if (successIconEl) {
 		successIconEl.innerHTML = '';
+		const fishVariant = fishVariants[Math.floor(Math.random() * fishVariants.length)];
 		const img = document.createElement('img');
-		img.src = '/marine-conservation/pngtree/fishing/fish.png';
-		img.className = 'w-20 h-20 object-contain mx-auto';
+		img.src = fishVariant.src;
+		img.alt = '魚';
+		img.className = fishVariant.className || 'w-20 h-20 object-contain mx-auto';
+		img.style.cssText = fishVariant.style || 'filter: saturate(0.65) brightness(0.88) contrast(0.95);';
 		successIconEl.appendChild(img);
 	}
 	successPanel.style.display = 'flex';
