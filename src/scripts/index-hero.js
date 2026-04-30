@@ -42,25 +42,33 @@ window.addEventListener('load', () => {
 		.to('#hero-desc', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.8')
 		.to('#hero-cta', { opacity: 1, y: 0, duration: 0.8, ease: 'back.out(1.7)' }, '-=0.5');
 
-	window.addEventListener('mousemove', (e) => {
-		const { clientX, clientY } = e;
-		const xPos = clientX / window.innerWidth - 0.5;
-		const yPos = clientY / window.innerHeight - 0.5;
+	// 跟踪当前的滚动Y值
+	let scrollYValue = 0;
+	let scrollXValue = 0;
+	let scrollContentYValue = 0;
+	let scrollContentXValue = 0;
 
-		gsap.to('#hero-bg', {
+	window.addEventListener('mousemove', (e) => {
+		const rect = hero.getBoundingClientRect();
+		// 只在hero区域内应用鼠标效果
+		if (rect.top >= window.innerHeight || rect.bottom <= 0) return;
+
+		const { clientX } = e;
+		const xPos = clientX / window.innerWidth - 0.5;
+
+		// 只改变x值，让滚动完全控制y值
+		gsap.to(heroBg, {
 			duration: 1.5,
 			x: xPos * 30,
-			y: yPos * 30,
 			ease: 'power2.out',
-			overwrite: 'auto'
+			overwrite: false
 		});
 
-		gsap.to('#hero-content', {
+		gsap.to(heroContent, {
 			duration: 2,
 			x: xPos * -15,
-			y: yPos * -15,
 			ease: 'power3.out',
-			overwrite: 'auto'
+			overwrite: false
 		});
 	});
 
@@ -68,19 +76,32 @@ window.addEventListener('load', () => {
 
 	const updateParallax = () => {
 		const rect = hero.getBoundingClientRect();
-		const visible = rect.bottom > 0 && rect.top < window.innerHeight;
+		const scrollProgress = Math.max(0, -rect.top) / hero.clientHeight;
 
-		if (!visible) {
+		// 只在hero区域可见时应用视差效果
+		if (rect.bottom <= 0 || rect.top >= window.innerHeight) {
 			ticking = false;
 			return;
 		}
 
-		const offset = Math.max(0, window.scrollY);
-		const bgY = Math.min(offset * 0.25, 200);
-		const contentY = Math.max(offset * -0.35, -220);
+		// 基于hero区域的相对位置计算视差
+		const bgY = scrollProgress * hero.clientHeight * 0.25;
+		const contentY = scrollProgress * hero.clientHeight * -0.35;
 
-		heroBg.style.transform = `translate3d(0, ${bgY}px, 0)`;
-		heroContent.style.transform = `translate3d(0, ${contentY}px, 0)`;
+		// 获取当前的x值（由鼠标事件设置）
+		const bgX = gsap.getProperty(heroBg, 'x') || 0;
+		const contentX = gsap.getProperty(heroContent, 'x') || 0;
+
+		// 同时保留鼠标的x效果和滚动的y效果
+		gsap.set(heroBg, {
+			x: bgX,
+			y: bgY
+		});
+
+		gsap.set(heroContent, {
+			x: contentX,
+			y: contentY
+		});
 
 		ticking = false;
 	};
