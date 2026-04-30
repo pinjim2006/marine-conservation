@@ -5,9 +5,9 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="撒網體驗 | 漁夫視角的海洋保育">
 	<section class="relative min-h-screen bg-slate-950 text-slate-100 overflow-hidden">
 		<!-- 裝飾背景 -->
-		<div class="absolute inset-0 opacity-30">
-			<div class="absolute top-20 left-10 w-72 h-72 bg-cyan-400 rounded-full mix-blend-multiply filter blur-3xl"></div>
-			<div class="absolute top-40 right-10 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl"></div>
+		<div class="absolute inset-0 opacity-20">
+			<div class="absolute top-20 left-10 w-72 h-72 bg-slate-700/40 rounded-full mix-blend-multiply filter blur-3xl"></div>
+			<div class="absolute top-40 right-10 w-72 h-72 bg-slate-600/30 rounded-full mix-blend-multiply filter blur-3xl"></div>
 		</div>
 
 		<div class="relative max-w-6xl mx-auto px-6 py-12 md:py-20">
@@ -22,15 +22,15 @@ import Layout from '../layouts/Layout.astro';
 			<!-- 遊戲主要區域 -->
 			<div class="grid gap-8 lg:grid-cols-[1fr_320px] mb-12">
 				<!-- 遊戲畫布 -->
-				<div class="bg-gradient-to-b from-blue-900/40 to-blue-950/60 backdrop-blur-sm rounded-3xl border border-cyan-400/30 p-8 shadow-2xl">
+				<div class="bg-gradient-to-b from-slate-800/20 to-slate-900/40 backdrop-blur-sm rounded-3xl border border-slate-700/20 p-8 shadow-2xl">
 					<div class="relative">
 						<!-- 海洋背景 -->
-						<div id="oceanBackground" class="relative w-full h-96 md:h-[500px] bg-gradient-to-b from-cyan-500/20 via-blue-600/30 to-blue-900/50 rounded-2xl border border-cyan-300/40 overflow-hidden mb-8">
+						<div id="oceanBackground" class="relative w-full h-96 md:h-[500px] bg-gradient-to-b from-slate-700/10 via-slate-700/20 to-slate-900/40 rounded-2xl border border-slate-700/30 overflow-hidden mb-8">
 							<!-- 水波效果 -->
 							<div class="absolute inset-0 opacity-20">
-								<div class="absolute top-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-300 to-transparent animate-pulse"></div>
-								<div class="absolute top-1/4 w-full h-1 bg-gradient-to-r from-transparent via-cyan-200 to-transparent animate-pulse" style="animation-delay: 0.5s;"></div>
-								<div class="absolute top-1/2 w-full h-1 bg-gradient-to-r from-transparent via-cyan-300 to-transparent animate-pulse" style="animation-delay: 1s;"></div>
+								<div class="absolute top-0 w-full h-1 bg-gradient-to-r from-transparent via-slate-400 to-transparent animate-pulse"></div>
+								<div class="absolute top-1/4 w-full h-1 bg-gradient-to-r from-transparent via-slate-400 to-transparent animate-pulse" style="animation-delay: 0.5s;"></div>
+								<div class="absolute top-1/2 w-full h-1 bg-gradient-to-r from-transparent via-slate-400 to-transparent animate-pulse" style="animation-delay: 1s;"></div>
 							</div>
 
 							<!-- 漂浮物質容器 -->
@@ -40,8 +40,8 @@ import Layout from '../layouts/Layout.astro';
 							<div id="networkEffect" class="absolute inset-0 pointer-events-none"></div>
 
 							<!-- 中心提示文字 -->
-							<div id="centertext" class="absolute inset-0 flex items-center justify-center">
-								<p class="text-xl text-cyan-200/60 font-semibold text-center">點擊準備好撒網！</p>
+								<div id="centertext" class="absolute inset-0 flex items-center justify-center">
+								<p class="text-xl text-slate-300/60 font-semibold text-center">點擊準備好撒網！</p>
 							</div>
 						</div>
 
