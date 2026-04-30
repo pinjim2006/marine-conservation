@@ -46,7 +46,7 @@ castNetBtn.addEventListener('click', () => {
 	// 撒網動畫
 	networkEffect.innerHTML = '';
 	const circle = document.createElement('div');
-	circle.className = 'absolute inset-1/4 border-4 border-cyan-400 rounded-full animate-ping';
+	circle.className = 'absolute inset-1/4 border-4 border-slate-400/50 rounded-full animate-ping';
 	networkEffect.appendChild(circle);
 
 	// 清空中心文字
@@ -103,7 +103,7 @@ castNetBtn.addEventListener('click', () => {
 		}
 
 		updateStats();
-		centerText.innerHTML = '<p class="text-xl text-cyan-200/60 font-semibold text-center">準備好再撒一次網？</p>';
+		centerText.innerHTML = '<p class="text-xl text-slate-300/60 font-semibold text-center">準備好再撒一次網？</p>';
 		castNetBtn.disabled = false;
 	}, 800);
 });
@@ -111,16 +111,17 @@ castNetBtn.addEventListener('click', () => {
 // 顯示垃圾信息面板
 function showTrashInfo(trash) {
 	const trashIconEl = document.getElementById('trashIcon');
-	trashIconEl.innerHTML = '';
-	
-	if (trash.icon.endsWith('.png')) {
-		const img = document.createElement('img');
-		img.src = trash.icon;
-		img.className = 'w-20 h-20 object-contain mx-auto';
-		trashIconEl.appendChild(img);
-	} else {
-		trashIconEl.textContent = trash.icon;
-		trashIconEl.className = 'text-4xl';
+	if (trashIconEl) {
+		trashIconEl.innerHTML = '';
+		if (trash.icon && trash.icon.endsWith && trash.icon.endsWith('.png')) {
+			const img = document.createElement('img');
+			img.src = trash.icon;
+			img.className = 'w-20 h-20 object-contain mx-auto';
+			trashIconEl.appendChild(img);
+		} else {
+			trashIconEl.textContent = trash.icon || '';
+			trashIconEl.className = 'text-4xl';
+		}
 	}
 	
 	document.getElementById('trashName').textContent = trash.name;
@@ -131,12 +132,14 @@ function showTrashInfo(trash) {
 
 // 顯示成功訊息面板
 function showSuccessPanel() {
-	const successIconEl = document.querySelector('#successPanel .text-5xl');
-	successIconEl.innerHTML = '';
-	const img = document.createElement('img');
-	img.src = '/marine-conservation/pngtree/fishing/fish.png';
-	img.className = 'w-20 h-20 object-contain mx-auto';
-	successIconEl.appendChild(img);
+	const successIconEl = document.getElementById('successIcon');
+	if (successIconEl) {
+		successIconEl.innerHTML = '';
+		const img = document.createElement('img');
+		img.src = '/marine-conservation/pngtree/fishing/fish.png';
+		img.className = 'w-20 h-20 object-contain mx-auto';
+		successIconEl.appendChild(img);
+	}
 	successPanel.style.display = 'flex';
 }
 
@@ -163,7 +166,7 @@ resetBtn.addEventListener('click', () => {
 	fishCount = 0;
 	trashCount = 0;
 	itemsContainer.innerHTML = '';
-	centerText.innerHTML = '<p class="text-xl text-cyan-200/60 font-semibold text-center">點擊準備好撒網！</p>';
+	centerText.innerHTML = '<p class="text-xl text-slate-300/60 font-semibold text-center">點擊準備好撒網！</p>';
 	updateStats();
 	castNetBtn.disabled = false;
 });
