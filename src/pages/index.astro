@@ -4,9 +4,11 @@ import type { CollectionEntry } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import '../styles/index.css';
 
-const latestNews = (await getCollection('news'))
-	.sort((a: CollectionEntry<'news'>, b: CollectionEntry<'news'>) => b.data.date.valueOf() - a.data.date.valueOf())
-	.slice(0, 3);
+const latestNews = (await getCollection('news', ({ data }) => {
+    return import.meta.env.PROD ? data.draft !== true : true;
+}))
+.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+.slice(0, 3);
 ---
 
 <Layout title="漁夫視角的海洋保育 | 首頁">
