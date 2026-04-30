@@ -1,9 +1,135 @@
 ---
 import Layout from "../layouts/Layout.astro"
+import "../styles/story.css"
 ---
 
 <Layout title="漁夫的故事 | 漁夫視角的海洋保育">
-    <div class="text-center py-12">
-        <h1 class="text-4xl font-bold mb-4">PlaceHolder</h1>
-    </div>
+	<div class="story-page" data-story-root>
+		<div class="story-scene" data-scene-backdrop></div>
+		<div class="story-noise" aria-hidden="true"></div>
+		<div class="story-progress" data-progress-bar></div>
+
+		<aside class="story-rail" aria-hidden="true">
+			<span data-progress-dot></span>
+			<span data-progress-dot></span>
+			<span data-progress-dot></span>
+			<span data-progress-dot></span>
+			<span data-progress-dot></span>
+		</aside>
+
+		<section class="story-hero" data-story-hero>
+			<div class="story-hero__layers" aria-hidden="true">
+				<span class="story-orb story-orb--a" data-parallax="120" data-mouse-layer="0.6"></span>
+				<span class="story-orb story-orb--b" data-parallax="90" data-mouse-layer="0.4"></span>
+				<span class="story-orb story-orb--c" data-parallax="60" data-mouse-layer="0.2"></span>
+				<span class="story-wave story-wave--a" data-parallax="-80" data-mouse-layer="0.3"></span>
+				<span class="story-wave story-wave--b" data-parallax="-140" data-mouse-layer="0.4"></span>
+			</div>
+			<div class="story-hero__content" data-mouse-layer="0.12">
+				<p class="story-kicker">漁夫視角的海洋保育</p>
+				<h1 data-split>漁夫的故事</h1>
+				<p class="story-lead" data-split>海風的味道，以前對我來說，就是家裡飯菜的味道。</p>
+				<div class="story-hero__meta">
+					<span>詳細紀實版</span>
+					<span>一位老漁夫的獨白</span>
+				</div>
+				<div class="story-scroll-hint">向下滾動</div>
+			</div>
+		</section>
+
+		<main class="story-content" data-story-content>
+			<section class="story-section" data-story-section data-scene-color="#1a4c63" data-scene-end="#0d2533" data-scene-accent="#f4b65a">
+				<div class="story-section__header">
+					<p class="story-section__label">第一章</p>
+					<h2 data-split>我的一生與這片海</h2>
+				</div>
+				<div class="story-body">
+					<p data-reveal>每天還沒天亮，我就得出海。做這行做了一輩子了，年輕時跟著我爸學，到現在自己帶船，這片海養活了我們一家好幾代。</p>
+					<p data-reveal>我年輕的時候，海不是現在這樣。那時候海水清得很，低頭看下去，底下魚群游過去都看得清清楚楚，陽光照進海裡，水是亮的，海風聞起來就是鹹鹹乾淨的味道。</p>
+					<p data-reveal>以前討海雖然辛苦，可心裡踏實。</p>
+				</div>
+				<div class="story-divider" aria-hidden="true"></div>
+			</section>
+
+			<section class="story-section" data-story-section data-scene-color="#6b5c2a" data-scene-end="#2c2310" data-scene-accent="#f8b84a">
+				<div class="story-section__header">
+					<p class="story-section__label">第二章</p>
+					<h2 data-split>那些美好的日子</h2>
+				</div>
+				<div class="story-body">
+					<p data-reveal>天剛黑的時候出去，撒個兩、三網，左右跑一跑，船艙就差不多滿了。回來把魚卸完，差不多晚上十一點，再出去一趟，常常又能再裝滿一船。</p>
+					<p data-reveal>那時候魚多到，你不用擔心今天有沒有收穫，只要擔心船<span class="story-emphasis" data-emphasis>裝不裝得下</span>。</p>
+					<p data-reveal>那時候我們都覺得，海這麼大，<span class="story-emphasis" data-emphasis>魚怎麼抓都抓不完</span>。</p>
+				</div>
+				<div class="story-divider" aria-hidden="true"></div>
+			</section>
+
+			<section class="story-section" data-story-section data-scene-color="#1d5b7a" data-scene-end="#0a1c28" data-scene-accent="#5eead4">
+				<div class="story-section__header">
+					<p class="story-section__label">第三章</p>
+					<h2 data-split>可是現在不一樣了</h2>
+				</div>
+				<div class="story-body">
+					<p class="story-break" data-reveal>可是現在不一樣了。</p>
+					<p data-reveal>海還是那片海，浪聲也沒變，可海底下安靜了很多。以前下網，不用多久就能感覺到魚在掙扎，現在等半天，拉起來卻空空的。</p>
+					<p data-reveal>有時候網還是很沉，心裡想著這次總算有了，結果拉上來，沉的不是魚，是塑膠袋、保特瓶，還有一堆不知道從哪漂來的垃圾。</p>
+					<p data-reveal>
+						<span class="story-emphasis story-emphasis--strong" data-emphasis>我們要撈的是魚，結果撈上來的，卻是人丟掉的東西。</span>
+					</p>
+					<p data-reveal>有時候看到魚肚子裡卡著塑膠，心裡真的不是滋味。</p>
+				</div>
+				<div class="story-pollution" aria-hidden="true">
+					<span class="story-pollution__item" data-pollution-float style="left: 8%; top: 10%;">🗑️</span>
+					<span class="story-pollution__item" data-pollution-float style="left: 28%; top: 45%;">🔵</span>
+					<span class="story-pollution__item" data-pollution-float style="left: 55%; top: 20%;">💧</span>
+					<span class="story-pollution__item" data-pollution-float style="left: 78%; top: 55%;">🗑️</span>
+					<span class="story-pollution__item" data-pollution-float style="left: 45%; top: 75%;">🌊</span>
+				</div>
+				<div class="story-divider" aria-hidden="true"></div>
+			</section>
+
+			<section class="story-section" data-story-section data-scene-color="#1f2a36" data-scene-end="#0a0f17" data-scene-accent="#fb7185">
+				<div class="story-section__header">
+					<p class="story-section__label">第四章</p>
+					<h2 data-split>我們在消亡</h2>
+				</div>
+				<div class="story-body">
+					<p data-reveal>魚活不下去，我們這些靠海吃飯的人，日子也越來越難過。魚少了，我們捕不到魚，賣不了錢，家裡的飯桌就少了一口生計。海裡的魚撐不住，我們這些靠海活著的人，也一樣快撐不住了。</p>
+					<p data-reveal>前幾天聽無線電，別的船也在說，最近漁獲都不好。連跑遠洋的朋友都說，海上的魚沒以前那麼好找了。</p>
+					<p data-reveal>以前總覺得，海這麼大，魚怎麼抓都抓不完。現在才知道，再大的海，也<span class="story-emphasis" data-emphasis>經不起這樣糟蹋</span>。</p>
+					<p data-reveal>這不只是那些海龜、海豚的事。</p>
+					<p data-reveal><span class="story-emphasis" data-emphasis>魚沒了，我們怎麼活？以後我的孩子、我的孫子，還能不能靠這片海吃飯？</span></p>
+				</div>
+				<div class="story-divider" aria-hidden="true"></div>
+			</section>
+
+			<section class="story-section" data-story-section data-scene-color="#0f6b5b" data-scene-end="#06332b" data-scene-accent="#34d399">
+				<div class="story-section__header">
+					<p class="story-section__label">第五章</p>
+					<h2 data-split>我的願望</h2>
+				</div>
+				<div class="story-body">
+					<blockquote class="story-quote" data-reveal>
+						<p><span class="story-emphasis" data-emphasis>船壞了，我還能修。</span></p>
+						<p><span class="story-emphasis" data-emphasis>可要是海壞了，誰來修？</span></p>
+					</blockquote>
+					<p data-reveal>我只希望，等我老到不能出海的那一天，這片海還在。</p>
+					<p data-reveal>等我孫子長大的時候，還能看見海裡有魚，不是只有垃圾。</p>
+				</div>
+			</section>
+
+			<section class="story-cta" data-cta>
+				<h3 data-split>保護我們的海洋</h3>
+				<p data-reveal>這不只是漁夫的故事，也是我們所有人的故事。海洋需要我們的行動。</p>
+				<a class="story-cta__button" data-cta-button href="/marine-conservation/sdg#how-to-participate">加入行動</a>
+			</section>
+		</main>
+
+		<script>
+			import { initStoryAnimations, cleanupStoryAnimations } from '../scripts/story-animations.js';
+
+			document.addEventListener('DOMContentLoaded', initStoryAnimations);
+			document.addEventListener('astro:before-swap', cleanupStoryAnimations);
+		</script>
+	</div>
 </Layout>
