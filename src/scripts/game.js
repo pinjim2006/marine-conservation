@@ -34,6 +34,11 @@ const trashItems = [
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.5) brightness(0.8) contrast(0.9); transform: rotate(10deg) scale(0.95);',
 			},
+			{
+				src: '/marine-conservation/pngtree/fishing/plastic_bags_2.png',
+				className: 'w-20 h-20 object-contain',
+				style: 'filter: saturate(0.55) brightness(0.82) contrast(0.92); transform: rotate(20deg);',
+			}
 		],
 	},
 	{
