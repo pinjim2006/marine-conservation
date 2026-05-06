@@ -64,7 +64,7 @@ const trashItems = [
 		message: '鋁罐在海洋環境中需要非常久才會分解，回收再利用能大幅減少海岸與海底垃圾。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/plastic_bags.png',
+				src: '/marine-conservation/pngtree/fishing/crushed_aluminum_can.png',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.52) brightness(0.8) contrast(0.9); transform: rotate(-10deg);',
 			},
@@ -88,9 +88,9 @@ const trashItems = [
 		message: '汽車輪胎含有多種合成材料，分解極慢，還可能釋出微塑膠與有害化學物質。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/straw.png',
+				src: '/marine-conservation/pngtree/fishing/tire_damaged.png',
 				className: 'w-20 h-20 object-contain',
-				style: 'filter: saturate(0.45) brightness(0.74) contrast(0.95); transform: rotate(-16deg) scale(1.02);',
+				style: 'filter: saturate(0.45) brightness(0.74) contrast(0.95); transform: rotate(-2deg) scale(1.02);',
 			},
 		],
 	},
@@ -100,7 +100,7 @@ const trashItems = [
 		message: '菸蒂中的濾嘴主要是塑膠纖維，會慢慢碎裂成微塑膠，危害魚類與底棲生物。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/straw.png',
+				src: '/marine-conservation/pngtree/fishing/cigarette_filters.png',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.5) brightness(0.8) contrast(0.9); transform: rotate(6deg) scale(0.96);',
 			},
@@ -136,9 +136,9 @@ const trashItems = [
 		message: '玻璃在自然環境幾乎不會分解，破碎後還可能割傷海洋生物與人類。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/plastic_bags_2.png',
+				src: '/marine-conservation/pngtree/fishing/bottle.png',
 				className: 'w-20 h-20 object-contain',
-				style: 'filter: saturate(0.48) brightness(0.76) contrast(0.95); transform: rotate(-14deg) scale(1.03);',
+				style: 'filter: saturate(0.48) brightness(0.76) contrast(0.95); transform: rotate(-4deg) scale(1.03);',
 			},
 		],
 	},
@@ -148,10 +148,24 @@ const trashItems = [
 		message: '麻繩可分解，但在海中仍可能造成生物纏繞，需妥善回收避免遺留海域。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/straw.png',
+				src: '/marine-conservation/pngtree/fishing/rope.png',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.52) brightness(0.82) contrast(0.9); transform: rotate(18deg);',
 			},
+			
+		],
+	},
+	{
+		name: '麻繩 (Hemp Ropes)',
+		time: '3 - 14 個月',
+		message: '麻繩可分解，但在海中仍可能造成生物纏繞，需妥善回收避免遺留海域。',
+		variants: [
+			{
+				src: '/marine-conservation/pngtree/fishing/rope (2).png',
+				className: 'w-20 h-20 object-contain',
+				style: 'filter: saturate(0.52) brightness(0.82) contrast(0.9); transform: rotate(18deg);',
+			},
+			
 		],
 	},
 	{
@@ -160,7 +174,7 @@ const trashItems = [
 		message: '皮革製品在海中分解緩慢，染色與鞣製殘留物也可能影響水質。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/plastic_bags.png',
+				src: '/marine-conservation/pngtree/fishing/belt.png',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.46) brightness(0.74) contrast(0.94); transform: rotate(-5deg);',
 			},
