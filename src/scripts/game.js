@@ -398,9 +398,21 @@ function createCatchNode(sprite) {
 	image.alt = sprite.alt;
 	image.className = `${sprite.className} block mx-auto`;
 	image.style.cssText = sprite.style;
+	applyRandomTransform(image);
 
 	wrapper.appendChild(image);
 	return wrapper;
+}
+
+function randomInRange(min, max) {
+	return Math.random() * (max - min) + min;
+}
+
+function applyRandomTransform(imageEl) {
+	const rotateDeg = randomInRange(-16, 16).toFixed(2);
+	const scaleRatio = randomInRange(0.94, 1.06).toFixed(3);
+	const baseTransform = imageEl.style.transform ? `${imageEl.style.transform} ` : '';
+	imageEl.style.transform = `${baseTransform}rotate(${rotateDeg}deg) scale(${scaleRatio})`;
 }
 
 // 撒網動作
@@ -474,6 +486,7 @@ function showTrashInfo(trash, variant) {
 			img.alt = trash.name;
 			img.className = variant.className || 'w-20 h-20 object-contain mx-auto';
 			img.style.cssText = variant.style || 'filter: saturate(0.55) brightness(0.82) contrast(0.92);';
+			applyRandomTransform(img);
 			trashIconEl.appendChild(img);
 		} else {
 			trashIconEl.textContent = trash.name || '';
@@ -498,6 +511,7 @@ function showSuccessPanel() {
 		img.alt = '魚';
 		img.className = fishVariant.className || 'w-20 h-20 object-contain mx-auto';
 		img.style.cssText = fishVariant.style || 'filter: saturate(0.65) brightness(0.88) contrast(0.95);';
+		applyRandomTransform(img);
 		successIconEl.appendChild(img);
 	}
 	successPanel.style.display = 'flex';
