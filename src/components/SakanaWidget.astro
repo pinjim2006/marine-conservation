@@ -1,0 +1,23 @@
+---
+// src/components/SakanaWidget.astro
+---
+
+<div id="sakana-widget" style="position: fixed; right: 0; bottom: 0; z-index: 10;"></div>
+
+<script>
+  import SakanaWidget from 'sakana-widget';
+  import 'sakana-widget/lib/index.css';
+
+  function initSakana() {
+    const container = document.getElementById('sakana-widget');
+    if (container) {
+      new SakanaWidget().mount(container);
+    }
+  }
+
+  // 初始載入時執行
+  initSakana();
+
+  // 如果你有使用 Astro 的 View Transitions，需要監聽導覽事件重新初始化
+  document.addEventListener('astro:after-swap', initSakana);
+</script>
