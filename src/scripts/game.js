@@ -76,7 +76,7 @@ const trashItems = [
 		message: '帆布雖屬可分解材質，但在海水與低氧環境中仍可能長時間殘留並纏繞生物。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/plastic_bags_2.png',
+				src: '/marine-conservation/pngtree/fishing/canvas.jpg',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.5) brightness(0.78) contrast(0.9); transform: rotate(12deg);',
 			},
@@ -100,19 +100,19 @@ const trashItems = [
 		message: '菸蒂中的濾嘴主要是塑膠纖維，會慢慢碎裂成微塑膠，危害魚類與底棲生物。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/cigarette_filters.png',
+				src: '/marine-conservation/pngtree/fishing/cigarette.png',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.5) brightness(0.8) contrast(0.9); transform: rotate(6deg) scale(0.96);',
 			},
 		],
 	},
 	{
-		name: '棉質襯衫 (Cotton Shirts)',
+		name: '棉質襯衫 (Cotton Shirt)',
 		time: '2 - 5 個月',
 		message: '天然纖維較容易分解，但若含染整化學物質，仍可能對海洋環境造成負擔。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/plastic_bags_2.png',
+				src: '/marine-conservation/pngtree/fishing/Cotton_Shirt.png',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.58) brightness(0.86) contrast(0.92); transform: rotate(-7deg);',
 			},
@@ -124,7 +124,7 @@ const trashItems = [
 		message: '拋棄式尿布含有塑膠與吸水高分子，若流入海洋，將長期存在並污染棲地。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/plastic_bags.png',
+				src: '/marine-conservation/pngtree/fishing/Disposable_diapers.png',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.54) brightness(0.8) contrast(0.9); transform: rotate(9deg);',
 			},
@@ -152,19 +152,11 @@ const trashItems = [
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.52) brightness(0.82) contrast(0.9); transform: rotate(18deg);',
 			},
-			
-		],
-	},
-	{
-		name: '麻繩 (Hemp Ropes)',
-		time: '3 - 14 個月',
-		message: '麻繩可分解，但在海中仍可能造成生物纏繞，需妥善回收避免遺留海域。',
-		variants: [
 			{
 				src: '/marine-conservation/pngtree/fishing/rope (2).png',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.52) brightness(0.82) contrast(0.9); transform: rotate(18deg);',
-			},
+			}
 			
 		],
 	},
@@ -181,24 +173,12 @@ const trashItems = [
 		],
 	},
 	{
-		name: '尼龍襯衫 (Nylon Shirt)',
-		time: '30 - 40 年',
-		message: '尼龍屬合成纖維，分解後可能形成微塑膠，進入食物鏈並影響海洋生態。',
-		variants: [
-			{
-				src: '/marine-conservation/pngtree/fishing/plastic_bags_2.png',
-				className: 'w-20 h-20 object-contain',
-				style: 'filter: saturate(0.5) brightness(0.8) contrast(0.9); transform: rotate(11deg) scale(0.97);',
-			},
-		],
-	},
-	{
 		name: '橘子皮 (Orange Peel)',
 		time: '6 個月',
 		message: '即使是廚餘，在海洋中也不該隨意丟棄，分解過程仍可能擾動當地生態平衡。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/straw.png',
+				src: '/marine-conservation/pngtree/fishing/Orange_Peel.png',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.6) brightness(0.88) contrast(0.9); transform: rotate(-8deg);',
 			},
@@ -210,7 +190,7 @@ const trashItems = [
 		message: '塗漆木材除了分解時間長，塗料中的化學成分也可能滲入海水。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/plastic_bags.png',
+				src: '/marine-conservation/pngtree/fishing/Painted_Wood.jpg',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.44) brightness(0.76) contrast(0.96); transform: rotate(15deg);',
 			},
@@ -222,22 +202,15 @@ const trashItems = [
 		message: '紙張相對容易分解，但大量棄置仍會造成海岸髒亂與局部生態壓力。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/plastic_bags_2.png',
+				src: '/marine-conservation/pngtree/fishing/paper_sheet.png',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.62) brightness(0.9) contrast(0.9); transform: rotate(-11deg);',
 			},
-		],
-	},
-	{
-		name: '紙巾 (Paper Towels)',
-		time: '2 - 4 週',
-		message: '紙巾雖可快速分解，但若混有化學清潔劑，仍可能短期影響水體品質。',
-		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/straw.png',
+				src: '/marine-conservation/pngtree/fishing/paper_sheet (2).png',
 				className: 'w-20 h-20 object-contain',
-				style: 'filter: saturate(0.64) brightness(0.9) contrast(0.88); transform: rotate(4deg);',
-			},
+				style: 'filter: saturate(0.62) brightness(0.9) contrast(0.9); transform: rotate(-11deg);',
+			}
 		],
 	},
 	{
@@ -246,21 +219,9 @@ const trashItems = [
 		message: '寶特瓶是常見海洋垃圾，會破碎成微塑膠並長期影響海洋食物網。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/plastic_bags.png',
+				src: '/marine-conservation/pngtree/fishing/plastic_bottle.png',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.55) brightness(0.82) contrast(0.92); transform: rotate(-17deg);',
-			},
-		],
-	},
-	{
-		name: '夾板 (Plywood)',
-		time: '1 - 3 年',
-		message: '夾板含膠合材料，在海洋中分解較慢，且膠黏劑可能釋出污染物。',
-		variants: [
-			{
-				src: '/marine-conservation/pngtree/fishing/plastic_bags_2.png',
-				className: 'w-20 h-20 object-contain',
-				style: 'filter: saturate(0.5) brightness(0.78) contrast(0.92); transform: rotate(7deg);',
 			},
 		],
 	},
@@ -270,7 +231,7 @@ const trashItems = [
 		message: '聚酯纖維是塑膠材質，長期存在環境中，摩擦後會釋放微塑膠纖維。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/plastic_bags.png',
+				src: '/marine-conservation/pngtree/fishing/Polyester_Fabric.png',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.52) brightness(0.8) contrast(0.9); transform: rotate(13deg) scale(1.01);',
 			},
@@ -282,7 +243,7 @@ const trashItems = [
 		message: '聚氨酯泡棉分解極慢，碎裂後可能被魚類誤食並累積於體內。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/plastic_bags_2.png',
+				src: '/marine-conservation/pngtree/fishing/Polyurethane_Cushions.png',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.48) brightness(0.76) contrast(0.9); transform: rotate(-4deg) scale(1.04);',
 			},
@@ -294,7 +255,7 @@ const trashItems = [
 		message: '衛生用品常含塑膠與吸收材料，若進入海洋會造成長期污染與纏繞風險。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/plastic_bags.png',
+				src: '/marine-conservation/pngtree/fishing/Sanitary_Pads_and_Tampons.png',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.56) brightness(0.84) contrast(0.9); transform: rotate(-9deg);',
 			},
@@ -306,7 +267,7 @@ const trashItems = [
 		message: '細線看似不起眼，仍可能纏住小型海洋生物，造成移動與覓食困難。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/straw.png',
+				src: '/marine-conservation/pngtree/fishing/thread.png',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.54) brightness(0.84) contrast(0.88); transform: rotate(22deg) scale(0.93);',
 			},
@@ -318,7 +279,7 @@ const trashItems = [
 		message: '有機廢棄物分解較快，但大量堆積仍會消耗氧氣並破壞局部海域生態。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/straw.png',
+				src: '/marine-conservation/pngtree/fishing/Vegetable_Waste.png',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.66) brightness(0.9) contrast(0.86); transform: rotate(-3deg);',
 			},
@@ -330,7 +291,7 @@ const trashItems = [
 		message: '多數濕紙巾含塑膠纖維，不易分解，常在海岸與排水系統中長期累積。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/plastic_bags_2.png',
+				src: '/marine-conservation/pngtree/fishing/wet_wipe.png',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.54) brightness(0.82) contrast(0.9); transform: rotate(5deg) scale(1.02);',
 			},
@@ -342,7 +303,7 @@ const trashItems = [
 		message: '羊毛可自然分解，但若混紡合成纖維或染料，仍會增加環境負擔。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/plastic_bags.png',
+				src: '/marine-conservation/pngtree/fishing/wool.jpg',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.58) brightness(0.86) contrast(0.9); transform: rotate(-13deg);',
 			},
