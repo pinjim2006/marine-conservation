@@ -20,11 +20,3 @@ export const collections = {
 	news: newsCollection,
 };
 
-const blog = defineCollection({
-  schema: ({ image }) => z.object({
-    title: z.string(),
-    // 使用 image() 來定義圖片欄位，這會讓 Astro 自動處理該路徑
-    cover: image(), 
-    coverAlt: z.string(),
-  }),
-});
