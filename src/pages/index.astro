@@ -1,8 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import '../styles/index.css';
+import heroOcean from '../assets/hero-ocean.jpg';
 
 const latestNews = (await getCollection('news', ({ data }) => {
     return import.meta.env.PROD ? data.draft !== true : true;
@@ -14,8 +16,8 @@ const latestNews = (await getCollection('news', ({ data }) => {
 <Layout title="漁夫視角的海洋保育 | 首頁">
 	<section id="hero" class="relative h-screen w-full flex items-center justify-center overflow-hidden">
 		<div id="hero-bg" class="absolute inset-0 z-0 will-change-transform">
-			<img 
-				src="/marine-conservation/hero-ocean.jpg" 
+			<Image 
+				src={heroOcean} 
 				alt="Ocean Background" 
 				class="w-full h-full object-cover scale-110"
 			/>
