@@ -51,6 +51,9 @@ import SakanaWidget from '../components/SakanaWidget.astro';
 							<button id="castNetBtn" class="px-8 py-3 rounded-full border border-white/20 bg-white/5 text-white font-bold hover:bg-white/10 transition-all duration-300">
 								撒網
 							</button>
+							<button id="tenDrawBtn" class="px-8 py-3 rounded-full border border-white/20 bg-white/5 text-white font-bold hover:bg-white/10 transition-all duration-300">
+								十連抽
+							</button>
 							<button id="resetBtn" class="px-8 py-3 rounded-full border border-white/10 bg-transparent text-slate-200 font-bold hover:bg-white/5 transition-all duration-300">
 								重新開始
 							</button>
@@ -91,7 +94,7 @@ import SakanaWidget from '../components/SakanaWidget.astro';
 			</div>
 
 			<!-- 垃圾分解信息面板 -->
-			<div id="trashInfoPanel" class="fixed inset-0 z-50 flex items-center justify-center" style="display: none;">
+			<div id="trashInfoPanel" class="fixed inset-0 z-60 flex items-center justify-center" style="display: none;">
 				<div class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
 				<div class="relative bg-gradient-to-b from-slate-900 to-slate-800 border border-white/10 rounded-3xl p-8 max-w-md shadow-2xl mx-4">
 					<button id="closeInfoBtn" class="absolute top-4 right-4 text-sm text-slate-300 hover:text-white transition">關閉</button>
@@ -112,7 +115,7 @@ import SakanaWidget from '../components/SakanaWidget.astro';
 			</div>
 
 			<!-- 捕魚成功訊息 -->
-			<div id="successPanel" class="fixed inset-0 z-50 flex items-center justify-center" style="display: none;">
+			<div id="successPanel" class="fixed inset-0 z-60 flex items-center justify-center" style="display: none;">
 				<div class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
 				<div class="relative bg-gradient-to-b from-slate-900 to-slate-800 border border-white/10 rounded-3xl p-8 max-w-md shadow-2xl mx-4">
 						<button id="closeSuccessBtn" class="absolute top-4 right-4 text-sm text-slate-300 hover:text-white transition">關閉</button>
@@ -125,6 +128,20 @@ import SakanaWidget from '../components/SakanaWidget.astro';
 							繼續
 						</button>
 					</div>
+				</div>
+			</div>
+
+			<!-- 十連抽結果面板 -->
+			<div id="tenDrawPanel" class="fixed inset-0 z-50 flex items-center justify-center" style="display: none;">
+				<div class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
+				<div class="relative bg-gradient-to-b from-slate-900 to-slate-800 border border-white/10 rounded-3xl p-8 w-full max-w-3xl shadow-2xl mx-4">
+					<button id="closeTenDrawBtn" class="absolute top-4 right-4 text-sm text-slate-300 hover:text-white transition">關閉</button>
+					<div class="text-center mb-6">
+						<p class="text-cyan-200 text-xs tracking-[0.22em] uppercase">Ten Draw</p>
+						<h3 class="text-2xl md:text-3xl font-bold text-slate-100 mt-3">十連抽結果</h3>
+						<p class="text-slate-400 text-sm mt-2">點選任一項目可查看詳細資訊</p>
+					</div>
+					<div id="tenDrawResults" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5"></div>
 				</div>
 			</div>
 		</div>

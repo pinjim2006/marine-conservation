@@ -317,6 +317,7 @@ let trashCount = 0;
 
 // 獲取 DOM 元素
 const castNetBtn = document.getElementById('castNetBtn');
+const tenDrawBtn = document.getElementById('tenDrawBtn');
 const resetBtn = document.getElementById('resetBtn');
 const castCountEl = document.getElementById('castCount');
 const fishCountEl = document.getElementById('fishCount');
@@ -327,7 +328,10 @@ const networkEffect = document.getElementById('networkEffect');
 const centerText = document.getElementById('centertext');
 const trashInfoPanel = document.getElementById('trashInfoPanel');
 const successPanel = document.getElementById('successPanel');
+const tenDrawPanel = document.getElementById('tenDrawPanel');
+const tenDrawResults = document.getElementById('tenDrawResults');
 const oceanBackground = document.getElementById('oceanBackground');
+let tenDrawTimer = null;
 
 // 撒網夠率計算
 function calculateSuccessRate() {
@@ -390,65 +394,157 @@ function applyRandomTransform(imageEl) {
 	imageEl.style.transform = `${baseTransform}rotate(${rotateDeg}deg) scale(${scaleRatio})`;
 }
 
-// 撒網動作
-castNetBtn.addEventListener('click', () => {
-	castCount++;
-	castNetBtn.disabled = true;
+function setButtonsDisabled(isDisabled) {
+	if (castNetBtn) castNetBtn.disabled = isDisabled;
+	if (tenDrawBtn) tenDrawBtn.disabled = isDisabled;
+}
 
-	// 隨機生成結果：80% 垃圾，20% 魚
+function getRandomCatch() {
 	const isTrash = Math.random() < 0.8;
 
-	// 撒網動畫
+	if (isTrash) {
+		const trash = trashItems[Math.floor(Math.random() * trashItems.length)];
+		const variant = trash.variants[Math.floor(Math.random() * trash.variants.length)];
+		return { type: 'trash', trash, variant };
+	}
+
+	const fishVariant = fishVariants[Math.floor(Math.random() * fishVariants.length)];
+	return { type: 'fish', variant: fishVariant };
+}
+
+function addCatchSprite(result) {
+	const sprite = createCatchNode({
+		...result.variant,
+		...getRandomCatchPosition(),
+		alt: result.type === 'trash' ? result.trash.name : '魚',
+	});
+	itemsContainer.appendChild(sprite);
+}
+
+function showCatchDetail(result) {
+	if (result.type === 'trash') {
+		showTrashInfo(result.trash, result.variant);
+		return;
+	}
+	showSuccessPanel(result.variant);
+}
+
+function createTenDrawCard(result, index) {
+	const card = document.createElement('button');
+	card.type = 'button';
+	card.className = 'group flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-4 text-center transition-transform duration-300 hover:-translate-y-1 hover:border-cyan-300/40 hover:bg-white/10';
+	card.dataset.index = index.toString();
+
+	const image = document.createElement('img');
+	image.src = result.variant.src;
+	image.alt = result.type === 'trash' ? result.trash.name : '魚';
+	image.className = result.variant.className || 'w-20 h-20 object-contain';
+	image.style.cssText = result.variant.style || 'filter: saturate(0.6) brightness(0.88) contrast(0.92);';
+	applyRandomTransform(image);
+
+	const label = document.createElement('p');
+	label.className = 'text-xs text-slate-200/90';
+	label.textContent = result.type === 'trash' ? result.trash.name : '魚';
+
+	const tag = document.createElement('span');
+	tag.className = result.type === 'trash'
+		? 'rounded-full bg-orange-400/15 px-2 py-1 text-[10px] font-semibold text-orange-200'
+		: 'rounded-full bg-emerald-400/15 px-2 py-1 text-[10px] font-semibold text-emerald-200';
+	tag.textContent = result.type === 'trash' ? '垃圾' : '魚';
+
+	card.appendChild(image);
+	card.appendChild(label);
+	card.appendChild(tag);
+	return card;
+}
+
+function renderTenDrawResultsSequential(results) {
+	if (!tenDrawResults) return;
+	tenDrawResults.innerHTML = '';
+	if (tenDrawTimer) {
+		clearTimeout(tenDrawTimer);
+		tenDrawTimer = null;
+	}
+
+	let index = 0;
+	const revealNext = () => {
+		if (!tenDrawResults) return;
+		if (index >= results.length) {
+			tenDrawTimer = null;
+			return;
+		}
+		tenDrawResults.appendChild(createTenDrawCard(results[index], index));
+		index += 1;
+		tenDrawTimer = setTimeout(revealNext, 140);
+	};
+
+	revealNext();
+}
+
+function playNetAnimation() {
 	networkEffect.innerHTML = '';
 	const circle = document.createElement('div');
 	circle.className = 'absolute inset-1/4 border-4 border-slate-400/50 rounded-full animate-ping';
 	networkEffect.appendChild(circle);
 
-	// 清空中心文字
 	centerText.innerHTML = '';
+}
 
-	// 延遲顯示結果
+function handleDraws(drawCount) {
+	setButtonsDisabled(true);
+	playNetAnimation();
+
 	setTimeout(() => {
 		networkEffect.innerHTML = '';
+		const results = [];
 
-		if (isTrash) {
-			// 顯示垃圾
-			trashCount++;
-			const randomTrash = trashItems[Math.floor(Math.random() * trashItems.length)];
-			const randomTrashVariant = randomTrash.variants[Math.floor(Math.random() * randomTrash.variants.length)];
-
-			// 展示垃圾信息面板
-			showTrashInfo(randomTrash, randomTrashVariant);
-
-			// 添加垃圾圖示到畫面
-			const trashSprite = createCatchNode({
-				...randomTrashVariant,
-				...getRandomCatchPosition(),
-				alt: randomTrash.name,
-			});
-			itemsContainer.appendChild(trashSprite);
-
-		} else {
-			// 顯示魚
-			fishCount++;
-			const fishVariant = fishVariants[Math.floor(Math.random() * fishVariants.length)];
-			const fishSprite = createCatchNode({
-				...fishVariant,
-				...getRandomCatchPosition(),
-				alt: '魚',
-			});
-			itemsContainer.appendChild(fishSprite);
-
-			// 顯示成功訊息
-			showSuccessPanel();
-
+		for (let i = 0; i < drawCount; i += 1) {
+			const result = getRandomCatch();
+			results.push(result);
+			if (result.type === 'trash') {
+				trashCount += 1;
+			} else {
+				fishCount += 1;
+			}
+			addCatchSprite(result);
 		}
 
+		castCount += drawCount;
 		updateStats();
 		centerText.innerHTML = '<p class="text-xl text-slate-300/60 font-semibold text-center">準備好再撒一次網？</p>';
-		castNetBtn.disabled = false;
+		setButtonsDisabled(false);
+
+		if (drawCount === 1) {
+			showCatchDetail(results[0]);
+			return;
+		}
+
+		if (tenDrawPanel) {
+			renderTenDrawResultsSequential(results);
+			tenDrawPanel.style.display = 'flex';
+		}
+		if (tenDrawResults) {
+			tenDrawResults.onclick = (event) => {
+				const target = event.target.closest('button');
+				if (!target) return;
+				const index = Number(target.dataset.index);
+				if (Number.isNaN(index) || !results[index]) return;
+				showCatchDetail(results[index]);
+			};
+		}
 	}, 800);
+}
+
+// 撒網動作
+castNetBtn.addEventListener('click', () => {
+	handleDraws(1);
 });
+
+if (tenDrawBtn) {
+	tenDrawBtn.addEventListener('click', () => {
+		handleDraws(10);
+	});
+}
 
 // 顯示垃圾信息面板
 function showTrashInfo(trash, variant) {
@@ -476,11 +572,11 @@ function showTrashInfo(trash, variant) {
 }
 
 // 顯示成功訊息面板
-function showSuccessPanel() {
+function showSuccessPanel(variant) {
 	const successIconEl = document.getElementById('successIcon');
 	if (successIconEl) {
 		successIconEl.innerHTML = '';
-		const fishVariant = fishVariants[Math.floor(Math.random() * fishVariants.length)];
+		const fishVariant = variant || fishVariants[Math.floor(Math.random() * fishVariants.length)];
 		const img = document.createElement('img');
 		img.src = fishVariant.src;
 		img.alt = '魚';
@@ -509,6 +605,19 @@ document.getElementById('closeSuccessBtnConfirm').addEventListener('click', () =
 	successPanel.style.display = 'none';
 });
 
+if (tenDrawPanel) {
+	const closeTenDrawBtn = document.getElementById('closeTenDrawBtn');
+	if (closeTenDrawBtn) {
+		closeTenDrawBtn.addEventListener('click', () => {
+			tenDrawPanel.style.display = 'none';
+			if (tenDrawTimer) {
+				clearTimeout(tenDrawTimer);
+				tenDrawTimer = null;
+			}
+		});
+	}
+}
+
 // 重置按鈕
 resetBtn.addEventListener('click', () => {
 	castCount = 0;
@@ -516,8 +625,15 @@ resetBtn.addEventListener('click', () => {
 	trashCount = 0;
 	itemsContainer.innerHTML = '';
 	centerText.innerHTML = '<p class="text-xl text-slate-300/60 font-semibold text-center">點擊準備好撒網！</p>';
+	if (tenDrawPanel) tenDrawPanel.style.display = 'none';
+	if (tenDrawTimer) {
+		clearTimeout(tenDrawTimer);
+		tenDrawTimer = null;
+	}
+	trashInfoPanel.style.display = 'none';
+	successPanel.style.display = 'none';
 	updateStats();
-	castNetBtn.disabled = false;
+	setButtonsDisabled(false);
 });
 
 // 初始化統計
