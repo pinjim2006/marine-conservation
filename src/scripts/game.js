@@ -190,7 +190,7 @@ const trashItems = [
 		message: '塗漆木材除了分解時間長，塗料中的化學成分也可能滲入海水。',
 		variants: [
 			{
-				src: '/marine-conservation/pngtree/fishing/Painted_Wood.jpg',
+				src: '/marine-conservation/pngtree/fishing/Painted_Wood.webp',
 				className: 'w-20 h-20 object-contain',
 				style: 'filter: saturate(0.44) brightness(0.76) contrast(0.96); transform: rotate(15deg);',
 			},
