@@ -432,8 +432,23 @@ function showCatchDetail(result) {
 function createTenDrawCard(result, index) {
 	const card = document.createElement('button');
 	card.type = 'button';
-	card.className = 'group flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-4 text-center transition-transform duration-300 hover:-translate-y-1 hover:border-cyan-300/40 hover:bg-white/10';
+	card.className = 'ten-draw-card group';
+	card.disabled = true;
+	card.setAttribute('aria-label', result.type === 'trash' ? result.trash.name : '魚');
 	card.dataset.index = index.toString();
+
+	const inner = document.createElement('div');
+	inner.className = 'ten-draw-card-inner';
+
+	const back = document.createElement('div');
+	back.className = 'ten-draw-card-face ten-draw-card-back';
+
+	const backSheen = document.createElement('div');
+	backSheen.className = 'ten-draw-card-back-sheen';
+	back.appendChild(backSheen);
+
+	const front = document.createElement('div');
+	front.className = 'ten-draw-card-face ten-draw-card-front';
 
 	const image = document.createElement('img');
 	image.src = result.variant.src;
@@ -452,33 +467,39 @@ function createTenDrawCard(result, index) {
 		: 'rounded-full bg-emerald-400/15 px-2 py-1 text-[10px] font-semibold text-emerald-200';
 	tag.textContent = result.type === 'trash' ? '垃圾' : '魚';
 
-	card.appendChild(image);
-	card.appendChild(label);
-	card.appendChild(tag);
+	front.appendChild(image);
+	front.appendChild(label);
+	front.appendChild(tag);
+	inner.appendChild(back);
+	inner.appendChild(front);
+	card.appendChild(inner);
 	return card;
 }
 
 function renderTenDrawResultsSequential(results) {
 	if (!tenDrawResults) return;
 	tenDrawResults.innerHTML = '';
+	tenDrawResults.onclick = null;
 	if (tenDrawTimer) {
 		clearTimeout(tenDrawTimer);
 		tenDrawTimer = null;
 	}
 
-	let index = 0;
-	const revealNext = () => {
-		if (!tenDrawResults) return;
-		if (index >= results.length) {
-			tenDrawTimer = null;
-			return;
-		}
-		tenDrawResults.appendChild(createTenDrawCard(results[index], index));
-		index += 1;
-		tenDrawTimer = setTimeout(revealNext, 140);
-	};
+	const cards = results.map((result, index) => {
+		const card = createTenDrawCard(result, index);
+		tenDrawResults.appendChild(card);
+		return card;
+	});
 
-	revealNext();
+	cards.forEach((card, index) => {
+		window.setTimeout(() => {
+			card.classList.add('is-revealed');
+			card.disabled = false;
+			if (index === cards.length - 1) {
+				tenDrawTimer = null;
+			}
+		}, 220 * index + 120);
+	});
 }
 
 function playNetAnimation() {
