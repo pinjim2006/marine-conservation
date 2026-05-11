@@ -13,6 +13,16 @@ import img14B from '../../assets/sdg/GOAL_14_TARGET_14.B.png';
 import img14C from '../../assets/sdg/GOAL_14_TARGET_14.C.png';
 import imgSdg14 from '../../assets/sdg/TheGlobalGoals_Icons_Color_Goal_14.png';
 
+export async function getStaticPaths() {
+	return [
+		{ params: { lang: 'en' } },
+		{ params: { lang: 'zh-tw' } },
+	];
+}
+
+const currentLocale = Astro.currentLocale ?? 'zh-tw';
+const localeUrl = (path: string) => `/${currentLocale}${path}`;
+
 const detailedTargets = [
 	{
 		id: '14.1',
@@ -156,6 +166,11 @@ const detailedTargets = [
 				<li class="rounded-xl border border-white/10 bg-white/5 p-5">關注海洋議題新聞，將正確資訊分享給身邊的人。</li>
 				<li class="rounded-xl border border-white/10 bg-white/5 p-5">參與淨灘、倡議或教育活動，讓保育成為日常行動。</li>
 			</ul>
+			<div class="mt-8">
+				<a href={localeUrl('/news')} class="inline-flex items-center gap-2 rounded-full bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-cyan-300">
+					查看相關新聞
+				</a>
+			</div>
 		</div>
 	</section>
 </Layout>
@@ -184,4 +199,4 @@ const detailedTargets = [
 			linear-gradient(180deg, rgba(2, 6, 23, 0.14) 0%, rgba(2, 6, 23, 0.36) 100%);
 	}
 </style>
-<script src="../scripts/sdg-hero-canvas.js"></script>
+<script src="../../scripts/sdg-hero-canvas.js"></script>

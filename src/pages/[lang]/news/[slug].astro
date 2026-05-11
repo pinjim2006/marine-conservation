@@ -3,6 +3,9 @@ import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Layout from '../../../layouts/Layout.astro';
 
+const currentLocale = Astro.currentLocale ?? 'zh-tw';
+const localeUrl = (path: string) => `/${currentLocale}${path}`;
+
 // 1. 產生所有路徑
 export async function getStaticPaths() {
   const newsEntries = await getCollection('news', ({ data }) => {
@@ -23,7 +26,7 @@ const { Content } = await render(entry);
   <article class="bg-slate-50">
     <header class="bg-slate-950 text-slate-100">
       <div class="max-w-4xl mx-auto px-6 py-16 md:py-20">
-        <a href="/news" class="inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition-colors hover:text-cyan-200">
+        <a href={localeUrl('/news')} class="inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition-colors hover:text-cyan-200">
           <span aria-hidden="true">←</span>
           回到新聞列表
         </a>

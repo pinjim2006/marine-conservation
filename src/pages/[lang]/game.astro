@@ -1,6 +1,13 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import SakanaWidget from '../../components/SakanaWidget.astro';
+
+export async function getStaticPaths() {
+	return [
+		{ params: { lang: 'en' } },
+		{ params: { lang: 'zh-tw' } },
+	];
+}
 ---
 
 <Layout title="撒網體驗 | 漁夫視角的海洋保育">
@@ -186,4 +193,4 @@ import SakanaWidget from '../../components/SakanaWidget.astro';
 	</section>
 </Layout>
 
-<script src="../scripts/game.js"></script>
+<script src="../../scripts/game.js"></script>

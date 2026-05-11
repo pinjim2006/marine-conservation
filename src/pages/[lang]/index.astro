@@ -9,9 +9,12 @@ import heroOcean from '../../assets/hero-ocean.jpg';
 export async function getStaticPaths() {
 	return [
 		{ params: { lang: 'en' } },
-		{ params: { lang: 'zh' } },
+		{ params: { lang: 'zh-tw' } },
 	];
 }
+
+const currentLocale = Astro.currentLocale ?? 'zh-tw';
+const localeUrl = (path: string) => `/${currentLocale}${path}`;
 
 const latestNews = (await getCollection('news', ({ data }) => {
     return import.meta.env.PROD ? data.draft !== true : true;
@@ -42,7 +45,7 @@ const latestNews = (await getCollection('news', ({ data }) => {
 				每一次撒網，我都在恐懼會撈起什麼...
 			</p>
 			<div id="hero-cta" class="mt-12 opacity-0 translate-y-10">
-				<a href="/story" class="group inline-flex items-center gap-3 px-10 py-4 rounded-full border border-white/35 bg-white/10 backdrop-blur-xl text-white font-bold tracking-widest transition-all duration-500 hover:-translate-y-1 hover:bg-white/20 hover:border-white/60 hover:shadow-[0_12px_35px_rgba(148,163,184,0.35)]">
+				<a href={localeUrl('/story')} class="group inline-flex items-center gap-3 px-10 py-4 rounded-full border border-white/35 bg-white/10 backdrop-blur-xl text-white font-bold tracking-widest transition-all duration-500 hover:-translate-y-1 hover:bg-white/20 hover:border-white/60 hover:shadow-[0_12px_35px_rgba(148,163,184,0.35)]">
 					
 					進入漁夫的故事
 				</a>
@@ -101,8 +104,8 @@ const latestNews = (await getCollection('news', ({ data }) => {
 					海洋保育不只是一個口號，而是每次選擇累積出來的結果。理解故事、參與行動、擴散影響力，都是改變的一部分。
 				</p>
 				<div class="mt-9 flex flex-wrap gap-4">
-					<a href="/sdg" class="px-6 py-3 rounded-full bg-sky-700 text-white font-semibold hover:bg-sky-600 transition-colors">了解 SDG 14</a>
-					<a href="/news" class="px-6 py-3 rounded-full border border-slate-300 text-slate-800 font-semibold hover:bg-slate-200 transition-colors">查看最新新聞</a>
+					<a href={localeUrl('/sdg')} class="px-6 py-3 rounded-full bg-sky-700 text-white font-semibold hover:bg-sky-600 transition-colors">了解 SDG 14</a>
+					<a href={localeUrl('/news')} class="px-6 py-3 rounded-full border border-slate-300 text-slate-800 font-semibold hover:bg-slate-200 transition-colors">查看最新新聞</a>
 				</div>
 			</div>
 			<div class="rounded-3xl border border-slate-200 bg-white p-7 shadow-[0_25px_60px_rgba(15,23,42,0.08)]">
@@ -126,7 +129,7 @@ const latestNews = (await getCollection('news', ({ data }) => {
 						整理最新的海洋保育與漁業新聞，讓你快速掌握政策、環境與生態變化。
 					</p>
 				</div>
-				<a href={`${import.meta.env.BASE_URL}news`} class="inline-flex w-fit items-center justify-center rounded-full border border-cyan-200/25 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
+				<a href={localeUrl('/news')} class="inline-flex w-fit items-center justify-center rounded-full border border-cyan-200/25 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
 					查看全部新聞
 				</a>
 			</div>
@@ -143,7 +146,7 @@ const latestNews = (await getCollection('news', ({ data }) => {
 							<h3 class="mt-3 text-xl font-semibold leading-snug text-white">{item.data.title}</h3>
 							<p class="mt-3 text-sm text-slate-300/80">{item.data.date.toLocaleDateString('zh-TW')}</p>
 							<p class="mt-4 line-clamp-4 text-slate-300/90 leading-relaxed">{item.data.summary}</p>
-							<a href={`${import.meta.env.BASE_URL}news/${item.id}`} class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition-colors hover:text-cyan-200">
+							<a href={localeUrl(`/news/${item.id}`)} class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition-colors hover:text-cyan-200">
 								閱讀全文
 								<span aria-hidden="true">→</span>
 							</a>
