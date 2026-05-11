@@ -1,19 +1,23 @@
 ---
 import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
+import Layout from '../../../layouts/Layout.astro';
+import { t } from '../../../i18n/ui';
+
+const currentLocale = Astro.currentLocale ?? 'zh-tw';
+const localeUrl = (path: string) => `/${currentLocale}${path}`;
 
 // 1. 產生所有路徑
 export async function getStaticPaths() {
   const newsEntries = await getCollection('news', ({ data }) => {
     return import.meta.env.PROD ? data.draft !== true : true;
   });
-  
-  return newsEntries.map((entry: CollectionEntry<'news'>) => ({
-    params: { slug: entry.id }, props: { entry },
-  }));
-}
+  const locales = ['zh-tw', 'en'];
 
+  return newsEntries.flatMap((entry: CollectionEntry<'news'>) =>
+    locales.map((lang) => ({ params: { lang, slug: entry.id }, props: { entry } }))
+  );
+}
 // 2. 取得該篇新聞資料
 const { entry } = Astro.props as { entry: CollectionEntry<'news'> };
 const { Content } = await render(entry);
@@ -23,9 +27,9 @@ const { Content } = await render(entry);
   <article class="bg-slate-50">
     <header class="bg-slate-950 text-slate-100">
       <div class="max-w-4xl mx-auto px-6 py-16 md:py-20">
-        <a href="/news" class="inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition-colors hover:text-cyan-200">
+        <a href={localeUrl('/news')} class="inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition-colors hover:text-cyan-200">
           <span aria-hidden="true">←</span>
-          回到新聞列表
+          {t('news.back', currentLocale)}
         </a>
         <p class="mt-6 text-cyan-300/80 tracking-[0.22em] uppercase text-xs md:text-sm">News Detail</p>
         <h1 class="mt-4 text-4xl md:text-6xl font-serif leading-tight text-white">{entry.data.title}</h1>
