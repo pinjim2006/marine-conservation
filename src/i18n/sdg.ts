@@ -22,7 +22,7 @@ const translations: Record<Locale, Record<SDGKey, string>> = {
         'sdg.hero.kicker': 'Sustainable Development Goals',
         'sdg.hero.title': 'SDG 14：永續海洋與保育',
         'sdg.hero.desc': 'SDG 14 是聯合國永續發展目標中，專注於海洋生態的重要目標。它希望透過減少污染、保護生態系、強化漁業管理與國際合作，讓海洋資源能被長期、永續地使用，並保障依賴海洋維生的社群。',
-        'sdg.why.title': '為什麼 SDG 14 很重要？',
+        'sdg.why.title': '為什麼 SDG 14 很重要',
         'sdg.why.1.title': '守護生物多樣性',
         'sdg.why.1.desc': '海洋是數百萬物種的棲地，健康的海洋可以維持食物鏈平衡，避免生態系崩解。',
         'sdg.why.2.title': '維繫人類生活',
