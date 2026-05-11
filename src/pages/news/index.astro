@@ -30,7 +30,7 @@ const sortedNews = allNews.sort((a: CollectionEntry<'news'>, b: CollectionEntry<
               <h2 class="mt-3 text-xl font-semibold leading-snug text-white">{item.data.title}</h2>
               <p class="mt-3 text-sm text-slate-300/80">{item.data.date.toLocaleDateString('zh-TW')}</p>
               <p class="mt-4 line-clamp-4 text-slate-300/90 leading-relaxed">{item.data.summary}</p>
-              <a href={`${import.meta.env.BASE_URL}news/${item.id}`} class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition-colors hover:text-cyan-200">
+              <a href={`/news/${item.id}`} class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition-colors hover:text-cyan-200">
                 閱讀全文
                 <span aria-hidden="true">→</span>
               </a>
