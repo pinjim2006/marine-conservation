@@ -21,7 +21,7 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm ci # 使用 ci 確保安裝環境與 package-lock.json 完全一致
+        run: npm install
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
