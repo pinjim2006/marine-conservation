@@ -152,12 +152,12 @@ const detailedTargets: SdgTarget[] = [
 						<div class="absolute inset-0 rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-5 shadow-md [backface-visibility:hidden] flex flex-col">
 							<p class="text-xs font-semibold tracking-[0.2em] text-sky-700">TARGET {target.id}</p>
 							<Image src={target.src} alt={`${target.id} ${tsdg(target.title, currentLocale)}`} class="mt-3 w-full aspect-[1524/2223] object-contain object-top rounded-xl bg-slate-100" loading="lazy" />
-							<h3 class="mt-4 text-lg font-semibold leading-snug min-h-[56px]">{tsdg(target.title, currentLocale)}</h3>
+							<h3 class="mt-4 text-xl font-semibold leading-snug min-h-[56px]">{tsdg(target.title, currentLocale)}</h3>
 							</div>
 							<div class="absolute inset-0 rounded-2xl border border-cyan-100 bg-slate-900 p-6 text-slate-100 [backface-visibility:hidden] [transform:rotateY(180deg)] shadow-xl overflow-y-auto">
 								<p class="text-xs font-semibold tracking-[0.2em] text-cyan-300">TARGET {target.id}</p>
-								<h3 class="mt-3 text-lg font-semibold leading-snug">{tsdg(target.title, currentLocale)}</h3>
-								<p class="mt-4 text-sm leading-relaxed text-slate-200/90">{tsdg(target.desc, currentLocale)}</p>
+								<h3 class="mt-3 text-xl font-semibold leading-snug">{tsdg(target.title, currentLocale)}</h3>
+								<p class="mt-4 text-lg leading-relaxed text-slate-200/90">{tsdg(target.desc, currentLocale)}</p>
 							</div>
 						</div>
 					</article>
