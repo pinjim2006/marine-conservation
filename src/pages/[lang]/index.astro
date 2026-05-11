@@ -2,9 +2,16 @@
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import Layout from '../layouts/Layout.astro';
-import '../styles/index.css';
-import heroOcean from '../assets/hero-ocean.jpg';
+import Layout from '../../layouts/Layout.astro';
+import '../../styles/index.css';
+import heroOcean from '../../assets/hero-ocean.jpg';
+
+export async function getStaticPaths() {
+	return [
+		{ params: { lang: 'en' } },
+		{ params: { lang: 'zh' } },
+	];
+}
 
 const latestNews = (await getCollection('news', ({ data }) => {
     return import.meta.env.PROD ? data.draft !== true : true;
@@ -149,5 +156,5 @@ const latestNews = (await getCollection('news', ({ data }) => {
 </Layout>
 
 <script>
-	import '../scripts/index-hero.js';
+	import '../../scripts/index-hero.js';
 </script>

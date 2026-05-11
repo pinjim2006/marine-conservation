@@ -1,5 +1,5 @@
 ---
-import Layout from "../layouts/Layout.astro"
+import Layout from "../../layouts/Layout.astro"
 import "../styles/story.css"
 ---
 
@@ -126,7 +126,7 @@ import "../styles/story.css"
 		</main>
 
 		<script>
-			import { initStoryAnimations, cleanupStoryAnimations } from '../scripts/story-animations.js';
+			import { initStoryAnimations, cleanupStoryAnimations } from '../../scripts/story-animations.js';
 
 			document.addEventListener('DOMContentLoaded', initStoryAnimations);
 			document.addEventListener('astro:before-swap', cleanupStoryAnimations);

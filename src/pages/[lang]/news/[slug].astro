@@ -1,19 +1,19 @@
 ---
 import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
+import Layout from '../../../layouts/Layout.astro';
 
 // 1. 產生所有路徑
 export async function getStaticPaths() {
   const newsEntries = await getCollection('news', ({ data }) => {
     return import.meta.env.PROD ? data.draft !== true : true;
   });
-  
-  return newsEntries.map((entry: CollectionEntry<'news'>) => ({
-    params: { slug: entry.id }, props: { entry },
-  }));
-}
+  const locales = ['zh-tw', 'en'];
 
+  return newsEntries.flatMap((entry: CollectionEntry<'news'>) =>
+    locales.map((lang) => ({ params: { lang, slug: entry.id }, props: { entry } }))
+  );
+}
 // 2. 取得該篇新聞資料
 const { entry } = Astro.props as { entry: CollectionEntry<'news'> };
 const { Content } = await render(entry);

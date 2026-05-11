@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import Layout from "../../layouts/Layout.astro"
+import Layout from '../../../layouts/Layout.astro';
 
 const allNews = await getCollection('news', ({ data }) => {
   return import.meta.env.PROD ? data.draft !== true : true;
