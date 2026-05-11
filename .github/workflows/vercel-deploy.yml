@@ -13,8 +13,15 @@ jobs:
     steps:
       - name: Checkout Project
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 14
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci # 使用 ci 確保安裝環境與 package-lock.json 完全一致
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
