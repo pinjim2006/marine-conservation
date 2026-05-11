@@ -10,6 +10,14 @@ export function formatDate(input: string | Date, locale = 'zh-tw') {
     }).format(date);
   }
 
+  if (locale === 'ja') {
+    return new Intl.DateTimeFormat('ja-JP', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }).format(date);
+  }
+
   // default zh-TW
   return new Intl.DateTimeFormat('zh-TW', {
     year: 'numeric',
@@ -20,6 +28,6 @@ export function formatDate(input: string | Date, locale = 'zh-tw') {
 
 export function prefixLocalePath(path: string, locale = 'zh-tw') {
   const normalized = path.startsWith('/') ? path : `/${path}`;
-  const loc = locale === 'en' ? 'en' : 'zh-tw';
+  const loc = locale === 'en' || locale === 'ja' ? locale : 'zh-tw';
   return `/${loc}${normalized}`;
 }

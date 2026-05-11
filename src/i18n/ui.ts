@@ -11,7 +11,9 @@ export type UIKey =
 	| 'news.back'
 	| 'general.scrollDown';
 
-const translations: Record<string, Record<UIKey, string>> = {
+type Locale = 'zh-tw' | 'en' | 'ja';
+
+const translations: Record<Locale, Record<UIKey, string>> = {
 	'zh-tw': {
 		'nav.home': '首頁',
 		'nav.story': '漁夫的故事',
@@ -36,10 +38,23 @@ const translations: Record<string, Record<UIKey, string>> = {
 		'news.back': 'Back to news',
 		'general.scrollDown': 'Scroll Down',
 	},
+	ja: {
+		'nav.home': 'ホーム',
+		'nav.story': '漁師の物語',
+		'nav.game': '投網体験',
+		'nav.news': '関連ニュース',
+		'nav.sdg': 'SDG 14 について',
+		'cta.join': '行動に参加する',
+		'news.readMore': '続きを読む',
+		'news.latest': '最新ニュース',
+		'news.back': 'ニュース一覧に戻る',
+		'general.scrollDown': '下へスクロール',
+	},
 };
 
 export function t(key: UIKey, locale?: string) {
-	const loc = locale?.toLowerCase() === 'en' ? 'en' : 'zh-tw';
+	const normalized = locale?.toLowerCase();
+	const loc: Locale = normalized === 'en' || normalized === 'ja' ? normalized : 'zh-tw';
 	return translations[loc]?.[key] ?? translations['zh-tw'][key] ?? key;
 }
 

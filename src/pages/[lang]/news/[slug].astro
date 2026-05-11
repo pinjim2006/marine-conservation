@@ -12,7 +12,7 @@ export async function getStaticPaths() {
   const newsEntries = await getCollection('news', ({ data }) => {
     return import.meta.env.PROD ? data.draft !== true : true;
   });
-  const locales = ['zh-tw', 'en'];
+  const locales = ['zh-tw', 'en', 'ja'];
 
   return newsEntries.flatMap((entry: CollectionEntry<'news'>) =>
     locales.map((lang) => ({ params: { lang, slug: entry.id }, props: { entry } }))

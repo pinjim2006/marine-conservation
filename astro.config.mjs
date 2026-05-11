@@ -9,7 +9,7 @@ export default defineConfig({
 
   i18n: {
     defaultLocale: 'zh-tw',
-    locales: ['zh-tw', 'en'],
+    locales: ['zh-tw', 'en', 'ja'],
     routing: {
       // 建議設為 true，讓預設語言也有路徑前綴 (例如 /zh-tw/)
       // 這樣你在處理圖片路徑或連結時邏輯會比較一致

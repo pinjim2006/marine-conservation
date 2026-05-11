@@ -15,7 +15,9 @@ export type SDGKey =
     | 'sdg.target.14.b.title' | 'sdg.target.14.b.desc'
     | 'sdg.target.14.c.title' | 'sdg.target.14.c.desc'
 
-const translations: Record<string, Record<SDGKey, string>> = {
+type Locale = 'zh-tw' | 'en' | 'ja';
+
+const translations: Record<Locale, Record<SDGKey, string>> = {
     'zh-tw': {
         'sdg.hero.kicker': 'Sustainable Development Goals',
         'sdg.hero.title': 'SDG 14：永續海洋與保育',
@@ -100,10 +102,53 @@ const translations: Record<string, Record<SDGKey, string>> = {
         'sdg.target.14.c.title': 'Implement international ocean law',
         'sdg.target.14.c.desc': 'Ensure the full implementation of international law by states parties to the United Nations Convention on the Law of the Sea, including existing regional and international regimes, to conserve and sustainably use oceans and marine resources.',
     },
+    ja: {
+        'sdg.hero.kicker': '持続可能な開発目標',
+        'sdg.hero.title': 'SDG 14：海の豊かさを守ろう',
+        'sdg.hero.desc': 'SDG 14 は、海洋生態系に焦点を当てた国連の重要な目標です。汚染の削減、生態系の保護、漁業管理の強化、国際協力の推進を通じて、海洋資源を長期的かつ持続可能に利用できるようにすることを目指しています。',
+        'sdg.why.title': 'なぜ SDG 14 が重要なのか？',
+        'sdg.why.1.title': '生物多様性を守る',
+        'sdg.why.1.desc': '海は数百万種の生き物のすみかです。健全な海は食物連鎖のバランスを保ち、生態系の崩壊を防ぎます。',
+        'sdg.why.2.title': '人々の暮らしを支える',
+        'sdg.why.2.desc': '多くの人が漁業や沿岸経済に依存しています。海洋資源の安定は、仕事と食料安全保障に直接関わります。',
+        'sdg.why.3.title': '気候変動に対抗する',
+        'sdg.why.3.desc': '海は大量の二酸化炭素と熱を吸収します。海を守ることは、気候危機への地球の回復力を高めることでもあります。',
+        'sdg.targets.title': 'SDG 14 の目標カード',
+        'sdg.targets.instructions': 'カードにカーソルを合わせるか、スマートフォンでは長押しすると、裏面に目標の詳細が表示されます。',
+        'sdg.participate.title': '私たちにできること',
+        'sdg.participate.1': '使い捨てプラスチックを減らし、海に流れ込みやすい包装や用品を見直す。',
+        'sdg.participate.2': '透明な供給源と持続可能な漁法を採用した海産物を選ぶ。',
+        'sdg.participate.3': '海洋に関するニュースを追い、正確な情報を周囲と共有する。',
+        'sdg.participate.4': '海岸清掃、啓発、教育活動に参加し、保全を日常の行動にする。',
+        'sdg.cta.news': '関連ニュースを見る',
+        'sdg.target.14.title': 'SDG 14：海の豊かさを守ろう',
+        'sdg.target.14.desc': 'SDG 14 は、海洋生態系に焦点を当てた国連の重要な目標です。汚染の削減、生態系の保護、漁業管理の強化、国際協力の推進を通じて、海洋資源を長期的かつ持続可能に利用できるようにすることを目指しています。',
+        'sdg.target.14.1.title': '海洋汚染を減らす',
+        'sdg.target.14.1.desc': '2025 年までに、海洋ごみや栄養塩汚染を含む、陸上活動由来の汚染を中心に、あらゆる海洋汚染を予防し、大幅に削減します。',
+        'sdg.target.14.2.title': '生態系を保護し回復する',
+        'sdg.target.14.2.desc': '2020 年までに、海洋および沿岸生態系を持続可能な方法で管理・保護し、回復力を高め、健全で生産的な海を取り戻すための回復措置を講じます。',
+        'sdg.target.14.3.title': '海洋酸性化を減らす',
+        'sdg.target.14.3.desc': '海洋酸性化の影響を最小化・対処し、あらゆる段階での科学協力を強化します。',
+        'sdg.target.14.4.title': '持続可能な漁業',
+        'sdg.target.14.4.desc': '2020 年までに、漁獲を効果的に規制し、過剰漁獲や IUU 漁業、破壊的漁法を終わらせ、科学に基づく管理計画によって魚群を可能な限り速く最大持続生産量の水準まで回復させます。',
+        'sdg.target.14.5.title': '沿岸・海洋地域を保全する',
+        'sdg.target.14.5.desc': '2020 年までに、国内法および国際法、ならびに利用可能な最良の科学情報に基づき、沿岸および海洋地域の少なくとも 10% を保全します。',
+        'sdg.target.14.6.title': '有害な漁業補助金をなくす',
+        'sdg.target.14.6.desc': '2020 年までに、過剰漁獲につながる補助金を禁止し、IUU 漁業を助長する補助金を廃止し、そのような補助金を新たに導入しません。',
+        'sdg.target.14.7.title': '持続可能な海洋資源利用による経済的利益を高める',
+        'sdg.target.14.7.desc': '2030 年までに、漁業、水産養殖、観光などの持続可能な管理を通じて、海洋資源の持続可能な利用から得られる SIDS と LDCs への経済的利益を高めます。',
+        'sdg.target.14.a.title': '海洋の健全性のための科学知識・研究・技術を強化する',
+        'sdg.target.14.a.desc': '海洋の健全性を改善し、特に SIDS と LDCs における海洋生物多様性の開発貢献を強めるため、科学知識と研究能力を高め、海洋技術を移転します。',
+        'sdg.target.14.b.title': '小規模漁業者を支援する',
+        'sdg.target.14.b.desc': '小規模・自営の漁業者が海洋資源や市場へアクセスできるようにします。',
+        'sdg.target.14.c.title': '国際海洋法を実施する',
+        'sdg.target.14.c.desc': '国連海洋法条約の締約国による国際法の完全な実施を確保し、既存の地域的・国際的な制度を含め、海洋と海洋資源の保全と持続可能な利用を進めます。',
+    },
 };
 
 export function t(key: SDGKey, locale?: string) {
-    const loc = locale?.toLowerCase() === 'en' ? 'en' : 'zh-tw';
+    const normalized = locale?.toLowerCase();
+    const loc: Locale = normalized === 'en' || normalized === 'ja' ? normalized : 'zh-tw';
     return translations[loc]?.[key] ?? translations['zh-tw'][key] ?? key;
 }
 
