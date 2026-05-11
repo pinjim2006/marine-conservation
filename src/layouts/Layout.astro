@@ -2,6 +2,7 @@
 // src/layouts/Layout.astro
 import '../styles/global.css';
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import { t } from '../i18n/ui';
 
 interface Props {
 	title: string;
@@ -35,16 +36,16 @@ const htmlLang = currentLocale === 'zh-tw' ? 'zh-TW' : currentLocale;
 				</a>
 
 				<div class="hidden md:flex space-x-8 text-sm font-medium tracking-wide">
-						<a href={localeUrl('/')} class="hover:text-blue-400 transition-colors">首頁</a>
-						<a href={localeUrl('/story')} class="hover:text-blue-400 transition-colors">漁夫的故事</a>
-						<a href={localeUrl('/game')} class="hover:text-blue-400 transition-colors">撒網體驗</a>
-						<a href={localeUrl('/news')} class="hover:text-blue-400 transition-colors">相關新聞</a>
-						<a href={localeUrl('/sdg')} class="hover:text-blue-400 transition-colors">關於 SDG 14</a>
+						<a href={localeUrl('/')} class="hover:text-blue-400 transition-colors">{t('nav.home', currentLocale)}</a>
+						<a href={localeUrl('/story')} class="hover:text-blue-400 transition-colors">{t('nav.story', currentLocale)}</a>
+						<a href={localeUrl('/game')} class="hover:text-blue-400 transition-colors">{t('nav.game', currentLocale)}</a>
+						<a href={localeUrl('/news')} class="hover:text-blue-400 transition-colors">{t('nav.news', currentLocale)}</a>
+						<a href={localeUrl('/sdg')} class="hover:text-blue-400 transition-colors">{t('nav.sdg', currentLocale)}</a>
 				</div>
 
 				<div class="hidden md:flex items-center">
 						<a href={localeUrl('/sdg#how-to-participate')} class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-full text-xs font-bold transition-all shadow-lg shadow-blue-500/20">
-						加入行動
+						{t('cta.join', currentLocale)}
 					</a>
 				</div>
 
@@ -61,15 +62,15 @@ const htmlLang = currentLocale === 'zh-tw' ? 'zh-TW' : currentLocale;
 
 					<div class="mobile-menu-panel absolute left-1/2 top-full z-50 mt-0 w-screen border-t border-white/10 bg-slate-950/95 shadow-2xl backdrop-blur-xl">
 						<div class="flex flex-col text-sm font-medium">
-							<a href={localeUrl('/')} class="border-b border-white/10 px-4 py-4 text-center text-white transition-colors hover:bg-white/10">首頁</a>
-							<a href={localeUrl('/story')} class="border-b border-white/10 px-4 py-4 text-center text-white transition-colors hover:bg-white/10">漁夫的故事</a>
-							<a href={localeUrl('/game')} class="border-b border-white/10 px-4 py-4 text-center text-white transition-colors hover:bg-white/10">撒網體驗</a>
-							<a href={localeUrl('/news')} class="border-b border-white/10 px-4 py-4 text-center text-white transition-colors hover:bg-white/10">相關新聞</a>
-							<a href={localeUrl('/sdg')} class="px-4 py-4 text-center text-white transition-colors hover:bg-white/10">關於 SDG 14</a>
+							<a href={localeUrl('/')} class="border-b border-white/10 px-4 py-4 text-center text-white transition-colors hover:bg-white/10">{t('nav.home', currentLocale)}</a>
+							<a href={localeUrl('/story')} class="border-b border-white/10 px-4 py-4 text-center text-white transition-colors hover:bg-white/10">{t('nav.story', currentLocale)}</a>
+							<a href={localeUrl('/game')} class="border-b border-white/10 px-4 py-4 text-center text-white transition-colors hover:bg-white/10">{t('nav.game', currentLocale)}</a>
+							<a href={localeUrl('/news')} class="border-b border-white/10 px-4 py-4 text-center text-white transition-colors hover:bg-white/10">{t('nav.news', currentLocale)}</a>
+							<a href={localeUrl('/sdg')} class="px-4 py-4 text-center text-white transition-colors hover:bg-white/10">{t('nav.sdg', currentLocale)}</a>
 						</div>
 						<div class="border-t border-white/10">
 							<a href={localeUrl('/sdg#how-to-participate')} class="block px-4 py-4 text-center text-sm font-bold text-white transition-colors hover:bg-blue-600/30">
-								加入行動
+								{t('cta.join', currentLocale)}
 							</a>
 						</div>
 					</div>

@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
+import { t } from '../../i18n/ui';
 import img141 from '../../assets/sdg/GOAL_14_TARGET_14.1.png';
 import img142 from '../../assets/sdg/GOAL_14_TARGET_14.2.png';
 import img143 from '../../assets/sdg/GOAL_14_TARGET_14.3.png';
@@ -106,7 +107,7 @@ const detailedTargets = [
 			</div>
 		</div>
 		<div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/30 text-xs tracking-[0.3em] uppercase animate-bounce">
-			Scroll Down
+			{t('general.scrollDown', currentLocale)}
 		</div>
 	</section>
 
@@ -168,7 +169,7 @@ const detailedTargets = [
 			</ul>
 			<div class="mt-8">
 				<a href={localeUrl('/news')} class="inline-flex items-center gap-2 rounded-full bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-cyan-300">
-					查看相關新聞
+					{t('nav.news', currentLocale)}
 				</a>
 			</div>
 		</div>
