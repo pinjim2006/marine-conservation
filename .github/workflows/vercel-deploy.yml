@@ -26,11 +26,9 @@ jobs:
       - name: Install Vercel CLI
         run: npm install vercel@latest
 
-      - name: Pull Vercel Environment Information
-        run: npx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build Astro Project
+        run: npm run build
 
-      - name: Build Project Artifacts
-        run: npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Deploy Project Artifacts to Vercel
-        run: npx vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy to Vercel (API Mode)
+        run: |
+          npx vercel --token=${{ secrets.VERCEL_TOKEN }} --name marine-conservation --prod --confirm --yes
