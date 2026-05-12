@@ -29,6 +29,9 @@ jobs:
       - name: Build Astro Project
         run: npm run build
 
+      - name: Anonymize Project (Remove Git Metadata)
+        run: rm -rf .git
+
       - name: Deploy to Vercel (API Mode)
         run: |
           npx vercel --token=${{ secrets.VERCEL_TOKEN }} --name marine-conservation --prod --confirm --yes
