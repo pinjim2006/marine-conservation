@@ -7,7 +7,7 @@ import '../../styles/index.css';
 import heroOcean from '../../assets/hero-ocean.jpg';
 import { t } from '../../i18n/ui';
 import { formatDate } from '../../i18n/utils';
-
+import {t  as tindex } from '../../i18n/index';
 export async function getStaticPaths() {
 	return [
 		{ params: { lang: 'en' } },
@@ -26,7 +26,7 @@ const latestNews = (await getCollection('news', ({ data }) => {
 .slice(0, 3);
 ---
 
-<Layout title="漁夫視角的海洋保育 | 首頁">
+<Layout title={tindex('home.meta.title', currentLocale)}>
 	<section id="hero" class="relative h-screen w-full flex items-center justify-center overflow-hidden">
 		<div id="hero-bg" class="absolute inset-0 z-0 will-change-transform">
 			<Image 
@@ -41,11 +41,11 @@ const latestNews = (await getCollection('news', ({ data }) => {
 
 		<div id="hero-content" class="relative z-10 text-center px-6 will-change-transform">
 			<h1 id="hero-title" class="text-white text-5xl md:text-7xl font-serif mb-6 opacity-0 translate-y-10">
-				A Fisherman's Perspective
+				{tindex('home.hero.title', currentLocale)}
+
 			</h1>
-			<p id="hero-desc" class="text-blue-200 text-lg md:text-2xl max-w-2xl mx-auto font-light leading-relaxed opacity-0 translate-y-10">
-				海洋曾經養活了我的家人，但現在，<br>
-				每一次撒網，我都在恐懼會撈起什麼...
+			<p id="hero-desc" class="text-blue-200 text-lg md:text-2xl max-w-2xl mx-auto font-light leading-relaxed opacity-0 translate-y-10" set:html={tindex('home.hero.desc', currentLocale)}>
+			    
 			</p>
 			<div id="hero-cta" class="mt-12 opacity-0 translate-y-10">
 				<a href={localeUrl('/story')} class="group inline-flex items-center gap-3 px-10 py-4 rounded-full border border-white/35 bg-white/10 backdrop-blur-xl text-white font-bold tracking-widest transition-all duration-500 hover:-translate-y-1 hover:bg-white/20 hover:border-white/60 hover:shadow-[0_12px_35px_rgba(148,163,184,0.35)]">
@@ -70,28 +70,29 @@ const latestNews = (await getCollection('news', ({ data }) => {
 		</div>
 		<div class="relative max-w-6xl mx-auto px-6 py-24 md:py-32">
 			<div class="max-w-3xl">
-				<p class="text-cyan-300/80 tracking-[0.22em] uppercase text-xs md:text-sm">Ocean Reality</p>
-				<h2 class="mt-4 text-3xl md:text-5xl font-serif leading-tight">海面看似平靜</br>海底其實正在快速失衡</h2>
+				<p class="text-cyan-300/80 tracking-[0.22em] uppercase text-xs md:text-sm">{tindex('home.reality.kicker', currentLocale)}</p>
+</p>
+				<h2 class="mt-4 text-3xl md:text-5xl font-serif leading-tight">{tindex('home.reality.1.title', currentLocale)}</h2>
 				<p class="mt-6 text-slate-300/85 leading-relaxed md:text-lg">
-					塑膠微粒、過度捕撈與海水升溫，正在同時改變漁獲結構。很多老漁民說，近十年捕到的魚「越來越小、越來越少、越來越不穩定」。
+					{tindex('home.reality.1.desc', currentLocale)}
 				</p>
 			</div>
 
 			<div class="mt-14 grid gap-6 md:grid-cols-3">
 				<article class="rounded-2xl border border-cyan-200/15 bg-white/5 backdrop-blur-sm p-6">
 					<p class="text-cyan-200 text-sm tracking-wide"># 01</p>
-					<h3 class="mt-3 text-xl font-semibold">近岸魚群減少</h3>
-					<p class="mt-3 text-slate-300/90 leading-relaxed">沿岸魚種密度下降，漁船需要花更多油錢跑得更遠，作業時間也更長。</p>
+					<h3 class="mt-3 text-xl font-semibold">{tindex('home.reality.1.title', currentLocale)}</h3>
+					<p class="mt-3 text-slate-300/90 leading-relaxed">{tindex('home.reality.1.desc', currentLocale)}</p>
 				</article>
 				<article class="rounded-2xl border border-cyan-200/15 bg-white/5 backdrop-blur-sm p-6">
 					<p class="text-cyan-200 text-sm tracking-wide"># 02</p>
-					<h3 class="mt-3 text-xl font-semibold">混獲與廢棄物增加</h3>
-					<p class="mt-3 text-slate-300/90 leading-relaxed">漁網帶回更多非目標生物與塑膠垃圾，傷害生態也壓縮了漁民收益。</p>
+					<h3 class="mt-3 text-xl font-semibold">{tindex('home.reality.2.title', currentLocale)}</h3>
+					<p class="mt-3 text-slate-300/90 leading-relaxed">{tindex('home.reality.2.desc', currentLocale)}</p>
 				</article>
 				<article class="rounded-2xl border border-cyan-200/15 bg-white/5 backdrop-blur-sm p-6">
 					<p class="text-cyan-200 text-sm tracking-wide"># 03</p>
-					<h3 class="mt-3 text-xl font-semibold">生計不確定性上升</h3>
-					<p class="mt-3 text-slate-300/90 leading-relaxed">漁季變短、魚價波動變大，讓年輕世代更難投入，也讓地方文化逐步流失。</p>
+					<h3 class="mt-3 text-xl font-semibold">{tindex('home.reality.3.title', currentLocale)}</h3>
+					<p class="mt-3 text-slate-300/90 leading-relaxed">{tindex('home.reality.3.desc', currentLocale)}</p>
 				</article>
 			</div>
 		</div>
@@ -100,10 +101,10 @@ const latestNews = (await getCollection('news', ({ data }) => {
 	<section class="bg-slate-100 text-slate-900">
 		<div class="max-w-6xl mx-auto px-6 py-20 md:py-24 grid gap-10 lg:grid-cols-[1.15fr_1fr] items-start">
 			<div>
-				<p class="text-sky-700 tracking-[0.2em] uppercase text-xs md:text-sm">What You Can Do</p>
-				<h2 class="mt-4 text-3xl md:text-5xl font-serif leading-tight">從今天開始</br>讓海洋恢復呼吸</h2>
+				<p class="text-sky-700 tracking-[0.2em] uppercase text-xs md:text-sm">{tindex('home.action.kicker', currentLocale)}</p>
+				<h2 class="mt-4 text-3xl md:text-5xl font-serif leading-tight" set:html={tindex('home.action.title', currentLocale)}></h2>
 				<p class="mt-6 text-slate-700 leading-relaxed md:text-lg">
-					海洋保育不只是一個口號，而是每次選擇累積出來的結果。理解故事、參與行動、擴散影響力，都是改變的一部分。
+					{tindex('home.action.desc', currentLocale)}
 				</p>
 				<div class="mt-9 flex flex-wrap gap-4">
 					<a href={localeUrl('/sdg')} class="px-6 py-3 rounded-full bg-sky-700 text-white font-semibold hover:bg-sky-600 transition-colors">{t('nav.sdg', currentLocale)}</a>
@@ -111,11 +112,11 @@ const latestNews = (await getCollection('news', ({ data }) => {
 				</div>
 			</div>
 			<div class="rounded-3xl border border-slate-200 bg-white p-7 shadow-[0_25px_60px_rgba(15,23,42,0.08)]">
-				<h3 class="text-lg font-bold tracking-wide">本週行動清單</h3>
+				<h3 class="text-lg font-bold tracking-wide">{tindex('home.action.list.title', currentLocale)}</h3>
 				<ul class="mt-5 space-y-4 text-slate-700 leading-relaxed">
-					<li>減少一次性塑膠製品，尤其是吸管與餐具。</li>
-					<li>支持永續漁業標章商品，讓市場反映生態價值。</li>
-					<li>轉發可信新聞與資料，提升身邊人的海洋意識。</li>
+					<li>{tindex('home.action.list.1', currentLocale)}</li>
+					<li>{tindex('home.action.list.2', currentLocale)}</li>
+					<li>{tindex('home.action.list.3', currentLocale)}</li>
 				</ul>
 			</div>
 		</div>
@@ -125,10 +126,10 @@ const latestNews = (await getCollection('news', ({ data }) => {
 		<div class="max-w-6xl mx-auto px-6 py-20 md:py-24">
 			<div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
 				<div class="max-w-2xl">
-					<p class="text-cyan-300/80 tracking-[0.22em] uppercase text-xs md:text-sm">Latest News</p>
-					<h2 class="mt-4 text-3xl md:text-5xl font-serif leading-tight">把海洋新聞變成採取行動的資訊</h2>
+					<p class="text-cyan-300/80 tracking-[0.22em] uppercase text-xs md:text-sm">{tindex('home.news.kicker', currentLocale)}</p>
+					<h2 class="mt-4 text-3xl md:text-5xl font-serif leading-tight">{tindex('home.news.title', currentLocale)}</h2>
 					<p class="mt-5 text-slate-300/85 leading-relaxed md:text-lg">
-						整理最新的海洋保育與漁業新聞，讓你快速掌握政策、環境與生態變化。
+						{tindex('home.news.desc', currentLocale)}
 					</p>
 				</div>
 				<a href={localeUrl('/news')} class="inline-flex w-fit items-center justify-center rounded-full border border-cyan-200/25 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
