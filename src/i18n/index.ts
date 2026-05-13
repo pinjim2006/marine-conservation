@@ -66,7 +66,44 @@ export const ui = {
     'home.news.title': 'Turn Ocean News into Actionable Information',
     'home.news.desc': 'Curated latest marine conservation and fisheries news.',
   },
-  'ja': {}
+  'ja': {
+    'nav.story': '漁師の物語',
+    'nav.sdg': 'SDG 14について',
+    'nav.news': '関連ニュース',
+
+    'general.scrollDown': '下にスクロール',
+
+    'home.meta.title': '漁師の視点から見る海洋保護 | ホーム',
+
+    'home.hero.title': "A Fisherman's Perspective",
+    'home.hero.desc': '海はかつて私の家族を支えてくれた。<br>しかし今では、網を投げるたびに、何が引き上がるのか恐れている…。',
+
+    'home.reality.kicker': 'Ocean Reality',
+    'home.reality.title': '海面は穏やかに見えても<br>海の中では急速にバランスが崩れている',
+    'home.reality.desc': 'マイクロプラスチック、乱獲、海水温の上昇が同時に漁獲の構造を変えています。多くのベテラン漁師は、この10年で「魚がどんどん小さく、少なく、不安定になっている」と語っています。',
+
+    'home.reality.1.title': '沿岸の魚群減少',
+    'home.reality.1.desc': '沿岸部の魚の密度が低下し、漁船はより遠くまで行かなければならず、燃料費や作業時間も増えています。',
+
+    'home.reality.2.title': '混獲と廃棄物の増加',
+    'home.reality.2.desc': '漁網には目的外の生物やプラスチックごみが以前より多くかかり、生態系への被害だけでなく、漁師の収入も圧迫しています。',
+
+    'home.reality.3.title': '生計の不安定化',
+    'home.reality.3.desc': '漁期の短縮や魚価の変動拡大により、若い世代が漁業に参入しにくくなり、地域文化も徐々に失われつつあります。',
+
+    'home.action.kicker': 'What You Can Do',
+    'home.action.title': '今日から始めよう<br>海に再び呼吸を取り戻すために',
+    'home.action.desc': '海洋保護は単なるスローガンではなく、一つひとつの選択の積み重ねです。物語を知り、行動に参加し、影響を広げることは、すべて変化の一部になります。',
+
+    'home.action.list.title': '今週のアクションリスト',
+    'home.action.list.1': '特にストローや使い捨て食器など、使い捨てプラスチック製品を減らす。',
+    'home.action.list.2': '持続可能な漁業認証の商品を選び、市場に生態系の価値を反映させる。',
+    'home.action.list.3': '信頼できるニュースや資料を共有し、周囲の人々の海洋意識を高める。',
+
+    'home.news.kicker': 'Latest News',
+    'home.news.title': '海洋ニュースを行動につながる情報へ',
+    'home.news.desc': '最新の海洋保護や漁業に関するニュースを整理し、政策・環境・生態系の変化を素早く把握できるようにします。',
+  }
 } as const;
 
 // 🌟 魔法在這裡：自動將 zh-tw 裡所有的 key 抓出來變成型別
