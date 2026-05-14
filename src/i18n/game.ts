@@ -1,9 +1,11 @@
-export type indexKey =
-  | 'home.meta.title'| 'home.hero.title'| 'home.hero.desc'| 'home.reality.kicker'| 'home.reality.title'
-  | 'home.reality.desc'| 'home.reality.1.title'  | 'home.reality.1.desc'  | 'home.reality.2.title'
-  | 'home.reality.2.desc'  | 'home.reality.3.title'  | 'home.reality.3.desc'  | 'home.action.kicker'  | 'home.action.title'
-  | 'home.action.desc'  | 'home.action.list.title'  | 'home.action.list.1'  | 'home.action.list.2'  | 'home.action.list.3'
-  | 'home.news.kicker'  | 'home.news.title'  | 'home.news.desc';
+export type gameKey =
+  | 'game.meta.title'| 'game.hero.title'| 'game.hero.desc'| 'game.canvas.prompt'| 'game.btn.cast'
+  | 'game.btn.tenDraw'| 'game.btn.reset'  | 'game.stats.title'  | 'game.stats.castCount'
+  | 'game.stats.fishCount'  | 'game.stats.trashCount'  | 'game.stats.successRate'  | 'game.stats.probability'
+  | 'game.panel.close'  | 'game.panel.trash.type'  | 'game.panel.trash.timeLabel'  | 'game.panel.trash.unknown'  | 'game.trash.acknowledge' | 'game.panel.trash.acknowledge'
+  | 'game.panel.success.title'  | 'game.panel.success.desc'  | 'game.panel.success.continue'  | 'game.panel.tenDraw.kicker'  | 'game.panel.tenDraw.title' 
+  | 'game.panel.tenDraw.desc'  | 'game.edu.title'  | 'game.edu.1.title'  | 'game.edu.1.desc'  | 'game.edu.2.title'  | 'game.edu.2.desc'  | 'game.edu.3.title'  | 'game.edu.3.desc'
+  | 'game.action.title'  | 'game.action.1'  | 'game.action.2'  | 'game.action.3'  | 'game.action.4';
 
 // src/i18n/index.ts
 

@@ -35,11 +35,6 @@
 		font-size: 0.6rem;
 		line-height: 1rem;
 	}
-
-	.ten-draw-card-face .text-[10px] {
-		font-size: 0.52rem;
-		line-height: 0.75rem;
-	}
 }
 
 .ten-draw-card:hover:not(:disabled) {

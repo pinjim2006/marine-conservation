@@ -645,7 +645,7 @@ resetBtn.addEventListener('click', () => {
 	fishCount = 0;
 	trashCount = 0;
 	itemsContainer.innerHTML = '';
-	centerText.innerHTML = '<p class="text-xl text-slate-300/60 font-semibold text-center">點擊準備好撒網！</p>';
+	
 	if (tenDrawPanel) tenDrawPanel.style.display = 'none';
 	if (tenDrawTimer) {
 		clearTimeout(tenDrawTimer);

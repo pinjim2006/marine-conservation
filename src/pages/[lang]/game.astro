@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import SakanaWidget from '../../components/SakanaWidget.astro';
+import {t  as tgame } from '../../i18n/game';
 
 export async function getStaticPaths() {
 	return [
@@ -9,9 +10,11 @@ export async function getStaticPaths() {
 		{ params: { lang: 'zh-tw' } },
 	];
 }
----
+const currentLocale = Astro.currentLocale ?? 'zh-tw';
+const localeUrl = (path: string) => `/${currentLocale}${path}`;
 
-<Layout title="撒網體驗 | 漁夫視角的海洋保育">
+---
+<Layout title={tgame('game.meta.title', currentLocale)}>
 	<section class="relative min-h-screen bg-slate-950 text-slate-100 overflow-hidden">
 		<!-- 裝飾背景 -->
 		<div class="absolute inset-0 opacity-20">
@@ -22,9 +25,9 @@ export async function getStaticPaths() {
 		<div class="relative max-w-6xl mx-auto px-6 py-12 md:py-20">
 			<!-- 標題區 -->
 			<div class="text-center mb-16">
-				<h1 class="text-4xl md:text-5xl font-serif font-bold mb-4">撒網體驗</h1>
+				<h1 class="text-4xl md:text-5xl font-serif font-bold mb-4">{tgame('game.hero.title', currentLocale)}</h1>
 				<p class="text-lg text-cyan-100/80 max-w-2xl mx-auto">
-					踏入漁夫的日常，親身體驗撒網的刺激。但您會發現，現代海洋中充滿了意想不到的挑戰...
+					{tgame('game.hero.desc', currentLocale)}
 				</p>
 			</div>
 
@@ -50,20 +53,20 @@ export async function getStaticPaths() {
 
 							<!-- 中心提示文字 -->
 								<div id="centertext" class="absolute inset-0 flex items-center justify-center">
-								<p class="text-xl text-slate-300/60 font-semibold text-center">點擊準備好撒網！</p>
+								<p class="text-xl text-slate-300/60 font-semibold text-center">{tgame('game.canvas.prompt', currentLocale)}</p>
 							</div>
 						</div>
 
 						<!-- 控制按鈕 -->
 						<div class="flex flex-col sm:flex-row gap-4 justify-center">
 							<button id="castNetBtn" class="px-8 py-3 rounded-full border border-white/20 bg-white/5 text-white font-bold hover:bg-white/10 transition-all duration-300">
-								撒網
+								{tgame('game.btn.cast', currentLocale)}
 							</button>
 							<button id="tenDrawBtn" class="px-8 py-3 rounded-full border border-white/20 bg-white/5 text-white font-bold hover:bg-white/10 transition-all duration-300">
-								十連抽
+								{tgame('game.btn.tenDraw', currentLocale)}
 							</button>
 							<button id="resetBtn" class="px-8 py-3 rounded-full border border-white/10 bg-transparent text-slate-200 font-bold hover:bg-white/5 transition-all duration-300">
-								重新開始
+								{tgame('game.btn.reset', currentLocale)}
 							</button>
 						</div>
 					</div>
@@ -71,32 +74,32 @@ export async function getStaticPaths() {
 
 				<!-- 統計面板 -->
 				<div class="bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-md rounded-2xl border border-white/20 p-6 h-fit sticky top-8">
-					<h3 class="text-xl font-bold mb-6 text-cyan-300">統計</h3>
+					<h3 class="text-xl font-bold mb-6 text-cyan-300">{tgame('game.stats.title', currentLocale)}</h3>
 					
 					<div class="space-y-4">
 						<div class="bg-white/5 rounded-xl p-4 border border-white/10">
-							<p class="text-sm text-slate-300 mb-1">撒網次數</p>
+							<p class="text-sm text-slate-300 mb-1">{tgame('game.stats.castCount', currentLocale)}</p>
 							<p id="castCount" class="text-3xl font-bold text-cyan-300">0</p>
 						</div>
 
 						<div class="bg-white/5 rounded-xl p-4 border border-white/10">
-							<p class="text-sm text-slate-300 mb-1">捕到的魚</p>
+							<p class="text-sm text-slate-300 mb-1">{tgame('game.stats.fishCount', currentLocale)}</p>
 							<p id="fishCount" class="text-3xl font-bold text-green-400">0</p>
 						</div>
 
 						<div class="bg-white/5 rounded-xl p-4 border border-white/10">
-							<p class="text-sm text-slate-300 mb-1">撈到的垃圾</p>
+							<p class="text-sm text-slate-300 mb-1">{tgame('game.stats.trashCount', currentLocale)}</p>
 							<p id="trashCount" class="text-3xl font-bold text-orange-400">0</p>
 						</div>
 
 						<div class="bg-white/5 rounded-xl p-4 border border-white/10">
-							<p class="text-sm text-slate-300 mb-1">成功率</p>
+							<p class="text-sm text-slate-300 mb-1">{tgame('game.stats.successRate', currentLocale)}</p>
 							<p id="successRate" class="text-3xl font-bold text-red-400">0%</p>
 						</div>
 					</div>
 
 					<div class="mt-6 pt-6 border-t border-white/10">
-						<p class="text-xs text-slate-400 text-center">撈到魚的機率：20%<br>撈到垃圾的機率：80%</p>
+						<p class="text-xs text-slate-400 text-center">{tgame('game.stats.probability', currentLocale)}</p>
 					</div>
 				</div>
 			</div>
@@ -105,18 +108,18 @@ export async function getStaticPaths() {
 			<div id="trashInfoPanel" class="fixed inset-0 z-60 flex items-center justify-center" style="display: none;">
 				<div class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
 				<div class="relative bg-gradient-to-b from-slate-900 to-slate-800 border border-white/10 rounded-3xl p-8 max-w-md shadow-2xl mx-4">
-					<button id="closeInfoBtn" class="absolute top-4 right-4 text-sm text-slate-300 hover:text-white transition">關閉</button>
+					<button id="closeInfoBtn" class="absolute top-4 right-4 text-sm text-slate-300 hover:text-white transition">{tgame('game.panel.close', currentLocale)}</button>
 					
 					<div class="text-center">
 						<div id="trashIcon" class="mb-4 flex justify-center items-center"></div>
-						<h3 id="trashName" class="text-2xl font-bold text-slate-100 mb-2">垃圾類型</h3>
+						<h3 id="trashName" class="text-2xl font-bold text-slate-100 mb-2">{tgame('game.panel.trash.type', currentLocale)}</h3>
 						<div class="bg-white/5 rounded-xl p-4 mb-6 border border-white/10">
-							<p class="text-sm text-slate-400 mb-2">在海洋中分解所需時間</p>
-							<p id="decompositionTime" class="text-3xl font-bold text-slate-200">未知</p>
+							<p class="text-sm text-slate-400 mb-2">{tgame('game.panel.trash.timeLabel', currentLocale)}</p>
+							<p id="decompositionTime" class="text-3xl font-bold text-slate-200">{tgame('game.panel.trash.unknown', currentLocale)}</p>
 						</div>
 						<p id="trashMessage" class="text-slate-300 leading-relaxed mb-6 text-sm"></p>
 						<button id="acknowledgeBtn" class="px-6 py-3 rounded-full border border-white/10 bg-white/10 hover:bg-white/15 text-white font-bold transition-all duration-300">
-							我明白了
+							{tgame('game.panel.trash.acknowledge', currentLocale)}
 						</button>
 					</div>
 				</div>
@@ -126,14 +129,14 @@ export async function getStaticPaths() {
 			<div id="successPanel" class="fixed inset-0 z-60 flex items-center justify-center" style="display: none;">
 				<div class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
 				<div class="relative bg-gradient-to-b from-slate-900 to-slate-800 border border-white/10 rounded-3xl p-8 max-w-md shadow-2xl mx-4">
-						<button id="closeSuccessBtn" class="absolute top-4 right-4 text-sm text-slate-300 hover:text-white transition">關閉</button>
+						<button id="closeSuccessBtn" class="absolute top-4 right-4 text-sm text-slate-300 hover:text-white transition">{tgame('game.panel.close', currentLocale)}</button>
 					
 					<div class="text-center">
 						<div id="successIcon" class="mb-4 flex justify-center items-center"></div>
-						<h3 class="text-2xl font-bold text-slate-100 mb-4">太棒了</h3>
-						<p class="text-slate-300 leading-relaxed mb-6">您成功捕到了一條魚，但請記住，適度捕撈才是永續漁業的關鍵。</p>
+						<h3 class="text-2xl font-bold text-slate-100 mb-4">{tgame('game.panel.success.title', currentLocale)}</h3>
+						<p class="text-slate-300 leading-relaxed mb-6">{tgame('game.panel.success.desc', currentLocale)}</p>
 						<button id="closeSuccessBtnConfirm" class="px-6 py-3 rounded-full border border-white/10 bg-white/10 hover:bg-white/15 text-white font-bold transition-all duration-300">
-							繼續
+							{tgame('game.panel.success.continue', currentLocale)}
 						</button>
 					</div>
 				</div>
@@ -143,11 +146,11 @@ export async function getStaticPaths() {
 			<div id="tenDrawPanel" class="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto px-3 py-3 sm:items-center sm:px-6 sm:py-8" style="display: none;">
 				<div class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
 				<div class="relative flex w-full max-w-3xl max-h-[calc(100svh-1.5rem)] min-h-0 flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-slate-900 to-slate-800 p-4 shadow-2xl sm:p-8">
-					<button id="closeTenDrawBtn" class="absolute top-4 right-4 text-sm text-slate-300 hover:text-white transition">關閉</button>
+					<button id="closeTenDrawBtn" class="absolute top-4 right-4 text-sm text-slate-300 hover:text-white transition">{tgame('game.panel.close', currentLocale)}</button>
 					<div class="shrink-0 text-center mb-4 sm:mb-6">
-						<p class="text-cyan-200 text-[10px] sm:text-xs tracking-[0.22em] uppercase">Ten Draw</p>
-						<h3 class="text-xl sm:text-2xl md:text-3xl font-bold text-slate-100 mt-2 sm:mt-3">十連抽結果</h3>
-						<p class="text-slate-400 text-xs sm:text-sm mt-2">點選任一項目可查看詳細資訊</p>
+						<p class="text-cyan-200 text-xs sm:text-xs tracking-[0.22em] uppercase">Ten Draw</p>
+						<h3 class="text-xl sm:text-2xl md:text-3xl font-bold text-slate-100 mt-2 sm:mt-3">{tgame('game.panel.tenDraw.title', currentLocale)}</h3>
+						<p class="text-slate-400 text-xs sm:text-sm mt-2">{tgame('game.panel.tenDraw.desc', currentLocale)}</p>
 					</div>
 					<div id="tenDrawResults" class="grid min-h-0 flex-1 grid-cols-2 content-start gap-2 overflow-y-auto overscroll-contain pb-2 pr-1 touch-pan-y sm:gap-4 sm:grid-cols-2 lg:grid-cols-5"></div>
 				</div>
@@ -158,32 +161,32 @@ export async function getStaticPaths() {
 	<!-- 教育資訊區 -->
 	<section class="bg-slate-900 text-slate-100 py-16 md:py-20">
 		<div class="max-w-6xl mx-auto px-6">
-			<h2 class="text-3xl md:text-4xl font-serif font-bold mb-10">為什麼海洋中充滿垃圾？</h2>
+			<h2 class="text-3xl md:text-4xl font-serif font-bold mb-10">{tgame('game.edu.title', currentLocale)}</h2>
 			
 			<div class="grid gap-8 md:grid-cols-3">
 				<article class="rounded-2xl border border-slate-700 bg-slate-800/50 p-6">
-					<h3 class="text-xl font-bold mb-3">陸上污染</h3>
-					<p class="text-slate-300 leading-relaxed text-sm">城市和工業的廢棄物經由河流流入海洋，成為海洋污染的主要來源，約80%的海洋垃圾來自陸地。</p>
+					<h3 class="text-xl font-bold mb-3">{tgame('game.edu.1.title', currentLocale)}</h3>
+					<p class="text-slate-300 leading-relaxed text-sm">{tgame('game.edu.1.desc', currentLocale)}</p>
 				</article>
 
 				<article class="rounded-2xl border border-slate-700 bg-slate-800/50 p-6">
-					<h3 class="text-xl font-bold mb-3">分解時間</h3>
-					<p class="text-slate-300 leading-relaxed text-sm">塑膠袋需要500年才能分解，釣魚線需要600年，連最「容易」分解的物品也需要數十年。許多海洋生物因此受傷。</p>
+					<h3 class="text-xl font-bold mb-3">{tgame('game.edu.2.title', currentLocale)}</h3>
+					<p class="text-slate-300 leading-relaxed text-sm">{tgame('game.edu.2.desc', currentLocale)}</p>
 				</article>
 
 				<article class="rounded-2xl border border-slate-700 bg-slate-800/50 p-6">
-					<h3 class="text-xl font-bold mb-3">生態威脅</h3>
-					<p class="text-slate-300 leading-relaxed text-sm">海洋生物誤食或被纏繞導致傷害或死亡。永續漁業的推動尤為重要，才能保護既有的海洋資源。</p>
+					<h3 class="text-xl font-bold mb-3">{tgame('game.edu.3.title', currentLocale)}</h3>
+					<p class="text-slate-300 leading-relaxed text-sm">{tgame('game.edu.3.desc', currentLocale)}</p>
 				</article>
 			</div>
 
 			<div class="mt-12 bg-gradient-to-r from-cyan-900/40 to-blue-900/40 rounded-2xl border border-cyan-400/30 p-8">
-				<h3 class="text-2xl font-bold mb-4">我們可以做什麼？</h3>
+				<h3 class="text-2xl font-bold mb-4">{tgame('game.action.title', currentLocale)}</h3>
 				<ul class="space-y-3 text-slate-200">
-					<li class="flex gap-3"><span>減少一次性塑膠製品的使用，改用可重複使用的購物袋和水瓶</span></li>
-					<li class="flex gap-3"><span>支持和購買來自永續漁業認證的海鮮產品</span></li>
-					<li class="flex gap-3"><span>參與淨灘活動，直接清潔我們的沿海地區</span></li>
-					<li class="flex gap-3"><span>提高環保意識，教育身邊的人關於海洋保育的重要性</span></li>
+					<li class="flex gap-3"><span>{tgame('game.action.1', currentLocale)}</span></li>
+					<li class="flex gap-3"><span>{tgame('game.action.2', currentLocale)}</span></li>
+					<li class="flex gap-3"><span>{tgame('game.action.3', currentLocale)}</span></li>
+					<li class="flex gap-3"><span>{tgame('game.action.4', currentLocale)}</span></li>
 				</ul>
 			</div>
 			</div>
