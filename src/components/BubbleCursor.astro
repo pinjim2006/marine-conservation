@@ -1,0 +1,111 @@
+---
+// src/components/BubbleCursor.astro
+---
+
+<!-- 準備一個滿版畫布，不影響下方元素的點擊 -->
+<canvas id="bubble-canvas"></canvas>
+
+<style>
+  #bubble-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* 讓滑鼠點擊穿透畫布，不影響網頁原本的按鈕 */
+    z-index: 9999;        /* 確保在最上層 */
+  }
+</style>
+
+<script>
+  class BubbleEffect {
+    canvas: HTMLCanvasElement;
+    ctx: CanvasRenderingContext2D;
+    particles: any[];
+
+    constructor(canvas: HTMLCanvasElement) {
+      this.canvas = canvas;
+      this.ctx = canvas.getContext('2d')!;
+      this.particles = [];
+      this.init();
+    }
+
+    init() {
+      this.resizeCanvas();
+      window.addEventListener('resize', () => this.resizeCanvas());
+      window.addEventListener('mousemove', (e) => this.addParticle(e.clientX, e.clientY));
+      
+      // 開始動畫迴圈
+      this.animate();
+    }
+
+    resizeCanvas() {
+      this.canvas.width = window.innerWidth;
+      this.canvas.height = window.innerHeight;
+    }
+
+    addParticle(x: number, y: number) {
+      // 限制同時存在的粒子數量以維持效能（降低密度）
+      if (this.particles.length >= 50) return;
+      // 降低生成頻率：只有部分移動事件會產生氣泡
+      if (Math.random() > 0.45) return;
+
+      this.particles.push({
+        x: x,
+        y: y,
+        size: Math.random() * 8 + 4, // 氣泡大小：4px ~ 12px
+        // 減小左右飄散速度，讓氣泡移動更平緩
+        speedX: Math.random() * 0.6 - 0.3,
+        // 放慢上升速度（數值較小，向上飄得更慢）
+        speedY: Math.random() * -1 - 0.4,
+        opacity: 1,
+        // 使用半透明的淡藍色/白色氣泡，很有海洋感
+        color: `hsla(${200 + Math.random() * 20}, 80%, 80%, `
+      });
+    }
+
+    animate() {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+      for (let i = this.particles.length - 1; i >= 0; i--) {
+        const p = this.particles[i];
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.opacity -= 0.008; // 逐漸淡出（減慢淡出，使氣泡停留久一點）
+
+        if (p.opacity <= 0) {
+          this.particles.splice(i, 1);
+          continue;
+        }
+
+        // 繪製氣泡外圈
+        this.ctx.beginPath();
+        this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        this.ctx.strokeStyle = p.color + p.opacity + ')';
+        this.ctx.lineWidth = 1.5;
+        this.ctx.stroke();
+
+        // 繪製氣泡反光小點
+        this.ctx.beginPath();
+        this.ctx.arc(p.x - p.size * 0.3, p.y - p.size * 0.3, p.size * 0.1, 0, Math.PI * 2);
+        this.ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+        this.ctx.fill();
+      }
+
+      requestAnimationFrame(() => this.animate());
+    }
+  }
+
+  function initEffect() {
+    const canvas = document.getElementById('bubble-canvas') as HTMLCanvasElement;
+    if (canvas) {
+      new BubbleEffect(canvas);
+    }
+  }
+
+  // 初始執行
+  initEffect();
+
+  // 支援 Astro View Transitions 頁面切換
+  document.addEventListener('astro:after-swap', initEffect);
+</script>
