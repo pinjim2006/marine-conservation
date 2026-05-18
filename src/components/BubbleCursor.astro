@@ -17,19 +17,13 @@
     pointer-events: none; /* 讓滑鼠點擊穿透畫布，不影響網頁原本的按鈕 */
     z-index: 9999;        /* 確保在最上層 */
   }
-  /* 全域：隱藏系統游標（在需要時由 JS 加上 body.hide-native-cursor） */
-  body.hide-native-cursor {
+  /* 全域：隱藏系統游標（在需要時由 JS 加上 body.hide-native-cursor）
+     包含所有子元素以覆蓋預設的 a:hover 對手形的影響 */
+  body.hide-native-cursor,
+  body.hide-native-cursor * {
     cursor: none !important;
   }
-  /* 在表單或互動元件上保留預設游標以維持可用性 */
-  body.hide-native-cursor input,
-  body.hide-native-cursor textarea,
-  body.hide-native-cursor select,
-  body.hide-native-cursor button,
-  body.hide-native-cursor a,
-  body.hide-native-cursor [role="button"] {
-    cursor: auto !important;
-  }
+  /* Removed: keep native cursor hidden even on interactive elements; use custom cursor instead */
   /* 自訂游標樣式：柔邊藍點 */
   #custom-cursor {
     position: fixed;
@@ -47,8 +41,14 @@
     opacity: 1;
   }
   /* 當隱藏原生游標被關閉時（互動元件），同時隱藏自訂游標 */
-  body:not(.hide-native-cursor) #custom-cursor {
-    opacity: 0;
+  /* 當游標處於互動元素上時，改變自訂游標外觀以示區別（仍為自訂點） */
+  body.cursor-interactive #custom-cursor {
+    transform: translate(-50%, -50%) scale(1.6);
+    width: 22px;
+    height: 22px;
+    background: rgba(40,120,255,0.98);
+    box-shadow: 0 0 26px 12px rgba(60,140,255,0.22), 0 2px 6px rgba(0,0,0,0.08) inset;
+    border: 2px solid rgba(255,255,255,0.45);
   }
 </style>
 
@@ -178,25 +178,33 @@
     if (!body) return;
     body.classList.add('hide-native-cursor');
 
+    // 確保覆蓋任何先行的 cursor 規則：動態插入最後的全域樣式
+    if (!document.getElementById('bubble-cursor-global-style')) {
+      const s = document.createElement('style');
+      s.id = 'bubble-cursor-global-style';
+      s.textContent = '* { cursor: none !important; }';
+      document.head.appendChild(s);
+    }
+
     const interactiveSelector = 'input,textarea,select,button,a,[role="button"]';
 
     function onFocusIn(e: FocusEvent) {
       const t = e.target as Element | null;
       if (t && t.matches && t.matches(interactiveSelector)) {
-        body.classList.remove('hide-native-cursor');
+        body.classList.add('cursor-interactive');
       }
     }
 
     function onFocusOut() {
-      body.classList.add('hide-native-cursor');
+      body.classList.remove('cursor-interactive');
     }
 
     function onMouseOver(e: MouseEvent) {
       const t = e.target as Element | null;
       if (t && t.matches && t.matches(interactiveSelector)) {
-        body.classList.remove('hide-native-cursor');
+        body.classList.add('cursor-interactive');
       } else if (!document.activeElement || !(document.activeElement as Element).matches(interactiveSelector)) {
-        body.classList.add('hide-native-cursor');
+        body.classList.remove('cursor-interactive');
       }
     }
 
