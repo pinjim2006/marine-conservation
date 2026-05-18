@@ -3,6 +3,7 @@
 import '../styles/global.css';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { t } from '../i18n/ui';
+import BubbleCursor from '../components/BubbleCursor.astro';
 
 interface Props {
 	title: string;
@@ -164,6 +165,8 @@ const htmlLang = currentLocale === 'zh-tw' ? 'zh-TW' : currentLocale;
 			<p>© 2026 網頁程式設計期末專案 - 漁夫視角的海洋保育</p>
 			<p class="mt-2 opacity-50">Developed with Astro + Tailwind CSS + GSAP</p>
 		</footer>
+
+		<BubbleCursor />
 
 		<script is:inline>
 			const mobileMenu = document.querySelector("[data-mobile-menu]");
