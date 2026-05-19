@@ -92,10 +92,10 @@ const htmlLang = currentLocale === 'zh-tw' ? 'zh-TW' : currentLocale;
 							</div>
 						</details>
 					</div>
-					<div data-lang-menu class="hidden absolute left-0 right-0 top-full z-50 mt-2 w-full overflow-hidden rounded-md bg-slate-800 text-white shadow-lg ring-1 ring-black/20 max-h-0 transition-[max-height] duration-[320ms] ease-out">
-						<button data-lang-option="zh-tw" class="block w-full px-4 py-3 text-left hover:bg-slate-700">繁體中文</button>
-						<button data-lang-option="en" class="block w-full px-4 py-3 text-left hover:bg-slate-700">English</button>
-						<button data-lang-option="ja" class="block w-full px-4 py-3 text-left hover:bg-slate-700">日本語</button>
+					<div data-lang-menu class="mobile-lang-panel hidden fixed left-0 right-0 top-20 z-50 mt-0 w-screen overflow-hidden rounded-md bg-slate-800 text-white shadow-lg ring-1 ring-black/20">
+						<button data-lang-option="zh-tw" class="block w-full px-4 py-3 text-center hover:bg-slate-700">繁體中文</button>
+						<button data-lang-option="en" class="block w-full px-4 py-3 text-center hover:bg-slate-700">English</button>
+						<button data-lang-option="ja" class="block w-full px-4 py-3 text-center hover:bg-slate-700">日本語</button>
 					</div>
 				</div>
 			</div>
@@ -130,6 +130,26 @@ const htmlLang = currentLocale === 'zh-tw' ? 'zh-TW' : currentLocale;
 				transition: max-height 320ms ease;
 			}
 
+			/* Mobile: make language menu behave like the mobile hamburger panel */
+			[data-lang-menu].mobile-lang-panel {
+				max-height: 0;
+				opacity: 0;
+				overflow: hidden;
+				transform: translateY(-0.5rem);
+				pointer-events: none;
+				transition: max-height 320ms ease, opacity 220ms ease, transform 320ms ease;
+				width: 100vw;
+				left: 0;
+				right: 0;
+			}
+
+			[data-lang-menu].mobile-lang-panel:not(.hidden) {
+				max-height: 12rem;
+				opacity: 1;
+				transform: translateY(0);
+				pointer-events: auto;
+			}
+
 			@keyframes spinClockwise {
 				from {
 					transform: rotate(0deg);
@@ -149,11 +169,11 @@ const htmlLang = currentLocale === 'zh-tw' ? 'zh-TW' : currentLocale;
 			}
 
 			.globe-icon.spin-cw {
-				animation: spinClockwise 0.8s ease-in-out forwards;
+				animation: spinClockwise 0.4s ease-in-out forwards;
 			}
 
 			.globe-icon.spin-ccw {
-				animation: spinCounterClockwise 0.8s ease-in-out forwards;
+				animation: spinCounterClockwise 0.4s ease-in-out forwards;
 			}
 		</style>
 
