@@ -22,6 +22,7 @@ export const ui = {
 
     // 遊戲畫布與控制區
     'game.canvas.prompt': '點擊準備好撒網！',
+    'game.canvas.readyAgain': '準備好再撒一次網？',
     'game.btn.cast': '撒網',
     'game.btn.tenDraw': '十連抽',
     'game.btn.reset': '重新開始',
@@ -77,6 +78,7 @@ export const ui = {
 
     // Canvas & Controls
     'game.canvas.prompt': 'Click to get ready to cast the net!',
+    'game.canvas.readyAgain': 'Ready to cast again?',
     'game.btn.cast': 'Cast Net',
     'game.btn.tenDraw': 'Ten Draw',
     'game.btn.reset': 'Restart',
@@ -132,6 +134,7 @@ export const ui = {
 
     // 遊戲畫布與控制區
     'game.canvas.prompt': 'クリックして網を打つ準備を！',
+    'game.canvas.readyAgain': 'もう一度網を打つ準備はできましたか？',
     'game.btn.cast': '網を打つ',
     'game.btn.tenDraw': '10連投網',
     'game.btn.reset': 'リセット',

@@ -539,7 +539,7 @@ function handleDraws(drawCount) {
 
 		castCount += drawCount;
 		updateStats();
-		centerText.innerHTML = '<p class="text-xl text-slate-300/60 font-semibold text-center">準備好再撒一次網？</p>';
+		centerText.innerHTML = `<p class="text-xl text-slate-300/60 font-semibold text-center">${tGame('game.canvas.readyAgain')}</p>`;
 		setButtonsDisabled(false);
 
 		if (drawCount === 1) {
