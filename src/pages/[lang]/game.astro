@@ -1,7 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import SakanaWidget from '../../components/SakanaWidget.astro';
-import {t  as tgame } from '../../i18n/game';
+import { t as tgame, ui as gameUi, getTrashItems } from '../../i18n/game';
+
 
 export async function getStaticPaths() {
 	return [
@@ -10,10 +11,16 @@ export async function getStaticPaths() {
 		{ params: { lang: 'zh-tw' } },
 	];
 }
-const currentLocale = Astro.currentLocale ?? 'zh-tw';
+const currentLocale = Astro.currentLocale ?? 'zh-tw'; 
 const localeUrl = (path: string) => `/${currentLocale}${path}`;
-
+const pageLocale = (currentLocale === 'en' || currentLocale === 'ja' ? currentLocale : 'zh-tw') as 'zh-tw' | 'en' | 'ja';
+const localeKey = currentLocale as keyof typeof gameUi;
+// 在伺服器端抓好對應語言的陣列
+const currentTrashData = getTrashItems(currentLocale);
+const i18nData = gameUi[localeKey] ?? gameUi['zh-tw'];
+const bootstrapScript = `window.GAME_TRASH_ITEMS = ${JSON.stringify(currentTrashData)}; window.GAME_I18N = ${JSON.stringify(i18nData)};`;
 ---
+
 <Layout title={tgame('game.meta.title', currentLocale)}>
 	<section class="relative min-h-screen bg-slate-950 text-slate-100 overflow-hidden">
 		<!-- 裝飾背景 -->
@@ -197,4 +204,5 @@ const localeUrl = (path: string) => `/${currentLocale}${path}`;
 	</section>
 </Layout>
 
+<script set:html={bootstrapScript}></script>
 <script src="../../scripts/game.js"></script>

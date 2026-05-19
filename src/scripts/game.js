@@ -1,3 +1,8 @@
+// i18n helper for client-side game text
+function tGame(key) {
+	return (window.GAME_I18N && window.GAME_I18N[key]) || key;
+}
+
 // 捕獲內容的多種呈現方式
 const fishVariants = [
 	{
@@ -18,7 +23,7 @@ const fishVariants = [
 ];
 
 // 垃圾資訊
-const trashItems = [
+const defaultTrashItems = [
 	{
 		name: '塑膠袋',
 		time: '500年',
@@ -311,6 +316,8 @@ const trashItems = [
 	},
 ];
 
+const trashItems = window.GAME_TRASH_ITEMS || defaultTrashItems;
+
 let castCount = 0;
 let fishCount = 0;
 let trashCount = 0;
@@ -416,7 +423,7 @@ function addCatchSprite(result) {
 	const sprite = createCatchNode({
 		...result.variant,
 		...getRandomCatchPosition(),
-		alt: result.type === 'trash' ? result.trash.name : '魚',
+		alt: result.type === 'trash' ? result.trash.name : tGame('game.tag.fish'),
 	});
 	itemsContainer.appendChild(sprite);
 }
@@ -434,7 +441,7 @@ function createTenDrawCard(result, index) {
 	card.type = 'button';
 	card.className = 'ten-draw-card group';
 	card.disabled = true;
-	card.setAttribute('aria-label', result.type === 'trash' ? result.trash.name : '魚');
+	card.setAttribute('aria-label', result.type === 'trash' ? result.trash.name : tGame('game.tag.fish'));
 	card.dataset.index = index.toString();
 
 	const inner = document.createElement('div');
@@ -452,20 +459,20 @@ function createTenDrawCard(result, index) {
 
 	const image = document.createElement('img');
 	image.src = result.variant.src;
-	image.alt = result.type === 'trash' ? result.trash.name : '魚';
+	image.alt = result.type === 'trash' ? result.trash.name : tGame('game.tag.fish');
 	image.className = result.variant.className || 'w-20 h-20 object-contain';
 	image.style.cssText = result.variant.style || 'filter: saturate(0.6) brightness(0.88) contrast(0.92);';
 	applyRandomTransform(image);
 
 	const label = document.createElement('p');
 	label.className = 'text-xs text-slate-200/90';
-	label.textContent = result.type === 'trash' ? result.trash.name : '魚';
+	label.textContent = result.type === 'trash' ? result.trash.name : tGame('game.tag.fish');
 
 	const tag = document.createElement('span');
 	tag.className = result.type === 'trash'
 		? 'rounded-full bg-orange-400/15 px-2 py-1 text-[10px] font-semibold text-orange-200'
 		: 'rounded-full bg-emerald-400/15 px-2 py-1 text-[10px] font-semibold text-emerald-200';
-	tag.textContent = result.type === 'trash' ? '垃圾' : '魚';
+	tag.textContent = result.type === 'trash' ? tGame('game.tag.trash') : tGame('game.tag.fish');
 
 	front.appendChild(image);
 	front.appendChild(label);
@@ -532,7 +539,7 @@ function handleDraws(drawCount) {
 
 		castCount += drawCount;
 		updateStats();
-		centerText.innerHTML = '<p class="text-xl text-slate-300/60 font-semibold text-center">準備好再撒一次網？</p>';
+		centerText.innerHTML = `<p class="text-xl text-slate-300/60 font-semibold text-center">${tGame('game.canvas.readyAgain')}</p>`;
 		setButtonsDisabled(false);
 
 		if (drawCount === 1) {
@@ -600,7 +607,7 @@ function showSuccessPanel(variant) {
 		const fishVariant = variant || fishVariants[Math.floor(Math.random() * fishVariants.length)];
 		const img = document.createElement('img');
 		img.src = fishVariant.src;
-		img.alt = '魚';
+		img.alt = tGame('game.tag.fish');
 		img.className = fishVariant.className || 'w-20 h-20 object-contain mx-auto';
 		img.style.cssText = fishVariant.style || 'filter: saturate(0.65) brightness(0.88) contrast(0.95);';
 		applyRandomTransform(img);
