@@ -21,7 +21,6 @@ const i18nData = gameUi[localeKey] ?? gameUi['zh-tw'];
 const bootstrapScript = `window.GAME_TRASH_ITEMS = ${JSON.stringify(currentTrashData)}; window.GAME_I18N = ${JSON.stringify(i18nData)};`;
 ---
 
----
 <Layout title={tgame('game.meta.title', currentLocale)}>
 	<section class="relative min-h-screen bg-slate-950 text-slate-100 overflow-hidden">
 		<!-- 裝飾背景 -->
