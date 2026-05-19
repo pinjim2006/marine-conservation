@@ -80,7 +80,7 @@ const htmlLang = currentLocale === 'zh-tw' ? 'zh-TW' : currentLocale;
 									<span class="block h-0.5 w-6 bg-current"></span>
 								</span>	
 							</summary>
-							<div class="mobile-menu-panel fixed left-1/2 top-20 z-50 mt-0 w-screen border-t border-white/10 bg-slate-950/95 shadow-2xl backdrop-blur-xl">
+							<div class="mobile-menu-panel fixed left-0 right-0 top-20 z-50 mt-0 w-screen border-t border-white/10 bg-slate-950/95 shadow-2xl backdrop-blur-xl">
 								<div class="flex flex-col text-sm font-medium">
 									<a href={localeUrl('/')} class="border-b border-white/10 px-4 py-4 text-center text-white transition-colors hover:bg-white/10">{t('nav.home', currentLocale)}</a>
 									<a href={localeUrl('/story')} class="border-b border-white/10 px-4 py-4 text-center text-white transition-colors hover:bg-white/10">{t('nav.story', currentLocale)}</a>
@@ -107,15 +107,13 @@ const htmlLang = currentLocale === 'zh-tw' ? 'zh-TW' : currentLocale;
 				max-height: 0;
 				opacity: 0;
 				overflow: hidden;
-				transform: translate(-50%, -0.5rem);
 				pointer-events: none;
-				transition: max-height 320ms ease, opacity 220ms ease, transform 320ms ease;
+				transition: max-height 320ms ease, opacity 220ms ease;
 			}
 
-			.mobile-menu[open]:not([data-closing]) > .mobile-menu-panel {
+			.mobile-menu > .mobile-menu-panel.is-expanded {
 				max-height: calc(100vh - 5rem);
 				opacity: 1;
-				transform: translate(-50%, 0);
 				pointer-events: auto;
 			}
 
@@ -128,15 +126,13 @@ const htmlLang = currentLocale === 'zh-tw' ? 'zh-TW' : currentLocale;
 				max-height: 0;
 				opacity: 0;
 				overflow: hidden;
-				transform: translateY(-0.5rem);
 				pointer-events: none;
-				transition: max-height 320ms ease, opacity 220ms ease, transform 320ms ease;
+				transition: max-height 320ms ease, opacity 220ms ease;
 			}
 
-			[data-lang-menu].desktop-lang-panel:not(.hidden) {
+			[data-lang-menu].desktop-lang-panel.is-expanded {
 				max-height: 9rem;
 				opacity: 1;
-				transform: translateY(0);
 				pointer-events: auto;
 			}
 
@@ -145,18 +141,16 @@ const htmlLang = currentLocale === 'zh-tw' ? 'zh-TW' : currentLocale;
 				max-height: 0;
 				opacity: 0;
 				overflow: hidden;
-				transform: translateY(-0.5rem);
 				pointer-events: none;
-				transition: max-height 320ms ease, opacity 220ms ease, transform 320ms ease;
+				transition: max-height 320ms ease, opacity 220ms ease;
 				width: 100vw;
 				left: 0;
 				right: 0;
 			}
 
-			[data-lang-menu].mobile-lang-panel:not(.hidden) {
+			[data-lang-menu].mobile-lang-panel.is-expanded {
 				max-height: 12rem;
 				opacity: 1;
-				transform: translateY(0);
 				pointer-events: auto;
 			}
 
@@ -206,14 +200,37 @@ const htmlLang = currentLocale === 'zh-tw' ? 'zh-TW' : currentLocale;
 				const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 				const transitionFallbackMs = 380;
 				let closeTimerId = 0;
+				let openFrameId = 0;
 
 				const finishClosing = () => {
 					if (closeTimerId) {
 						window.clearTimeout(closeTimerId);
 						closeTimerId = 0;
 					}
+					if (openFrameId) {
+						window.cancelAnimationFrame(openFrameId);
+						openFrameId = 0;
+					}
 					mobileMenu.removeAttribute("data-closing");
 					mobileMenu.removeAttribute("open");
+					panel?.classList.remove("is-expanded");
+					if (panel) {
+						panel.style.maxHeight = "0px";
+					}
+				};
+
+				const openMenu = () => {
+					if (!panel || mobileMenu.hasAttribute("open")) {
+						return;
+					}
+					mobileMenu.setAttribute("open", "");
+					panel.classList.remove("is-expanded");
+					panel.style.maxHeight = "0px";
+					openFrameId = window.requestAnimationFrame(() => {
+						openFrameId = 0;
+						panel.classList.add("is-expanded");
+						panel.style.maxHeight = "calc(100vh - 5rem)";
+					});
 				};
 
 				const closeMenu = () => {
@@ -226,15 +243,19 @@ const htmlLang = currentLocale === 'zh-tw' ? 'zh-TW' : currentLocale;
 					}
 					mobileMenu.setAttribute("data-closing", "true");
 					if (panel) {
+						panel.classList.remove("is-expanded");
+						panel.style.maxHeight = "0px";
 						panel.addEventListener("transitionend", finishClosing, { once: true });
 					}
 					closeTimerId = window.setTimeout(finishClosing, transitionFallbackMs);
 				};
 
 				summary?.addEventListener("click", (event) => {
+					event.preventDefault();
 					if (mobileMenu.hasAttribute("open")) {
-						event.preventDefault();
 						closeMenu();
+					} else {
+						openMenu();
 					}
 				});
 			}
@@ -243,6 +264,7 @@ const htmlLang = currentLocale === 'zh-tw' ? 'zh-TW' : currentLocale;
 		<script is:inline>
 			(function(){
 				const locales = ['zh-tw','en','ja'];
+				const openTransitionMs = 320;
 				function buildPathForLocale(locale){
 					const path = window.location.pathname;
 					const parts = path.split('/').filter(Boolean);
@@ -272,6 +294,8 @@ const htmlLang = currentLocale === 'zh-tw' ? 'zh-TW' : currentLocale;
 					if(!menu) return;
 					const globeIcon = btn.querySelector('[data-globe]');
 					const isMobileMenu = wrapper.classList.contains('block');
+					let openFrameId = 0;
+					let hideTimerId = 0;
 
 					function spinClockwise(){
 						if(globeIcon){
@@ -289,19 +313,45 @@ const htmlLang = currentLocale === 'zh-tw' ? 'zh-TW' : currentLocale;
 
 					function showMenu(){
 						btn.setAttribute('aria-expanded','true');
+						if (hideTimerId) {
+							window.clearTimeout(hideTimerId);
+							hideTimerId = 0;
+						}
 						menu.classList.remove('hidden');
-						menu.style.maxHeight = isMobileMenu ? '12rem' : '9rem';
+						menu.classList.remove('is-expanded');
+						menu.style.maxHeight = '0px';
+						menu.style.opacity = '0';
+						if (openFrameId) {
+							window.cancelAnimationFrame(openFrameId);
+						}
+						openFrameId = window.requestAnimationFrame(() => {
+							openFrameId = 0;
+							menu.classList.add('is-expanded');
+							menu.style.maxHeight = isMobileMenu ? '12rem' : '9rem';
+							menu.style.opacity = '1';
+						});
 						spinClockwise();
 						document.addEventListener('click', onDocClick);
 					}
 
 					function hideMenu(){
 						btn.setAttribute('aria-expanded','false');
+						if (openFrameId) {
+							window.cancelAnimationFrame(openFrameId);
+							openFrameId = 0;
+						}
+						if (hideTimerId) {
+							window.clearTimeout(hideTimerId);
+							hideTimerId = 0;
+						}
+						menu.classList.remove('is-expanded');
 						menu.style.maxHeight = '0px';
+						menu.style.opacity = '0';
 						spinCounterClockwise();
-						setTimeout(()=>{
+						hideTimerId = window.setTimeout(()=>{
+							hideTimerId = 0;
 							menu.classList.add('hidden');
-						}, 800);
+						}, openTransitionMs + 60);
 						document.removeEventListener('click', onDocClick);
 					}
 
