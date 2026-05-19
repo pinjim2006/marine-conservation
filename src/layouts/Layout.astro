@@ -55,7 +55,7 @@ const htmlLang = currentLocale === 'zh-tw' ? 'zh-TW' : currentLocale;
 							</svg>
 
 						</button>
-							<div data-lang-menu class="hidden absolute right-0 top-full mt-2 w-40 overflow-hidden rounded-md bg-slate-800 text-white shadow-lg ring-1 ring-black/20 max-h-0 transition-[max-height] duration-[320ms] ease-out">
+							<div data-lang-menu class="desktop-lang-panel hidden absolute right-0 top-full mt-2 w-40 overflow-hidden rounded-md bg-slate-800 text-white shadow-lg ring-1 ring-black/20">
 							<button data-lang-option="zh-tw" class="w-full text-left px-3 py-2 hover:bg-slate-700">繁體中文</button>
 							<button data-lang-option="en" class="w-full text-left px-3 py-2 hover:bg-slate-700">English</button>
 							<button data-lang-option="ja" class="w-full text-left px-3 py-2 hover:bg-slate-700">日本語</button>
@@ -123,11 +123,21 @@ const htmlLang = currentLocale === 'zh-tw' ? 'zh-TW' : currentLocale;
 				display: none;
 			}
 
-			[data-lang-menu] {
+			[data-lang-menu].desktop-lang-panel {
 				display: block;
 				max-height: 0;
+				opacity: 0;
 				overflow: hidden;
-				transition: max-height 320ms ease;
+				transform: translateY(-0.5rem);
+				pointer-events: none;
+				transition: max-height 320ms ease, opacity 220ms ease, transform 320ms ease;
+			}
+
+			[data-lang-menu].desktop-lang-panel:not(.hidden) {
+				max-height: 9rem;
+				opacity: 1;
+				transform: translateY(0);
+				pointer-events: auto;
 			}
 
 			/* Mobile: make language menu behave like the mobile hamburger panel */
