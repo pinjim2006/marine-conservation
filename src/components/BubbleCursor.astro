@@ -50,6 +50,16 @@
     box-shadow: 0 0 26px 12px rgba(60,140,255,0.22), 0 2px 6px rgba(0,0,0,0.08) inset;
     border: 2px solid rgba(255,255,255,0.45);
   }
+
+  /* 手機 / 觸控裝置：隱藏自訂游標與畫布以節省資源並避免顯示游標 */
+  @media (hover: none), (pointer: coarse), (max-width: 768px) {
+    #custom-cursor {
+      display: none !important;
+    }
+    #bubble-canvas {
+      display: none !important;
+    }
+  }
 </style>
 
 <script>
@@ -134,6 +144,11 @@
   function initEffect() {
     const canvas = document.getElementById('bubble-canvas') as HTMLCanvasElement;
     if (canvas) {
+      // 若為觸控/無 hover 裝置，隱藏 canvas 並略過初始化以節省資源
+      if ('ontouchstart' in window || window.matchMedia('(hover: none)').matches) {
+        canvas.style.display = 'none';
+        return;
+      }
       new BubbleEffect(canvas);
     }
   }
@@ -220,6 +235,8 @@
 
   // 支援 Astro View Transitions 頁面切換
   document.addEventListener('astro:after-swap', initEffect);
-  // 初始化自訂游標
-  initCustomCursor();
+  // 初始化自訂游標（僅在非觸控/有 hover 的裝置啟用）
+  if (!('ontouchstart' in window) && !window.matchMedia('(hover: none)').matches) {
+    initCustomCursor();
+  }
 </script>
