@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import Layout from '../../../layouts/Layout.astro';
 import { t } from '../../../i18n/ui';
 import { formatDate } from '../../../i18n/utils';
+import { t as tnews } from '../../../i18n/news';
 
 const currentLocale = Astro.currentLocale ?? 'zh-tw';
 const localeUrl = (path: string) => `/${currentLocale}${path}`;
@@ -26,17 +27,17 @@ const { entry } = Astro.props as { entry: CollectionEntry<'news'> };
 const { Content } = await render(entry);
 ---
 
-<Layout title={`${entry.data.title} | 漁夫視角的海洋保育`}>
+<Layout title={`${entry.data.title} | ${tnews('news.detail.meta.titleSuffix', currentLocale)}`}>
   <article class="bg-slate-50">
-    <header class="bg-slate-950 text-slate-100">
+    <header translate="no" class="bg-slate-950 text-slate-100">
       <div class="max-w-4xl mx-auto px-6 py-16 md:py-20">
         <a href={localeUrl('/news')} class="inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition-colors hover:text-cyan-200">
           <span aria-hidden="true">←</span>
           {t('news.back', currentLocale)}
         </a>
-        <p class="mt-6 text-cyan-300/80 tracking-[0.22em] uppercase text-xs md:text-sm">News Detail</p>
+        <p class="mt-6 text-cyan-300/80 tracking-[0.22em] uppercase text-xs md:text-sm">{tnews('news.detail.kicker', currentLocale)}</p>
         <h1 translate="yes" class="mt-4 text-4xl md:text-6xl font-serif leading-tight text-white">{entry.data.title}</h1>
-        <p translate="no" class="mt-5 text-slate-300/85 notranslate">{formatDate(entry.data.date, currentLocale)} · 作者 {entry.data.author}</p>
+        <p class="mt-5 text-slate-300/85">{formatDate(entry.data.date, currentLocale)} · {tnews('news.detail.author', currentLocale)} {entry.data.author}</p>
       </div>
     </header>
 

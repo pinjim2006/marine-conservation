@@ -8,6 +8,7 @@ import heroOcean from '../../assets/hero-ocean.jpg';
 import { t } from '../../i18n/ui';
 import { formatDate } from '../../i18n/utils';
 import {t  as tindex } from '../../i18n/index';
+import { t as tnews } from '../../i18n/news';
 export async function getStaticPaths() {
 	return [
 		{ params: { lang: 'en' } },
@@ -147,7 +148,7 @@ const latestNews = (await getCollection('news', ({ data }) => {
 							<div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/15 to-transparent"></div>
 						</div>
 						<div class="p-6">
-							<p translate="yes" class="text-xs tracking-[0.22em] uppercase text-cyan-300/80">News</p>
+							<p class="text-xs tracking-[0.22em] uppercase text-cyan-300/80">{tnews('news.card.label', currentLocale)}</p>
 							<h3 translate="yes" class="mt-3 text-xl font-semibold leading-snug text-white">{item.data.title}</h3>
 							<p class="mt-3 text-sm text-slate-300/80">{formatDate(item.data.date, currentLocale)}</p>
 							<p translate="yes" class="mt-4 line-clamp-4 text-slate-300/90 leading-relaxed">{item.data.summary}</p>

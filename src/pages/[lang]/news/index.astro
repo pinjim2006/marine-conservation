@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import Layout from '../../../layouts/Layout.astro';
 import { t } from '../../../i18n/ui';
 import { formatDate } from '../../../i18n/utils';
+import { t as tnews } from '../../../i18n/news';
 
 const currentLocale = Astro.currentLocale ?? 'zh-tw';
 const localeUrl = (path: string) => `/${currentLocale}${path}`;
@@ -24,14 +25,12 @@ const allNews = await getCollection('news', ({ data }) => {
 const sortedNews = allNews.sort((a: CollectionEntry<'news'>, b: CollectionEntry<'news'>) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
-<Layout title='相關新聞 | 漁夫視角的海洋保育'>
+<Layout title={tnews('news.archive.meta.title', currentLocale)}>
   <section translate="no" class="bg-slate-950 text-slate-100">
     <div class="max-w-6xl mx-auto px-6 py-20 md:py-24">
-      <p class="text-cyan-300/80 tracking-[0.22em] uppercase text-xs md:text-sm">News Archive</p>
-      <h1 class="mt-4 text-4xl md:text-6xl font-serif leading-tight">相關新聞</h1>
-      <p class="mt-6 max-w-3xl text-slate-300/85 leading-relaxed md:text-lg">
-        收集與海洋保育、漁業、氣候與政策相關的最新報導，方便快速閱讀與延伸追蹤。
-      </p>
+      <p class="text-cyan-300/80 tracking-[0.22em] uppercase text-xs md:text-sm">{tnews('news.archive.kicker', currentLocale)}</p>
+      <h1 class="mt-4 text-4xl md:text-6xl font-serif leading-tight">{tnews('news.archive.title', currentLocale)}</h1>
+      <p class="mt-6 max-w-3xl text-slate-300/85 leading-relaxed md:text-lg">{tnews('news.archive.desc', currentLocale)}</p>
 
       <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {sortedNews.map((item: CollectionEntry<'news'>) => (
@@ -41,7 +40,7 @@ const sortedNews = allNews.sort((a: CollectionEntry<'news'>, b: CollectionEntry<
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/15 to-transparent"></div>
             </div>
             <div class="p-6">
-              <p class="text-xs tracking-[0.22em] uppercase text-cyan-300/80">News</p>
+              <p class="text-xs tracking-[0.22em] uppercase text-cyan-300/80">{tnews('news.card.label', currentLocale)}</p>
               <h2 translate="yes" class="mt-3 text-xl font-semibold leading-snug text-white">{item.data.title}</h2>
               <p class="mt-3 text-sm text-slate-300/80">{formatDate(item.data.date, currentLocale)}</p>
               <p translate="yes" class="mt-4 line-clamp-4 text-slate-300/90 leading-relaxed">{item.data.summary}</p>
