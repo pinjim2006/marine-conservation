@@ -27,15 +27,15 @@ const { Content } = await render(entry);
 
 <Layout title={`${entry.data.title} | 漁夫視角的海洋保育`}>
   <article class="bg-slate-50">
-    <header translate="no" class="notranslate bg-slate-950 text-slate-100">
+    <header class="bg-slate-950 text-slate-100">
       <div class="max-w-4xl mx-auto px-6 py-16 md:py-20">
         <a href={localeUrl('/news')} class="inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition-colors hover:text-cyan-200">
           <span aria-hidden="true">←</span>
           {t('news.back', currentLocale)}
         </a>
         <p class="mt-6 text-cyan-300/80 tracking-[0.22em] uppercase text-xs md:text-sm">News Detail</p>
-        <h1 class="mt-4 text-4xl md:text-6xl font-serif leading-tight text-white">{entry.data.title}</h1>
-        <p class="mt-5 text-slate-300/85">{entry.data.date.toLocaleDateString('zh-TW')} · 作者 {entry.data.author}</p>
+        <h1 translate="yes" class="mt-4 text-4xl md:text-6xl font-serif leading-tight text-white">{entry.data.title}</h1>
+        <p translate="no" class="mt-5 text-slate-300/85 notranslate">{entry.data.date.toLocaleDateString('zh-TW')} · 作者 {entry.data.author}</p>
       </div>
     </header>
 
