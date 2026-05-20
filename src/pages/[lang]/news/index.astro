@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Layout from '../../../layouts/Layout.astro';
 import { t } from '../../../i18n/ui';
+import { formatDate } from '../../../i18n/utils';
 
 const currentLocale = Astro.currentLocale ?? 'zh-tw';
 const localeUrl = (path: string) => `/${currentLocale}${path}`;
@@ -42,7 +43,7 @@ const sortedNews = allNews.sort((a: CollectionEntry<'news'>, b: CollectionEntry<
             <div class="p-6">
               <p class="text-xs tracking-[0.22em] uppercase text-cyan-300/80">News</p>
               <h2 translate="yes" class="mt-3 text-xl font-semibold leading-snug text-white">{item.data.title}</h2>
-              <p class="mt-3 text-sm text-slate-300/80">{item.data.date.toLocaleDateString('zh-TW')}</p>
+              <p class="mt-3 text-sm text-slate-300/80">{formatDate(item.data.date, currentLocale)}</p>
               <p translate="yes" class="mt-4 line-clamp-4 text-slate-300/90 leading-relaxed">{item.data.summary}</p>
               <a href={localeUrl(`/news/${item.id}`)} class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition-colors hover:text-cyan-200">
                 {t('news.readMore', currentLocale)}

@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Layout from '../../../layouts/Layout.astro';
 import { t } from '../../../i18n/ui';
+import { formatDate } from '../../../i18n/utils';
 
 const currentLocale = Astro.currentLocale ?? 'zh-tw';
 const localeUrl = (path: string) => `/${currentLocale}${path}`;
@@ -35,7 +36,7 @@ const { Content } = await render(entry);
         </a>
         <p class="mt-6 text-cyan-300/80 tracking-[0.22em] uppercase text-xs md:text-sm">News Detail</p>
         <h1 translate="yes" class="mt-4 text-4xl md:text-6xl font-serif leading-tight text-white">{entry.data.title}</h1>
-        <p translate="no" class="mt-5 text-slate-300/85 notranslate">{entry.data.date.toLocaleDateString('zh-TW')} · 作者 {entry.data.author}</p>
+        <p translate="no" class="mt-5 text-slate-300/85 notranslate">{formatDate(entry.data.date, currentLocale)} · 作者 {entry.data.author}</p>
       </div>
     </header>
 
