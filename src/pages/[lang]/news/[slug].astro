@@ -3,9 +3,13 @@ import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Layout from '../../../layouts/Layout.astro';
 import { t } from '../../../i18n/ui';
+import { formatDate } from '../../../i18n/utils';
+import { t as tnews } from '../../../i18n/news';
 
 const currentLocale = Astro.currentLocale ?? 'zh-tw';
 const localeUrl = (path: string) => `/${currentLocale}${path}`;
+const googleTranslateTarget = currentLocale === 'zh-tw' ? '' : currentLocale;
+const shouldUseGoogleTranslate = googleTranslateTarget !== '';
 
 // 1. 產生所有路徑
 export async function getStaticPaths() {
@@ -23,17 +27,17 @@ const { entry } = Astro.props as { entry: CollectionEntry<'news'> };
 const { Content } = await render(entry);
 ---
 
-<Layout title={`${entry.data.title} | 漁夫視角的海洋保育`}>
+<Layout title={`${entry.data.title} | ${tnews('news.detail.meta.titleSuffix', currentLocale)}`}>
   <article class="bg-slate-50">
-    <header class="bg-slate-950 text-slate-100">
+    <header translate="no" class="bg-slate-950 text-slate-100">
       <div class="max-w-4xl mx-auto px-6 py-16 md:py-20">
         <a href={localeUrl('/news')} class="inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition-colors hover:text-cyan-200">
           <span aria-hidden="true">←</span>
           {t('news.back', currentLocale)}
         </a>
-        <p class="mt-6 text-cyan-300/80 tracking-[0.22em] uppercase text-xs md:text-sm">News Detail</p>
-        <h1 class="mt-4 text-4xl md:text-6xl font-serif leading-tight text-white">{entry.data.title}</h1>
-        <p class="mt-5 text-slate-300/85">{entry.data.date.toLocaleDateString('zh-TW')} · 作者 {entry.data.author}</p>
+        <p class="mt-6 text-cyan-300/80 tracking-[0.22em] uppercase text-xs md:text-sm">{tnews('news.detail.kicker', currentLocale)}</p>
+        <h1 translate="yes" class="mt-4 text-4xl md:text-6xl font-serif leading-tight text-white">{entry.data.title}</h1>
+        <p class="mt-5 text-slate-300/85">{formatDate(entry.data.date, currentLocale)} · {tnews('news.detail.author', currentLocale)} {entry.data.author}</p>
       </div>
     </header>
 
@@ -42,5 +46,112 @@ const { Content } = await render(entry);
         <Content />
       </div>
     </div>
+
+    {shouldUseGoogleTranslate && (
+      <div id="google_translate_element" class="google-translate-host" aria-hidden="true"></div>
+    )}
   </article>
 </Layout>
+
+<script is:inline define:vars={{ googleTranslateTarget, shouldUseGoogleTranslate }}>
+  if (shouldUseGoogleTranslate) {
+    const translateHostId = 'google_translate_element';
+    const translateScriptId = 'google-translate-element-script';
+    const sourceLanguage = 'zh-TW';
+
+    const setTranslateCookie = () => {
+      document.cookie = `googtrans=/${sourceLanguage}/${googleTranslateTarget}; path=/`;
+    };
+
+    const clearTranslateCookie = () => {
+      document.cookie = 'googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    };
+
+    const applyTranslation = () => {
+      const combo = document.querySelector(`#${translateHostId} .goog-te-combo`);
+      if (!(combo instanceof HTMLSelectElement)) {
+        return false;
+      }
+
+      combo.value = googleTranslateTarget;
+      combo.dispatchEvent(new Event('change'));
+      return true;
+    };
+
+    const waitForTranslationControl = () => {
+      if (applyTranslation()) {
+        return;
+      }
+
+      window.setTimeout(waitForTranslationControl, 150);
+    };
+
+    window.googleTranslateElementInit = () => {
+      const host = document.getElementById(translateHostId);
+      if (!host || !window.google?.translate?.TranslateElement) {
+        return;
+      }
+
+      new window.google.translate.TranslateElement(
+        {
+          pageLanguage: sourceLanguage,
+          includedLanguages: 'en,ja,zh-TW',
+          autoDisplay: false,
+        },
+        translateHostId,
+      );
+
+      waitForTranslationControl();
+    };
+
+    setTranslateCookie();
+
+    if (!document.getElementById(translateScriptId)) {
+      const script = document.createElement('script');
+      script.id = translateScriptId;
+      script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      script.async = true;
+      document.head.appendChild(script);
+    } else if (window.google?.translate?.TranslateElement) {
+      window.googleTranslateElementInit();
+    }
+
+    window.addEventListener('beforeunload', clearTranslateCookie, { once: true });
+  }
+</script>
+
+<style is:global>
+  /* 1. 隱藏你放置的翻譯小工具宿主容器 */
+  #google_translate_element,
+  .google-translate-host {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* 2. 徹底消滅 Google 產生的新舊版彈出式功能窗、橫幅與 iframe 容器 */
+  .goog-te-banner-frame,
+  iframe.skiptranslate,
+  .skiptranslate iframe,
+  [id*=":container"],
+  [id*=".container"],
+  .VIpgJd-ZVi9od-ORHb-OEVmcd {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* 3. 隱藏滑鼠懸停在翻譯文字上時跳出的「原始文字」提示框 */
+  #goog-gt-tt,
+  .goog-te-balloon-frame,
+  .goog-tooltip {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* 4. 防止 Google 強行把你的 body 往下推 40px */
+  body {
+    top: 0 !important;
+    position: static !important;
+  }
+</style>
