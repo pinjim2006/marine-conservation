@@ -18,6 +18,8 @@ export async function getStaticPaths() {
 
 const currentLocale = Astro.currentLocale ?? 'zh-tw';
 const localeUrl = (path: string) => `/${currentLocale}${path}`;
+const googleTranslateTarget = currentLocale === 'zh-tw' ? '' : currentLocale;
+const shouldUseGoogleTranslate = googleTranslateTarget !== '';
 
 const latestNews = (await getCollection('news', ({ data }) => {
     return import.meta.env.PROD ? data.draft !== true : true;
@@ -27,7 +29,7 @@ const latestNews = (await getCollection('news', ({ data }) => {
 ---
 
 <Layout title={tindex('home.meta.title', currentLocale)}>
-	<section id="hero" class="relative h-screen w-full flex items-center justify-center overflow-hidden">
+	<section translate="no" id="hero" class="relative h-screen w-full flex items-center justify-center overflow-hidden notranslate">
 		<div id="hero-bg" class="absolute inset-0 z-0 will-change-transform">
 			<Image 
 				src={heroOcean} 
@@ -59,7 +61,7 @@ const latestNews = (await getCollection('news', ({ data }) => {
 			</div>
 	</section>
 
-	<section class="relative bg-slate-950 text-slate-100">
+	<section translate="no" class="relative bg-slate-950 text-slate-100 notranslate">
 		<div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
 			<div class="sea-beam sea-beam-one"></div>
 			<div class="sea-beam sea-beam-two"></div>
@@ -98,7 +100,7 @@ const latestNews = (await getCollection('news', ({ data }) => {
 		</div>
 	</section>
 
-	<section class="bg-slate-100 text-slate-900">
+	<section translate="no" class="bg-slate-100 text-slate-900 notranslate">
 		<div class="max-w-6xl mx-auto px-6 py-20 md:py-24 grid gap-10 lg:grid-cols-[1.15fr_1fr] items-start">
 			<div>
 				<p class="text-sky-700 tracking-[0.2em] uppercase text-xs md:text-sm">{tindex('home.action.kicker', currentLocale)}</p>
@@ -122,7 +124,7 @@ const latestNews = (await getCollection('news', ({ data }) => {
 		</div>
 	</section>
 
-	<section class="bg-slate-950 text-slate-100">
+	<section translate="no" class="bg-slate-950 text-slate-100 notranslate">
 		<div class="max-w-6xl mx-auto px-6 py-20 md:py-24">
 			<div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
 				<div class="max-w-2xl">
@@ -145,10 +147,10 @@ const latestNews = (await getCollection('news', ({ data }) => {
 							<div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/15 to-transparent"></div>
 						</div>
 						<div class="p-6">
-							<p class="text-xs tracking-[0.22em] uppercase text-cyan-300/80">News</p>
-							<h3 class="mt-3 text-xl font-semibold leading-snug text-white">{item.data.title}</h3>
+							<p translate="yes" class="text-xs tracking-[0.22em] uppercase text-cyan-300/80">News</p>
+							<h3 translate="yes" class="mt-3 text-xl font-semibold leading-snug text-white">{item.data.title}</h3>
 							<p class="mt-3 text-sm text-slate-300/80">{formatDate(item.data.date, currentLocale)}</p>
-							<p class="mt-4 line-clamp-4 text-slate-300/90 leading-relaxed">{item.data.summary}</p>
+							<p translate="yes" class="mt-4 line-clamp-4 text-slate-300/90 leading-relaxed">{item.data.summary}</p>
 							<a href={localeUrl(`/news/${item.id}`)} class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition-colors hover:text-cyan-200">
 								{t('news.readMore', currentLocale)}
 								<span aria-hidden="true">→</span>
@@ -158,9 +160,112 @@ const latestNews = (await getCollection('news', ({ data }) => {
 				))}
 			</div>
 		</div>
+
+		{shouldUseGoogleTranslate && (
+			<div id="google_translate_element" class="google-translate-host" aria-hidden="true"></div>
+		)}
 	</section>
 </Layout>
 
 <script>
 	import '../../scripts/index-hero.js';
 </script>
+
+<script is:inline define:vars={{ googleTranslateTarget, shouldUseGoogleTranslate }}>
+	if (shouldUseGoogleTranslate) {
+		const translateHostId = 'google_translate_element';
+		const translateScriptId = 'google-translate-element-script';
+		const sourceLanguage = 'zh-TW';
+
+		const setTranslateCookie = () => {
+			document.cookie = `googtrans=/${sourceLanguage}/${googleTranslateTarget}; path=/`;
+		};
+
+		const clearTranslateCookie = () => {
+			document.cookie = 'googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+		};
+
+		const applyTranslation = () => {
+			const combo = document.querySelector(`#${translateHostId} .goog-te-combo`);
+			if (!(combo instanceof HTMLSelectElement)) {
+				return false;
+			}
+
+			combo.value = googleTranslateTarget;
+			combo.dispatchEvent(new Event('change'));
+			return true;
+		};
+
+		const waitForTranslationControl = () => {
+			if (applyTranslation()) {
+				return;
+			}
+
+			window.setTimeout(waitForTranslationControl, 150);
+		};
+
+		window.googleTranslateElementInit = () => {
+			const host = document.getElementById(translateHostId);
+			if (!host || !window.google?.translate?.TranslateElement) {
+				return;
+			}
+
+			new window.google.translate.TranslateElement(
+				{
+					pageLanguage: sourceLanguage,
+					includedLanguages: 'en,ja,zh-TW',
+					autoDisplay: false,
+				},
+				translateHostId,
+			);
+
+			waitForTranslationControl();
+		};
+
+		setTranslateCookie();
+
+		if (!document.getElementById(translateScriptId)) {
+			const script = document.createElement('script');
+			script.id = translateScriptId;
+			script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+			script.async = true;
+			document.head.appendChild(script);
+		} else if (window.google?.translate?.TranslateElement) {
+			window.googleTranslateElementInit();
+		}
+
+		window.addEventListener('beforeunload', clearTranslateCookie, { once: true });
+	}
+</script>
+
+<style is:global>
+	#google_translate_element,
+	.google-translate-host {
+		display: none !important;
+		visibility: hidden !important;
+	}
+
+	.goog-te-banner-frame,
+	iframe.skiptranslate,
+	.skiptranslate iframe,
+	[id*=":container"],
+	[id*=".container"],
+	.VIpgJd-ZVi9od-ORHb-OEVmcd {
+		display: none !important;
+		visibility: hidden !important;
+		opacity: 0 !important;
+		pointer-events: none !important;
+	}
+
+	#goog-gt-tt,
+	.goog-te-balloon-frame,
+	.goog-tooltip {
+		display: none !important;
+		visibility: hidden !important;
+	}
+
+	body {
+		top: 0 !important;
+		position: static !important;
+	}
+</style>
