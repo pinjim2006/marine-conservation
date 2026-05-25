@@ -16,10 +16,39 @@ const fishVariants = [
 		style: 'filter: saturate(0.65) brightness(0.9) contrast(0.95); transform: rotate(8deg);',
 	},
 	{
-		src: '/pngtree/fishing/fish.webp',
+		src: '/pngtree/fishing/fish_pomfret.webp',
 		className: 'w-20 h-20 object-contain',
 		style: 'filter: saturate(0.62) brightness(0.86) contrast(0.9); transform: rotate(4deg) scale(0.96);',
 	},
+	{
+		src: '/pngtree/fishing/fish_8-1.webp',
+		className: 'w-20 h-20 object-contain',
+		style: 'filter: saturate(0.62) brightness(0.86) contrast(0.9); transform: rotate(4deg) scale(0.96);',
+	},
+	{
+		src: '/pngtree/fishing/fish_8-2.webp',
+		className: 'w-20 h-20 object-contain',
+		style: 'filter: saturate(0.62) brightness(0.86) contrast(0.9); transform: rotate(4deg) scale(0.96);',
+	},
+	{
+		src: '/pngtree/fishing/fish_8-3.webp',
+		className: 'w-20 h-20 object-contain',
+		style: 'filter: saturate(0.62) brightness(0.86) contrast(0.9); transform: rotate(4deg) scale(0.96);',
+	},
+	{
+		src: '/pngtree/fishing/fish_cryanBlue.webp',
+		className: 'w-20 h-20 object-contain',
+		style: 'filter: saturate(0.62) brightness(0.86) contrast(0.9); transform: rotate(4deg) scale(0.96);',
+	},{
+		src: '/pngtree/fishing/fish_scare.webp',
+		className: 'w-20 h-20 object-contain',
+		style: 'filter: saturate(0.62) brightness(0.86) contrast(0.9); transform: rotate(4deg) scale(0.96);',
+	},{
+		src: '/pngtree/fishing/fish_tuna.webp',
+		className: 'w-20 h-20 object-contain',
+		style: 'filter: saturate(0.62) brightness(0.86) contrast(0.9); transform: rotate(4deg) scale(0.96);',
+	},
+	
 ];
 
 // 垃圾資訊
