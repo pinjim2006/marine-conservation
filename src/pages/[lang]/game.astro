@@ -187,7 +187,7 @@ const bootstrapScript = `window.GAME_TRASH_ITEMS = ${JSON.stringify(currentTrash
 				</article>
 			</div>
 
-			<div class="mt-12 bg-gradient-to-r from-cyan-900/40 to-blue-900/40 rounded-2xl border border-cyan-400/30 p-8 md:p-10">
+			<div class="mt-12 bg-gradient-to-r from-cyan-900/40 to-blue-900/40 rounded-2xl border border-cyan-400/30 p-8 md:p-10" id="action-external">
 				<h3 class="text-2xl font-bold mb-6">{tgame('game.action.title', currentLocale)}</h3>
 				
 				<ul class="space-y-3 text-slate-200 mb-8">
@@ -233,5 +233,3 @@ const bootstrapScript = `window.GAME_TRASH_ITEMS = ${JSON.stringify(currentTrash
 
 <script set:html={bootstrapScript}></script>
 <script src="../../scripts/game.js"></script>
-
-//SDG 特性 ：若已有翻卡時若點擊，則被點擊的卡不會翻回，須點擊另一張卡才會讓先前的卡翻回
