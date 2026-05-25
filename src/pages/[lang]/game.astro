@@ -187,14 +187,41 @@ const bootstrapScript = `window.GAME_TRASH_ITEMS = ${JSON.stringify(currentTrash
 				</article>
 			</div>
 
-			<div class="mt-12 bg-gradient-to-r from-cyan-900/40 to-blue-900/40 rounded-2xl border border-cyan-400/30 p-8">
-				<h3 class="text-2xl font-bold mb-4">{tgame('game.action.title', currentLocale)}</h3>
-				<ul class="space-y-3 text-slate-200">
+			<div class="mt-12 bg-gradient-to-r from-cyan-900/40 to-blue-900/40 rounded-2xl border border-cyan-400/30 p-8 md:p-10">
+				<h3 class="text-2xl font-bold mb-6">{tgame('game.action.title', currentLocale)}</h3>
+				
+				<ul class="space-y-3 text-slate-200 mb-8">
 					<li class="flex gap-3"><span>{tgame('game.action.1', currentLocale)}</span></li>
 					<li class="flex gap-3"><span>{tgame('game.action.2', currentLocale)}</span></li>
 					<li class="flex gap-3"><span>{tgame('game.action.3', currentLocale)}</span></li>
 					<li class="flex gap-3"><span>{tgame('game.action.4', currentLocale)}</span></li>
 				</ul>
+
+				<div class="h-px w-full bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent mb-8"></div>
+
+				
+				<div class="mb-4">
+					<h4 class="text-lg font-semibold text-cyan-200">{tgame('game.action.external.title', currentLocale)}</h4>
+					<p class="text-sm text-slate-200 mt-1">{tgame('game.action.external.note', currentLocale)}</p>
+				</div>
+				
+				<div class="grid md:grid-cols-2 gap-4 md:gap-6">
+					<a href="https://iocean.oca.gov.tw/" target="_blank" rel="noopener noreferrer" class="group p-5 rounded-xl border border-cyan-400/20 bg-slate-900/40 hover:bg-cyan-900/50 hover:border-cyan-400/50 transition-all duration-300 h-full flex flex-col cursor-pointer">
+						<h5 class="text-lg font-bold text-cyan-300 mb-2 group-hover:text-cyan-100">{tgame('game.action.iocean.title', currentLocale)}</h5>
+						<p class="text-sm text-slate-300 leading-relaxed flex-grow">{tgame('game.action.iocean.desc', currentLocale)}</p>
+						<div class="mt-4 text-xs font-semibold tracking-wider text-cyan-400 group-hover:text-cyan-200 flex items-center gap-1 uppercase">
+							{tgame('game.action.iocean.cta', currentLocale)} <span class="group-hover:translate-x-1 transition-transform">→</span>
+						</div>
+					</a>
+
+					<a href="https://bbrally.org/" target="_blank" rel="noopener noreferrer" class="group p-5 rounded-xl border border-emerald-400/20 bg-slate-900/40 hover:bg-emerald-900/50 hover:border-emerald-400/50 transition-all duration-300 h-full flex flex-col cursor-pointer">
+						<h5 class="text-lg font-bold text-emerald-400 mb-2 group-hover:text-emerald-200">{tgame('game.action.bbrally.title', currentLocale)}</h5>
+						<p class="text-sm text-slate-300 leading-relaxed flex-grow">{tgame('game.action.bbrally.desc', currentLocale)}</p>
+						<div class="mt-4 text-xs font-semibold tracking-wider text-emerald-400 group-hover:text-emerald-200 flex items-center gap-1 uppercase">
+							{tgame('game.action.bbrally.cta', currentLocale)} <span class="group-hover:translate-x-1 transition-transform">→</span>
+						</div>
+					</a>
+				</div>
 			</div>
 			</div>
 		</section>

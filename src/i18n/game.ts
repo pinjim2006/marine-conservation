@@ -69,6 +69,14 @@ export const ui = {
     'game.action.2': '支持和購買來自永續漁業認證的海鮮產品',
     'game.action.3': '參與淨灘活動，直接清潔我們的沿海地區',
     'game.action.4': '提高環保意識，教育身邊的人關於海洋保育的重要性',
+    'game.action.external.title': '更進一步的環保行動',
+    'game.action.external.note': '* 以下兩項資源主要針對台灣在地環境與淨灘活動。',
+    'game.action.iocean.title': '台灣海洋保育入口網',
+    'game.action.iocean.desc': '海保署官方平台。了解全台保護區現況，或成為公民科學家回報海洋生物目擊紀錄。',
+    'game.action.iocean.cta': '探索數據庫',
+    'game.action.bbrally.title': 'bb減塑大集合',
+    'game.action.bbrally.desc': '揪團參與各地的淨灘與淨街活動，從日常生活攔截角落的塑膠怪獸。',
+    'game.action.bbrally.cta': '響應淨灘行動',
   },
   'en': {
     // Meta & Hero Section
@@ -125,6 +133,15 @@ export const ui = {
     'game.action.2': 'Support and buy seafood from certified sustainable fisheries.',
     'game.action.3': 'Participate in beach cleanups to directly clean our coastal areas.',
     'game.action.4': 'Raise environmental awareness and educate those around you about the importance of marine conservation.',
+    'game.action.external.title': 'Take Further Environmental Action',
+    'game.action.external.note': '* Note: These platforms are Taiwan-based and primarily feature Traditional Chinese interfaces.',
+    'game.action.iocean.title': 'Taiwan Ocean Conservation Portal',
+    'game.action.iocean.desc': 'Official platform to explore marine protected areas or become a citizen scientist reporting marine life sightings.',
+    'game.action.iocean.cta': 'Explore Database',
+    'game.action.bbrally.title': 'BB Plastic Reduction Rally',
+    'game.action.bbrally.desc': 'Join local beach and street cleanup activities to intercept plastic waste in your daily life.',
+    'game.action.bbrally.cta': 'Join the Cleanup',
+
   },
   'ja': {
     // Meta 與 標題區
@@ -181,6 +198,14 @@ export const ui = {
     'game.action.2': '持続可能な漁業の認証を受けた水産物を支持し、購入する。',
     'game.action.3': 'ビーチクリーン活動に参加し、沿岸地域を直接清掃する。',
     'game.action.4': '環境への意識を高め、周りの人に海洋保全の重要性を伝える。',
+    'game.action.external.title': 'さらに進んだ環境保護活動',
+    'game.action.external.note': '* 注：これらのプラットフォームは台湾を拠点としており、主に繁体字中国語で提供されています。',
+    'game.action.iocean.title': '台湾海洋保全ポータル',
+    'game.action.iocean.desc': '海洋保護区の現状を学び、市民科学者として海洋生物の目撃情報を提供する公式プラットフォーム。',
+    'game.action.iocean.cta': 'データベースを探索',
+    'game.action.bbrally.title': 'BB 減プラスチック大集合',
+    'game.action.bbrally.desc': '各地のビーチクリーンや清掃活動に参加し、日常生活からプラスチックゴミを減らしましょう。',
+    'game.action.bbrally.cta': '活動に参加する',
   }// 預留給日文 
 } as const;
 
