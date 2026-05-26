@@ -1,26 +1,40 @@
 ---
+// ===== 導入模組 =====
 import Layout from "../../layouts/Layout.astro"
 import "../../styles/story.css"
 import { t } from '../../i18n/ui';
 
+// ===== 靜態路徑生成 =====
+// 為每個支持的語言生成靜態頁面
 export async function getStaticPaths() {
 	return [
-		{ params: { lang: 'en' } },
-		{ params: { lang: 'ja' } },
-		{ params: { lang: 'zh-tw' } },
+		{ params: { lang: 'en' } },    // 英文
+		{ params: { lang: 'ja' } },    // 日文
+		{ params: { lang: 'zh-tw' } }, // 繁體中文
 	];
 }
 
+// ===== 語言配置 =====
+// 獲取當前語言，預設為繁體中文
 const currentLocale = Astro.currentLocale ?? 'zh-tw';
+// 根據語言生成本地化 URL 路徑
 const localeUrl = (path: string) => `/${currentLocale}${path}`;
 ---
 
 <Layout title="漁夫的故事 | 漁夫視角的海洋保育">
+	{/* ===== 故事頁面主容器 ===== */}
 	<div class="story-page" data-story-root>
+		{/* 動態背景色彩層 - 根據滾動位置改變顏色 */}
 		<div class="story-scene" data-scene-backdrop></div>
+		
+		{/* 噪點紋理效果 - 視覺層次感 */}
 		<div class="story-noise" aria-hidden="true"></div>
+		
+		{/* 進度條 - 顯示頁面滾動進度 */}
 		<div class="story-progress" data-progress-bar></div>
 
+		{/* ===== 側邊進度指示器 ===== */}
+		{/* 5 個進度點代表 5 個故事章節 */}
 		<aside class="story-rail" aria-hidden="true">
 			<span data-progress-dot></span>
 			<span data-progress-dot></span>
@@ -29,7 +43,10 @@ const localeUrl = (path: string) => `/${currentLocale}${path}`;
 			<span data-progress-dot></span>
 		</aside>
 
+		{/* ===== 英雄區段 ===== */}
+		{/* 頁面入場動畫、標題、副標題都在此區段 */}
 		<section class="story-hero" data-story-hero>
+			{/* 視差層效果 - 創造深度感 */}
 			<div class="story-hero__layers" aria-hidden="true">
 				<span class="story-orb story-orb--a" data-parallax="120" data-mouse-layer="0.6"></span>
 				<span class="story-orb story-orb--b" data-parallax="90" data-mouse-layer="0.4"></span>
@@ -37,6 +54,8 @@ const localeUrl = (path: string) => `/${currentLocale}${path}`;
 				<span class="story-wave story-wave--a" data-parallax="-80" data-mouse-layer="0.3"></span>
 				<span class="story-wave story-wave--b" data-parallax="-140" data-mouse-layer="0.4"></span>
 			</div>
+			
+			{/* 英雄區段文字內容 */}
 			<div class="story-hero__content" data-mouse-layer="0.12">
 				<p class="story-kicker">漁夫視角的海洋保育</p>
 				<h1 data-split>漁夫的故事</h1>
@@ -49,8 +68,11 @@ const localeUrl = (path: string) => `/${currentLocale}${path}`;
 			</div>
 		</section>
 
+		{/* ===== 主要故事內容區 ===== */}
 		<main class="story-content" data-story-content>
-			<section class="story-section" data-story-section data-scene-color="#1a4c63" data-scene-end="#0d2533" data-scene-accent="#f4b65a">
+			{/* ===== 第一章：我的一生與這片海 ===== */}
+			{/* 設定場景色彩：天藍色系 (#87CEEB) */}
+			<section class="story-section" data-story-section data-scene-color="#87CEEB" data-scene-end="#0d2533" data-scene-accent="#f4b65a">
 				<div class="story-section__header">
 					<p class="story-section__label">第一章</p>
 					<h2 data-split>我的一生與這片海</h2>
@@ -63,7 +85,9 @@ const localeUrl = (path: string) => `/${currentLocale}${path}`;
 				<div class="story-divider" aria-hidden="true"></div>
 			</section>
 
-			<section class="story-section" data-story-section data-scene-color="#6b5c2a" data-scene-end="#2c2310" data-scene-accent="#f8b84a">
+			{/* ===== 第二章：那些美好的日子 ===== */}
+			{/* 設定場景色彩：金色系 (#FFD700) */}
+			<section class="story-section" data-story-section data-scene-color ='#FFD700' data-scene-end="#2c2310" data-scene-accent="#f8b84a">
 				<div class="story-section__header">
 					<p class="story-section__label">第二章</p>
 					<h2 data-split>那些美好的日子</h2>
@@ -76,6 +100,8 @@ const localeUrl = (path: string) => `/${currentLocale}${path}`;
 				<div class="story-divider" aria-hidden="true"></div>
 			</section>
 
+			{/* ===== 第三章：可是現在不一樣了 ===== */}
+			{/* 設定場景色彩：深青色系 (#1d5b7a)，包含污染物品浮動效果 */}
 			<section class="story-section" data-story-section data-scene-color="#1d5b7a" data-scene-end="#0a1c28" data-scene-accent="#5eead4">
 				<div class="story-section__header">
 					<p class="story-section__label">第三章</p>
@@ -90,6 +116,7 @@ const localeUrl = (path: string) => `/${currentLocale}${path}`;
 					</p>
 					<p data-reveal>有時候看到魚肚子裡卡著塑膠，心裡真的不是滋味。</p>
 				</div>
+				{/* 污染物品視覺效果 - 動畫浮動的垃圾 */}
 				<div class="story-pollution" aria-hidden="true">
 					<span class="story-pollution__item" data-pollution-float style="left: 8%; top: 10%;">🗑️</span>
 					<span class="story-pollution__item" data-pollution-float style="left: 28%; top: 45%;">🔵</span>
@@ -100,6 +127,8 @@ const localeUrl = (path: string) => `/${currentLocale}${path}`;
 				<div class="story-divider" aria-hidden="true"></div>
 			</section>
 
+			{/* ===== 第四章：我們在消亡 ===== */}
+			{/* 設定場景色彩：暗灰色系 (#1f2a36)，表示絕望感 */}
 			<section class="story-section" data-story-section data-scene-color="#1f2a36" data-scene-end="#0a0f17" data-scene-accent="#fb7185">
 				<div class="story-section__header">
 					<p class="story-section__label">第四章</p>
@@ -115,12 +144,15 @@ const localeUrl = (path: string) => `/${currentLocale}${path}`;
 				<div class="story-divider" aria-hidden="true"></div>
 			</section>
 
+			{/* ===== 第五章：我的願望 ===== */}
+			{/* 設定場景色彩：深綠色系 (#0f6b5b)，希望感 */}
 			<section class="story-section" data-story-section data-scene-color="#0f6b5b" data-scene-end="#06332b" data-scene-accent="#34d399">
 				<div class="story-section__header">
 					<p class="story-section__label">第五章</p>
 					<h2 data-split>我的願望</h2>
 				</div>
 				<div class="story-body">
+					{/* 引言區塊 - 核心訊息的強調 */}
 					<blockquote class="story-quote" data-reveal>
 						<p><span class="story-emphasis" data-emphasis>船壞了，我還能修。</span></p>
 						<p><span class="story-emphasis" data-emphasis>可要是海壞了，誰來修？</span></p>
@@ -130,14 +162,18 @@ const localeUrl = (path: string) => `/${currentLocale}${path}`;
 				</div>
 			</section>
 
+			{/* ===== 行動呼籲區段 ===== */}
+			{/* CTA 按鈕導向遊戲頁面的行動區域 */}
 			<section class="story-cta" data-cta>
 				<h3 data-split>保護我們的海洋</h3>
 				<p data-reveal>這不只是漁夫的故事，也是我們所有人的故事。海洋需要我們的行動。</p>
-				<a class="story-cta__button" data-cta-button href={localeUrl('/sdg#how-to-participate')}>{t('cta.join', currentLocale)}</a>
+				{/* 按鈕連結到遊戲頁面的 action-external 區域 */}
+				<a class="story-cta__button" data-cta-button href={localeUrl('/game#action-external')}>{t('cta.join', currentLocale)}</a>
 			</section>
 		</main>
-
 		<script>
+		{/* ===== 動畫初始化腳本 ===== */}
+		{/* 在頁面加載時初始化所有 GSAP 動畫，在路由切換前清理 */}
 			import { initStoryAnimations, cleanupStoryAnimations } from '../../scripts/story-animations.js';
 
 			document.addEventListener('DOMContentLoaded', initStoryAnimations);
