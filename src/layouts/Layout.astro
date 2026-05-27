@@ -45,7 +45,7 @@ const htmlLang = currentLocale === 'zh-tw' ? 'zh-TW' : currentLocale;
 				</div>
 
 				<div class="hidden md:flex items-center">
-				<a data-join-action href={localeUrl('/game#action-external')} class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-full text-xs font-bold transition-all shadow-lg shadow-blue-500/20">
+				<a data-join-action href={`${localeUrl('/game')}#action-external`} class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-full text-xs font-bold transition-all shadow-lg shadow-blue-500/20">
 					{t('cta.join', currentLocale)}
 					</a>
 					<div class="relative ml-4" data-lang-group>
@@ -87,7 +87,7 @@ const htmlLang = currentLocale === 'zh-tw' ? 'zh-TW' : currentLocale;
 									<a href={localeUrl('/game')} class="border-b border-white/10 px-4 py-4 text-center text-white transition-colors hover:bg-white/10">{t('nav.game', currentLocale)}</a>
 									<a href={localeUrl('/news')} class="border-b border-white/10 px-4 py-4 text-center text-white transition-colors hover:bg-white/10">{t('nav.news', currentLocale)}</a>
 									<a href={localeUrl('/sdg')} class="px-4 py-4 text-center text-white transition-colors hover:bg-white/10">{t('nav.sdg', currentLocale)}</a>
-									<a href={localeUrl('/sdg#how-to-participate')} class="block px-4 py-4 text-center text-sm font-bold text-white transition-colors hover:bg-blue-600/30">{t('cta.join', currentLocale)}</a>
+									<a href={`${localeUrl('/game')}#action-external`} class="block px-4 py-4 text-center text-sm font-bold text-white transition-colors hover:bg-blue-600/30">{t('cta.join', currentLocale)}</a>
 								</div>
 							</div>
 						</details>
@@ -190,44 +190,7 @@ const htmlLang = currentLocale === 'zh-tw' ? 'zh-TW' : currentLocale;
 			<p class="mt-2 opacity-50">Developed with Astro + Tailwind CSS + GSAP</p>
 		</footer>
 
-		<BubbleCursor />
-
-		<script is:inline>
-			// 处理 Join Action 导航和滚动
-			document.querySelectorAll('[data-join-action]').forEach(btn => {
-				btn.addEventListener('click', (e) => {
-					const targetAnchor = 'action-external';
-					const currentPath = window.location.pathname;
-					const gamePageRegex = /\/(zh-tw|en|ja)\/game\/?$/;
-					
-					// 如果已经在 game 页面，直接滚动
-					if (gamePageRegex.test(currentPath)) {
-						e.preventDefault();
-						const element = document.getElementById(targetAnchor);
-						if (element) {
-							element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-						}
-					} else {
-						// 否则，保存锚点，让页面导航后滚动
-						sessionStorage.setItem('joinActionAnchor', targetAnchor);
-					}
-				});
-			});
-
-			// 在 game 页面加载时检查是否需要滚动
-			window.addEventListener('load', () => {
-				const anchor = sessionStorage.getItem('joinActionAnchor');
-				if (anchor) {
-					sessionStorage.removeItem('joinActionAnchor');
-					const element = document.getElementById(anchor);
-					if (element) {
-						setTimeout(() => {
-							element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-						}, 100);
-					}
-				}
-			});
-		</script>
+		<BubbleCursor />		
 
 		<script is:inline>
 			const mobileMenu = document.querySelector("[data-mobile-menu]");
