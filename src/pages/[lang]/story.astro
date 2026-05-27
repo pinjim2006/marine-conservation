@@ -168,7 +168,7 @@ const localeUrl = (path: string) => `/${currentLocale}${path}`;
 				<h3 data-split>保護我們的海洋</h3>
 				<p data-reveal>這不只是漁夫的故事，也是我們所有人的故事。海洋需要我們的行動。</p>
 				{/* 按鈕連結到遊戲頁面的 action-external 區域 */}
-				<a class="story-cta__button" data-cta-button href={localeUrl('/game#action-external')}>{t('cta.join', currentLocale)}</a>
+				<a class="story-cta__button" data-cta-button href={`${localeUrl('/game')}#action-external`}>{t('cta.join', currentLocale)}</a>
 			</section>
 		</main>
 		<script>
