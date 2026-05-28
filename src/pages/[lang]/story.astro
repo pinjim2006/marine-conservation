@@ -1,239 +1,414 @@
 ---
 // ===== 導入模組 =====
-import Layout from "../../layouts/Layout.astro"
-import "../../styles/story.css"
-import { t } from '../../i18n/ui';
+import Layout from "../../layouts/Layout.astro";
+import "../../styles/story.css";
+import { t } from "../../i18n/ui";
 
 // ===== 靜態路徑生成 =====
 export async function getStaticPaths() {
-	return [
-		{ params: { lang: 'en' } },
-		{ params: { lang: 'ja' } },
-		{ params: { lang: 'zh-tw' } },
-	];
+  return [
+    { params: { lang: "en" } },
+    { params: { lang: "ja" } },
+    { params: { lang: "zh-tw" } },
+  ];
 }
 
 // ===== 語言配置 =====
-const currentLocale = Astro.currentLocale ?? 'zh-tw';
+const currentLocale = Astro.currentLocale ?? "zh-tw";
 const localeUrl = (path: string) => `/${currentLocale}${path}`;
 ---
 
 <Layout title="養大我們的那片海 | 漁夫視角的海洋保育">
-	{/* ===== 故事頁面主容器 ===== */}
-	<div class="story-page" data-story-root>
-		{/* 動態背景色彩層 */}
-		<div class="story-scene" data-scene-backdrop></div>
+  {/* ===== 故事頁面主容器 ===== */}
+  <div class="story-page" data-story-root>
+    {/* 動態背景色彩層 — GSAP scrub 驅動洗色 */}
+    <div class="story-scene" data-scene-backdrop></div>
 
-		{/* 噪點紋理效果 */}
-		<div class="story-noise" aria-hidden="true"></div>
+    {/* 噪點紋理效果 */}
+    <div class="story-noise" aria-hidden="true"></div>
 
-		{/* 進度條 */}
-		<div class="story-progress" data-progress-bar></div>
+    {/* 進度條 */}
+    <div class="story-progress" data-progress-bar></div>
 
-		{/* ===== 側邊進度指示器 ===== */}
-		<aside class="story-rail" aria-hidden="true">
-			<span data-progress-dot></span>
-			<span data-progress-dot></span>
-			<span data-progress-dot></span>
-			<span data-progress-dot></span>
-			<span data-progress-dot></span>
-		</aside>
+    {/* ===== 側邊進度指示器 ===== */}
+    <aside class="story-rail" aria-hidden="true">
+      <span data-progress-dot></span>
+      <span data-progress-dot></span>
+      <span data-progress-dot></span>
+      <span data-progress-dot></span>
+      <span data-progress-dot></span>
+    </aside>
 
-		{/* ===== 英雄區段 ===== */}
-		<section class="story-hero" data-story-hero>
-			<div class="story-hero__layers" aria-hidden="true">
-				<span class="story-orb story-orb--a" data-parallax="120" data-mouse-layer="0.6"></span>
-				<span class="story-orb story-orb--b" data-parallax="90" data-mouse-layer="0.4"></span>
-				<span class="story-orb story-orb--c" data-parallax="60" data-mouse-layer="0.2"></span>
-				<span class="story-wave story-wave--a" data-parallax="-80" data-mouse-layer="0.3"></span>
-				<span class="story-wave story-wave--b" data-parallax="-140" data-mouse-layer="0.4"></span>
-			</div>
+    {/* ===== 英雄區段 ===== */}
+    <section class="story-hero" data-story-hero>
+      <div class="story-hero__layers" aria-hidden="true">
+        <span
+          class="story-orb story-orb--a"
+          data-parallax="120"
+          data-mouse-layer="0.6"></span>
+        <span
+          class="story-orb story-orb--b"
+          data-parallax="90"
+          data-mouse-layer="0.4"></span>
+        <span
+          class="story-orb story-orb--c"
+          data-parallax="60"
+          data-mouse-layer="0.2"></span>
+        <span
+          class="story-wave story-wave--a"
+          data-parallax="-80"
+          data-mouse-layer="0.3"></span>
+        <span
+          class="story-wave story-wave--b"
+          data-parallax="-140"
+          data-mouse-layer="0.4"></span>
+      </div>
 
-			<div class="story-hero__content" data-mouse-layer="0.12">
-				<p class="story-kicker">漁夫視角的海洋保育</p>
-				<h1 data-split>養大我們的那片海</h1>
-				<p class="story-lead" data-split>海風的味道，以前對我來說，就是家裡飯菜的味道。</p>
-				<div class="story-hero__meta">
-					<span>詳細紀實版</span>
-					<span>一位老漁夫的獨白</span>
-				</div>
-				<div class="story-scroll-hint">向下滾動</div>
-			</div>
-		</section>
+      <div class="story-hero__content" data-mouse-layer="0.12">
+        <p class="story-kicker">漁夫視角的海洋保育</p>
+        <h1 data-split>養大我們的那片海</h1>
+        <p class="story-lead" data-split>
+          海風的味道，以前對我來說，就是家裡飯菜的味道。
+        </p>
+        <div class="story-hero__meta">
+          <span>一位老漁夫的獨白</span>
+        </div>
+        <div class="story-scroll-hint">向下滾動</div>
+      </div>
+    </section>
 
-		{/* ===== 主要故事內容區 ===== */}
-		<main data-story-content>
+    {/* ===== 主要故事內容區 ===== */}
+    <main data-story-content>
+      {/* ============================================= */}
+      {/* ===== Scene 1：養大我們的那片海 ===== */}
+      {/* 通透的琉璃海 — 湖水綠/淺青漸變 */}
+      {/* ============================================= */}
+      <section
+        class="story-section"
+        data-story-section
+        data-scene-id="scene-1"
+        data-scene-color="#0d4f4f"
+        data-scene-end="#0a3d5c"
+        data-scene-accent="#5eead4"
+      >
+        {/* 背景層: 垂直光幕 (Volumetric Light) */}
+        <div
+          class="parallax-layer--bg"
+          data-parallax-layer="bg"
+          aria-hidden="true"
+        >
+          <div class="scene-assets" data-scene-assets="lightshafts"></div>
+        </div>
 
-			{/* ============================================= */}
-			{/* ===== 第一章：養大我們的那片海 ===== */}
-			{/* 破曉前的晨光，平靜的海藍色 */}
-			{/* ============================================= */}
-			<section
-				class="story-section"
-				data-story-section
-				data-scene-id="scene-1"
-				data-scene-color="#475569"
-				data-scene-end="#1e293b"
-				data-scene-accent="#f4b65a"
-			>
-				{/* 動態背景：光束 + 浮游生物 */}
-				<div class="scene-assets" data-scene-assets="beams" aria-hidden="true"></div>
+        {/* 前景層: 極細小氣泡 — 極快速上升 */}
+        <div
+          class="parallax-layer--fg"
+          data-parallax-layer="fg"
+          aria-hidden="true"
+        >
+          <div class="scene-assets" data-scene-assets="bubbles"></div>
+        </div>
 
-				<div class="story-section__inner">
-					<div class="story-section__header">
-						<p class="story-section__label">第一章</p>
-						<h2 data-split>養大我們的那片海</h2>
-					</div>
-					<div class="story-body">
-						<p data-reveal>海風的味道，以前對我來說，就是家裡飯菜的味道。</p>
-						<p data-reveal>每天天還沒亮，我就得出海。做這行做了一輩子了，年輕時跟著我爸學，到現在自己帶船，這片海養活了我們一家好幾代。</p>
-						<p data-reveal>我年輕的時候，海不是現在這樣。那時候海水清得很，低頭看下去，底下魚群游過去都看得清清楚楚，陽光照進海裡，水是亮的，海風聞起來就是鹹鹹乾淨的味道。</p>
-					</div>
-					<div class="story-divider" aria-hidden="true"></div>
-				</div>
-			</section>
+        {/* 中景層: 文字內容 */}
+        <div class="story-section__inner" data-parallax-layer="mid">
+          <div class="story-section__header">
+            <p class="story-section__label">第一章</p>
+            <h2 data-split>養大我們的那片海</h2>
+          </div>
+          <div class="story-body">
+            <p data-reveal>海風的味道，以前對我來說，就是家裡飯菜的味道。</p>
+            <p data-reveal>
+              每天天還沒亮，我就得出海。做這行做了一輩子了，年輕時跟著我爸學，到現在自己帶船，這片海養活了我們一家好幾代。
+            </p>
+            <p data-reveal>
+              我年輕的時候，海不是現在這樣。那時候海水清得很，低頭看下去，底下魚群游過去都看得清清楚楚，陽光照進海裡，水是亮的，海風聞起來就是鹹鹹乾淨的味道。
+            </p>
+          </div>
+          <div class="story-divider" aria-hidden="true"></div>
+        </div>
+      </section>
 
-			{/* ============================================= */}
-			{/* ===== 第二章：那時候，魚多到抓不完 ===== */}
-			{/* 耀眼的黃昏夕陽金黃色 */}
-			{/* ============================================= */}
-			<section
-				class="story-section"
-				data-story-section
-				data-scene-id="scene-2"
-				data-scene-color="#a16207"
-				data-scene-end="#422006"
-				data-scene-accent="#fbbf24"
-			>
-				{/* 動態背景：魚群剪影 */}
-				<div class="scene-assets" data-scene-assets="fish" aria-hidden="true"></div>
+      {/* ============================================= */}
+      {/* ===== Scene 2：那時候，魚多到抓不完 ===== */}
+      {/* 深邃靛藍 — 銀色魚群光暈 */}
+      {/* ============================================= */}
+      <section
+        class="story-section"
+        data-story-section
+        data-scene-id="scene-2"
+        data-scene-color="#0f3460"
+        data-scene-end="#0a192f"
+        data-scene-accent="#38bdf8"
+      >
+        {/* 背景層: 深層銀色光暈 */}
+        <div
+          class="parallax-layer--bg"
+          data-parallax-layer="bg"
+          aria-hidden="true"
+        >
+          <div class="scene-assets" data-scene-assets="streaks-bg"></div>
+        </div>
 
-				<div class="story-section__inner">
-					<div class="story-section__header">
-						<p class="story-section__label">第二章</p>
-						<h2 data-split>那時候，魚多到抓不完</h2>
-					</div>
-					<div class="story-body">
-						<p data-reveal>以前討海雖然辛苦，但心裡踏實。</p>
-						<p data-reveal>天剛黑的時候出去，撒個兩、三網，左右跑一跑，船艙就差不多滿了。回來把魚卸完，差不多晚上十一點，再出去一趟，常常又能再裝滿一船。那時候魚多到，你不用擔心今天有沒有收穫，只要擔心船<span class="story-emphasis" data-emphasis>裝不裝得下</span>。</p>
-						<p data-reveal>那時候我們都覺得，海這麼大，<span class="story-emphasis" data-emphasis>魚怎麼抓都抓不完</span>。</p>
-					</div>
-					<div class="story-divider" aria-hidden="true"></div>
-				</div>
-			</section>
+        {/* 中景層: 中速銀色光暈 — 魚球核心 */}
+        <div
+          class="parallax-layer--mid"
+          data-parallax-layer="mid-deco"
+          aria-hidden="true"
+        >
+          <div class="scene-assets" data-scene-assets="streaks-mid"></div>
+        </div>
 
-			{/* ============================================= */}
-			{/* ===== 第三章：網是沉的，魚卻沒了 ===== */}
-			{/* 混濁、深沉的暗青色 */}
-			{/* ============================================= */}
-			<section
-				class="story-section"
-				data-story-section
-				data-scene-id="scene-3"
-				data-scene-color="#0f766e"
-				data-scene-end="#042f2e"
-				data-scene-accent="#5eead4"
-			>
-				{/* 動態背景：垃圾沉降 */}
-				<div class="scene-assets" data-scene-assets="trash" aria-hidden="true"></div>
+        {/* 前景層: 快速銀色光暈 */}
+        <div
+          class="parallax-layer--fg"
+          data-parallax-layer="fg"
+          aria-hidden="true"
+        >
+          <div class="scene-assets" data-scene-assets="streaks-fg"></div>
+        </div>
 
-				<div class="story-section__inner">
-					<div class="story-section__header">
-						<p class="story-section__label">第三章</p>
-						<h2 data-split>網是沉的，魚卻沒了</h2>
-					</div>
-					<div class="story-body">
-						<p class="story-break" data-reveal>可是現在不一樣了。</p>
-						<p data-reveal>海還是那片海，浪聲也沒變，可海底下安靜了很多。以前下網，不用多久就能感覺到魚在掙扎，現在等半天，拉起來卻空空的。</p>
-						<p data-reveal>有時候網還是很沉，心裡想著這次總算有了，結果拉上來，沉的不是魚，是塑膠袋、保特瓶，還有一堆不知道從哪漂來的垃圾。</p>
-						<p data-reveal>
-							<span class="story-emphasis story-emphasis--strong" data-emphasis>我們要撈的是魚，結果撈上來的，卻是人丟掉的東西。</span>
-						</p>
-					</div>
-					<div class="story-divider" aria-hidden="true"></div>
-				</div>
-			</section>
+        {/* 文字層 */}
+        <div class="story-section__inner" data-parallax-layer="mid">
+          <div class="story-section__header">
+            <p class="story-section__label">第二章</p>
+            <h2 data-split>那時候，魚多到抓不完</h2>
+          </div>
+          <div class="story-body">
+            <p data-reveal>以前討海雖然辛苦，但心裡踏實。</p>
+            <p data-reveal>
+              天剛黑的時候出去，撒個兩、三網，左右跑一跑，船艙就差不多滿了。回來把魚卸完，差不多晚上十一點，再出去一趟，常常又能再裝滿一船。那時候魚多到，你不用擔心今天有沒有收穫，只要擔心船<span
+                class="story-emphasis"
+                data-emphasis>裝不裝得下</span
+              >。
+            </p>
+            <p data-reveal>
+              那時候我們都覺得，海這麼大，<span
+                class="story-emphasis"
+                data-emphasis>魚怎麼抓都抓不完</span
+              >。
+            </p>
+          </div>
+          <div class="story-divider" aria-hidden="true"></div>
+        </div>
+      </section>
 
-			{/* ============================================= */}
-			{/* ===== 第四章：海撐不住，我們也快撐不住了 ===== */}
-			{/* 令人窒息的深鐵灰至近黑色 */}
-			{/* ============================================= */}
-			<section
-				class="story-section"
-				data-story-section
-				data-scene-id="scene-4"
-				data-scene-color="#1e293b"
-				data-scene-end="#0f172a"
-				data-scene-accent="#fb7185"
-			>
-				{/* 動態背景：微塑膠顆粒 + CSS Noise 紋理 */}
-				<div class="scene-assets" data-scene-assets="microplastic" aria-hidden="true">
-					<div class="scene-noise-overlay"></div>
-				</div>
+      {/* ============================================= */}
+      {/* ===== Scene 3：網是沉的，魚卻沒了 ===== */}
+      {/* 混濁灰褐泥淖 — 塑膠薄膜覆蓋 */}
+      {/* ============================================= */}
+      <section
+        class="story-section"
+        data-story-section
+        data-scene-id="scene-3"
+        data-scene-color="#3d2b1f"
+        data-scene-end="#1c1917"
+        data-scene-accent="#a8a29e"
+      >
+        {/* 背景層: 垃圾碎片緩慢沉降 */}
+        <div
+          class="parallax-layer--bg"
+          data-parallax-layer="bg"
+          aria-hidden="true"
+        >
+          <div class="scene-assets" data-scene-assets="debris"></div>
+        </div>
 
-				<div class="story-section__inner">
-					<div class="story-section__header">
-						<p class="story-section__label">第四章</p>
-						<h2 data-split>海撐不住，我們也快撐不住了</h2>
-					</div>
-					<div class="story-body">
-						<p data-reveal>有時候看到魚肚子裡卡著塑膠，心裡真的不是滋味。</p>
-						<p data-reveal>魚活不下去，我們這些靠海吃飯的人，日子也越來越難過。網裡空了，口袋就跟著空。魚少了，賣不出價錢，家裡飯桌上的菜就少了一道，下趟出海的油錢也快湊不出來了。海裡的魚撐不住，我們這些靠海活著的人，也一樣快撐不住了。</p>
-						<p data-reveal>前幾天聽無線電，別的船也在說，最近漁獲都不好。跑遠洋的朋友也說，海上的魚沒以前那麼好找了。</p>
-						<p data-reveal>以前總覺得，海這麼大，魚怎麼抓都抓不完。現在才知道，再大的海，也<span class="story-emphasis" data-emphasis>經不起這樣糟蹋</span>。這不只是那些海龜、海豚的事。</p>
-						<p data-reveal><span class="story-emphasis story-emphasis--strong" data-emphasis>魚沒了，我們怎麼活？以後我的孩子、我的孫子，還能不能靠這片海吃飯？</span></p>
-					</div>
-					<div class="story-divider" aria-hidden="true"></div>
-				</div>
-			</section>
+        {/* 極度前景覆蓋層: 巨大半透明塑膠薄膜 */}
+        <div
+          class="parallax-layer--overlay"
+          data-parallax-layer="overlay"
+          aria-hidden="true"
+        >
+          <div class="scene-plastic-film" data-plastic-film></div>
+        </div>
 
-			{/* ============================================= */}
-			{/* ===== 第五章：海要是壞了，誰來修？ ===== */}
-			{/* 深邃的墨綠漸層，透著碧綠色透光 */}
-			{/* ============================================= */}
-			<section
-				class="story-section"
-				data-story-section
-				data-scene-id="scene-5"
-				data-scene-color="#064e3b"
-				data-scene-end="#022c22"
-				data-scene-accent="#34d399"
-			>
-				{/* 動態背景：頂部微光 + 孤單的小魚 */}
-				<div class="scene-assets" data-scene-assets="hope" aria-hidden="true"></div>
+        {/* 文字層 */}
+        <div class="story-section__inner" data-parallax-layer="mid">
+          <div class="story-section__header">
+            <p class="story-section__label">第三章</p>
+            <h2 data-split>網是沉的，魚卻沒了</h2>
+          </div>
+          <div class="story-body">
+            <p class="story-break" data-reveal>可是現在不一樣了。</p>
+            <p data-reveal>
+              海還是那片海，浪聲也沒變，可海底下安靜了很多。以前下網，不用多久就能感覺到魚在掙扎，現在等半天，拉起來卻空空的。
+            </p>
+            <p data-reveal>
+              有時候網還是很沉，心裡想著這次總算有了，結果拉上來，沉的不是魚，是塑膠袋、保特瓶，還有一堆不知道從哪漂來的垃圾。
+            </p>
+            <p data-reveal>
+              <span class="story-emphasis story-emphasis--strong" data-emphasis
+                >我們要撈的是魚，結果撈上來的，卻是人丟掉的東西。</span
+              >
+            </p>
+          </div>
+          <div class="story-divider" aria-hidden="true"></div>
+        </div>
+      </section>
 
-				<div class="story-section__inner">
-					<div class="story-section__header">
-						<p class="story-section__label">第五章</p>
-						<h2 data-split>海要是壞了，誰來修？</h2>
-					</div>
-					<div class="story-body">
-						<blockquote class="story-quote" data-reveal>
-							<p><span class="story-emphasis" data-emphasis>船壞了，我還能修。</span></p>
-							<p><span class="story-emphasis" data-emphasis>可要是海壞了，誰來修？</span></p>
-						</blockquote>
-						<p data-reveal>我只希望，等我老到不能出海的那一天，這片海還在。</p>
-						<p data-reveal>等我孫子長大的時候，還能看見海裡有魚，不是只有垃圾。</p>
-					</div>
-				</div>
-			</section>
+      {/* ============================================= */}
+      {/* ===== Scene 4：海撐不住，我們也快撐不住了 ===== */}
+      {/* 原油外洩的深淵 — 純黑 + 毒性光斑 */}
+      {/* ============================================= */}
+      <section
+        class="story-section"
+        data-story-section
+        data-scene-id="scene-4"
+        data-scene-color="#080808"
+        data-scene-end="#000000"
+        data-scene-accent="#fb7185"
+      >
+        {/* 背景層: 毒性徑向漸層光斑 */}
+        <div
+          class="parallax-layer--bg"
+          data-parallax-layer="bg"
+          aria-hidden="true"
+        >
+          <div class="scene-assets" data-scene-assets="toxic-glow"></div>
+        </div>
 
-			{/* ===== 行動呼籲區段 ===== */}
-			<section class="story-cta" data-cta>
-				<div class="story-cta__card">
-					<h3 data-split>保護我們的海洋</h3>
-					<p data-reveal>這不只是漁夫的故事，也是我們所有人的故事。海洋需要我們的行動。</p>
-					<a class="story-cta__button" data-cta-button href={`${localeUrl('/game')}#action-external`}>{t('cta.join', currentLocale)}</a>
-				</div>
-			</section>
-		</main>
+        {/* 全視角層: 混亂微塑膠碎片 */}
+        <div
+          class="parallax-layer--fg"
+          data-parallax-layer="fg"
+          aria-hidden="true"
+        >
+          <div class="scene-assets" data-scene-assets="microplastic">
+            <div class="scene-noise-overlay"></div>
+          </div>
+        </div>
 
-		<script>
-		{/* ===== 動畫初始化腳本 ===== */}
-		import { initStoryAnimations, cleanupStoryAnimations } from '../../scripts/story-animations.js';
+        {/* 文字層 */}
+        <div class="story-section__inner" data-parallax-layer="mid">
+          <div class="story-section__header">
+            <p class="story-section__label">第四章</p>
+            <h2 data-split>海撐不住，我們也快撐不住了</h2>
+          </div>
+          <div class="story-body">
+            <p data-reveal>有時候看到魚肚子裡卡著塑膠，心裡真的不是滋味。</p>
+            <p data-reveal>
+              魚活不下去，我們這些靠海吃飯的人，日子也越來越難過。網裡空了，口袋就跟著空。魚少了，賣不出價錢，家裡飯桌上的菜就少了一道，下趟出海的油錢也快湊不出來了。海裡的魚撐不住，我們這些靠海活著的人，也一樣快撐不住了。
+            </p>
+            <p data-reveal>
+              前幾天聽無線電，別的船也在說，最近漁獲都不好。跑遠洋的朋友也說，海上的魚沒以前那麼好找了。
+            </p>
+            <p data-reveal>
+              以前總覺得，海這麼大，魚怎麼抓都抓不完。現在才知道，再大的海，也<span
+                class="story-emphasis"
+                data-emphasis>經不起這樣糟蹋</span
+              >。這不只是那些海龜、海豚的事。
+            </p>
+            <p data-reveal>
+              <span class="story-emphasis story-emphasis--strong" data-emphasis
+                >魚沒了，我們怎麼活？以後我的孩子、我的孫子，還能不能靠這片海吃飯？</span
+              >
+            </p>
+          </div>
+          <div class="story-divider" aria-hidden="true"></div>
+        </div>
+      </section>
 
-		document.addEventListener('DOMContentLoaded', initStoryAnimations);
-		document.addEventListener('astro:before-swap', cleanupStoryAnimations);
-		</script>
-	</div>
+      {/* ============================================= */}
+      {/* ===== Scene 5：海要是壞了，誰來修？ ===== */}
+      {/* 徹底的漆黑 — 孤獨的魚鉤 */}
+      {/* ============================================= */}
+      <section
+        class="story-section"
+        data-story-section
+        data-scene-id="scene-5"
+        data-scene-color="#020202"
+        data-scene-end="#000000"
+        data-scene-accent="#5eead4"
+      >
+        {/* 前景層: 魚鉤懸掛 */}
+        <div
+          class="parallax-layer--fg"
+          data-parallax-layer="fg"
+          aria-hidden="true"
+        >
+          <div class="scene-fishhook-container" data-fishhook>
+            <div class="scene-fishing-line"></div>
+            <div class="scene-fishhook">
+              <svg
+                viewBox="0 0 28 42"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                {/* 魚鉤 SVG — 生鏽的金屬質感 */}
+                <path
+                  d="M14 0 L14 22 Q14 34 8 38 Q2 42 2 36 Q2 30 8 28"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  fill="none"
+                  stroke-linecap="round"></path>
+                {/* 倒鉤 */}
+                <path
+                  d="M8 28 L5 24"
+                  stroke="currentColor"
+                  stroke-width="1.2"
+                  stroke-linecap="round"></path>
+              </svg>
+            </div>
+            {/* 微弱發光點 */}
+            <div class="scene-float-light" data-float-light></div>
+          </div>
+        </div>
+
+        {/* 文字層 */}
+        <div class="story-section__inner" data-parallax-layer="mid">
+          <div class="story-section__header">
+            <p class="story-section__label">第五章</p>
+            <h2 data-split>海要是壞了，誰來修？</h2>
+          </div>
+          <div class="story-body">
+            <blockquote class="story-quote" data-reveal>
+              <p>
+                <span class="story-emphasis" data-emphasis
+                  >船壞了，我還能修。</span
+                >
+              </p>
+              <p>
+                <span class="story-emphasis" data-emphasis
+                  >可要是海壞了，誰來修？</span
+                >
+              </p>
+            </blockquote>
+            <p data-reveal>我只希望，等我老到不能出海的那一天，這片海還在。</p>
+            <p data-reveal>
+              等我孫子長大的時候，還能看見海裡有魚，不是只有垃圾。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== 行動呼籲區段 ===== */}
+      <section class="story-cta" data-cta>
+        <div class="story-cta__card">
+          <h3 data-split>保護我們的海洋</h3>
+          <p data-reveal>
+            這不只是漁夫的故事，也是我們所有人的故事。海洋需要我們的行動。
+          </p>
+          <a
+            class="story-cta__button"
+            data-cta-button
+            href={`${localeUrl("/game")}#action-external`}
+            >{t("cta.join", currentLocale)}</a
+          >
+        </div>
+      </section>
+    </main>
+
+    <script>
+      {
+        /* ===== 動畫初始化腳本 ===== */
+      }
+      import {
+        initStoryAnimations,
+        cleanupStoryAnimations,
+      } from "../../scripts/story-animations.js";
+
+      document.addEventListener("DOMContentLoaded", initStoryAnimations);
+      document.addEventListener("astro:before-swap", cleanupStoryAnimations);
+    </script>
+  </div>
 </Layout>
