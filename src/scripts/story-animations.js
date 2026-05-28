@@ -463,51 +463,107 @@ export function initStoryAnimations() {
 	// =====================================================
 	sections.forEach((section, sectionIndex) => {
 		const isLastScene = sectionIndex === sections.length - 1;
-		const sectionHeader = section.querySelector('.story-section__header');
 		const label = section.querySelector('.story-section__label');
 		const heading = section.querySelector('h2');
 		const quote = section.querySelector('.story-quote');
+		const headingChars = heading ? Array.from(heading.querySelectorAll('.split-char')) : [];
 		const lines = Array.from(section.querySelectorAll('.story-body .story-line'));
-		const revealItems = Array.from(section.querySelectorAll('[data-reveal]'));
-		const allTextItems = [label, heading, quote, ...lines, ...revealItems].filter(Boolean);
+		const lineCount = lines.length;
+		const baseScroll = isLastScene ? 900 : 700;
+		const perLineScroll = isLastScene ? 170 : 140;
+		const scrollDistance = Math.max(1200, baseScroll + lineCount * perLineScroll);
 
-		// 設定初始狀態 — 電影級上浮淡入
-		if (heading) gsap.set(heading, { opacity: 0, y: 50 });
-		if (label) gsap.set(label, { opacity: 0, y: 30 });
-		if (quote) gsap.set(quote, { opacity: 0, y: 50 });
-		gsap.set(lines, { opacity: 0, y: 40 });
-		gsap.set(revealItems, { opacity: 0, y: 50 });
+		const applySceneColors = () => {
+			trackTween(gsap.to(root, {
+				'--scene-color': section.dataset.sceneColor || '#0d4f4f',
+				'--scene-color-end': section.dataset.sceneEnd || '#0a3d5c',
+				'--scene-accent': section.dataset.sceneAccent || '#5eead4',
+				duration: 1.2,
+				ease: 'power2.inOut',
+			}));
+		};
 
-		// 文字出現速度：Scene 5 最慢，Scene 1 標準
-		const textDuration = isLastScene ? 3.0 : 1.5;
-		const staggerDelay = isLastScene ? 0.4 : 0.15;
+		// 設定初始狀態 — 進場前全隱藏
+		if (label) gsap.set(label, { opacity: 0, y: 24 });
+		if (headingChars.length) {
+			gsap.set(headingChars, { opacity: 0, y: 18, rotateX: 45 });
+		} else if (heading) {
+			gsap.set(heading, { opacity: 0, y: 36 });
+		}
+		if (quote) gsap.set(quote, { opacity: 0, y: 24 });
+		gsap.set(lines, { opacity: 0, y: 28 });
 
-		// ===== ScrollTrigger: 背景色 + accent 色切換 =====
-		trackTrigger(
-			ScrollTrigger.create({
+		const headingStagger = headingChars.length ? 0.03 : 0;
+		const headingAnimDuration = headingChars.length
+			? 0.8 + headingStagger * Math.max(0, headingChars.length - 1)
+			: heading
+				? 0.8
+				: 0;
+		const headerLead = Math.max(label ? 0.6 : 0, headingAnimDuration) + 0.2;
+		const lineDuration = isLastScene ? 1.1 : 0.85;
+		const lineStagger = isLastScene ? 0.5 : 0.32;
+
+		const pinTimeline = gsap.timeline({
+			scrollTrigger: {
 				trigger: section,
-				start: 'top 70%',
-				end: 'bottom 30%',
-				onEnter: () => {
-					trackTween(gsap.to(root, {
-						'--scene-color': section.dataset.sceneColor || '#0d4f4f',
-						'--scene-color-end': section.dataset.sceneEnd || '#0a3d5c',
-						'--scene-accent': section.dataset.sceneAccent || '#5eead4',
-						duration: 1.2,
-						ease: 'power2.inOut',
-					}));
-				},
-				onEnterBack: () => {
-					trackTween(gsap.to(root, {
-						'--scene-color': section.dataset.sceneColor || '#0d4f4f',
-						'--scene-color-end': section.dataset.sceneEnd || '#0a3d5c',
-						'--scene-accent': section.dataset.sceneAccent || '#5eead4',
-						duration: 1.2,
-						ease: 'power2.inOut',
-					}));
-				},
-			})
-		);
+				start: 'top top',
+				end: `+=${scrollDistance}`,
+				scrub: true,
+				pin: true,
+				pinSpacing: true,
+				anticipatePin: 1,
+				onEnter: applySceneColors,
+				onEnterBack: applySceneColors,
+			},
+		});
+		trackTween(pinTimeline);
+
+		if (label) {
+			pinTimeline.to(label, {
+				opacity: 1,
+				y: 0,
+				duration: 0.6,
+				ease: 'power2.out',
+			}, 0);
+		}
+
+		if (headingChars.length) {
+			pinTimeline.to(headingChars, {
+				opacity: 1,
+				y: 0,
+				rotateX: 0,
+				duration: 0.8,
+				stagger: headingStagger,
+				ease: 'power3.out',
+			}, 0.05);
+		} else if (heading) {
+			pinTimeline.to(heading, {
+				opacity: 1,
+				y: 0,
+				duration: 0.8,
+				ease: 'power3.out',
+			}, 0.05);
+		}
+
+		pinTimeline.addLabel('lines-start', headerLead);
+		if (quote) {
+			pinTimeline.to(quote, {
+				opacity: 1,
+				y: 0,
+				duration: 0.6,
+				ease: 'power2.out',
+			}, 'lines-start');
+		}
+
+		if (lines.length) {
+			pinTimeline.to(lines, {
+				opacity: 1,
+				y: 0,
+				duration: lineDuration,
+				stagger: lineStagger,
+				ease: 'power2.out',
+			}, 'lines-start');
+		}
 
 		// ===== ScrollTrigger: 視差層速度差 =====
 		const bgLayers = section.querySelectorAll('[data-parallax-layer="bg"]');
@@ -571,107 +627,6 @@ export function initStoryAnimations() {
 			}));
 		});
 
-		// ===== ScrollTrigger: 文字電影級上浮淡入 =====
-		// 標題
-		if (heading) {
-			trackTrigger(
-				ScrollTrigger.create({
-					trigger: heading,
-					start: 'top 85%',
-					onEnter: () => {
-						gsap.to(heading, {
-							opacity: 1, y: 0,
-							duration: textDuration, ease: 'power3.out',
-						});
-						// split-char 動畫
-						const chars = heading.querySelectorAll('.split-char');
-						if (chars.length) {
-							gsap.fromTo(chars,
-								{ opacity: 0, y: 20, rotateX: 45 },
-								{
-									opacity: 1, y: 0, rotateX: 0,
-									duration: textDuration, stagger: 0.03, ease: 'power3.out',
-								}
-							);
-						}
-					},
-					once: true,
-				})
-			);
-		}
-
-		// 章節標籤
-		if (label) {
-			trackTrigger(
-				ScrollTrigger.create({
-					trigger: label,
-					start: 'top 88%',
-					onEnter: () => {
-						gsap.to(label, {
-							opacity: 1, y: 0,
-							duration: 0.8, ease: 'power2.out',
-						});
-					},
-					once: true,
-				})
-			);
-		}
-
-		// 段落文字逐行浮現 — 緩慢上浮 + 淡入
-		lines.forEach((line, idx) => {
-			trackTrigger(
-				ScrollTrigger.create({
-					trigger: line,
-					start: 'top 88%',
-					onEnter: () => {
-						gsap.to(line, {
-							opacity: 1, y: 0,
-							duration: textDuration,
-							delay: idx * staggerDelay,
-							ease: 'power2.out',
-						});
-					},
-					once: true,
-				})
-			);
-		});
-
-		// data-reveal 元素
-		revealItems.forEach((item, idx) => {
-			trackTrigger(
-				ScrollTrigger.create({
-					trigger: item,
-					start: 'top 88%',
-					onEnter: () => {
-						gsap.to(item, {
-							opacity: 1, y: 0,
-							duration: textDuration,
-							delay: idx * staggerDelay,
-							ease: 'power2.out',
-						});
-					},
-					once: true,
-				})
-			);
-		});
-
-		// 引言
-		if (quote) {
-			trackTrigger(
-				ScrollTrigger.create({
-					trigger: quote,
-					start: 'top 85%',
-					onEnter: () => {
-						gsap.to(quote, {
-							opacity: 1, y: 0,
-							duration: textDuration * 1.3,
-							ease: 'power2.out',
-						});
-					},
-					once: true,
-				})
-			);
-		}
 	});
 
 	// =====================================================
@@ -917,23 +872,58 @@ export function initStoryAnimations() {
 	// =====================================================
 	const mouseLayers = Array.from(root.querySelectorAll('[data-mouse-layer]'));
 	if (mouseLayers.length) {
-		const setMouseX = gsap.quickSetter(root, '--mouse-x', '%');
-		const setMouseY = gsap.quickSetter(root, '--mouse-y', '%');
+		// Use pixel-based spotlight like sdg-hero for consistent XY lerp
+		const setMouseX = gsap.quickSetter(root, '--mouse-x', 'px');
+		const setMouseY = gsap.quickSetter(root, '--mouse-y', 'px');
 		const layerSetters = mouseLayers.map((layer) => ({
 			depth: Number(layer.dataset.mouseLayer || 0.2),
 			x: gsap.quickSetter(layer, 'x', 'px'),
 			y: gsap.quickSetter(layer, 'y', 'px'),
 		}));
 
+		// store pixel coordinates (relative to root)
+		let targetMouseX = 0;
+		let targetMouseY = 0;
+		let currentMouseX = 0;
+		let currentMouseY = 0;
+		// initialize defaults after measuring
+		const initSpotDefaults = () => {
+			const r = root.getBoundingClientRect();
+			targetMouseX = currentMouseX = r.width * 0.5;
+			targetMouseY = currentMouseY = r.height * 0.45;
+		};
+		initSpotDefaults();
+		// write initial CSS vars immediately
+		setMouseX(currentMouseX);
+		setMouseY(currentMouseY);
+		let pointerActive = false;
+		const spotlightEase = 0.01;
+
+		const tickSpotlight = () => {
+			currentMouseX += (targetMouseX - currentMouseX) * spotlightEase;
+			currentMouseY += (targetMouseY - currentMouseY) * spotlightEase;
+			setMouseX(currentMouseX);
+			setMouseY(currentMouseY);
+		};
+
+		gsap.ticker.add(tickSpotlight);
+		addCleanup(() => {
+			gsap.ticker.remove(tickSpotlight);
+		});
+
 		const handleMove = (event) => {
 			const rect = root.getBoundingClientRect();
-			const relativeX = ((event.clientX - rect.left) / rect.width) * 100;
-			const relativeY = ((event.clientY - rect.top) / rect.height) * 100;
+			const pxX = event.clientX - rect.left;
+			const pxY = event.clientY - rect.top;
+			const relativeX = (pxX / rect.width) * 100;
+			const relativeY = (pxY / rect.height) * 100;
 			const offsetX = (relativeX - 50) / 50;
 			const offsetY = (relativeY - 50) / 50;
 
-			setMouseX(relativeX);
-			setMouseY(relativeY);
+			// target in pixels (clamped inside rect)
+			targetMouseX = Math.max(0, Math.min(rect.width, pxX));
+			targetMouseY = Math.max(0, Math.min(rect.height, pxY));
+			pointerActive = true;
 			layerSetters.forEach((layer) => {
 				layer.x(offsetX * 28 * layer.depth);
 				layer.y(offsetY * 28 * layer.depth);
@@ -941,8 +931,10 @@ export function initStoryAnimations() {
 		};
 
 		const handleLeave = () => {
-			setMouseX(50);
-			setMouseY(28);
+			const rect = root.getBoundingClientRect();
+			targetMouseX = rect.width * 0.5;
+			targetMouseY = rect.height * 0.45;
+			pointerActive = false;
 			layerSetters.forEach((layer) => {
 				layer.x(0);
 				layer.y(0);
