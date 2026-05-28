@@ -872,23 +872,58 @@ export function initStoryAnimations() {
 	// =====================================================
 	const mouseLayers = Array.from(root.querySelectorAll('[data-mouse-layer]'));
 	if (mouseLayers.length) {
-		const setMouseX = gsap.quickSetter(root, '--mouse-x', '%');
-		const setMouseY = gsap.quickSetter(root, '--mouse-y', '%');
+		// Use pixel-based spotlight like sdg-hero for consistent XY lerp
+		const setMouseX = gsap.quickSetter(root, '--mouse-x', 'px');
+		const setMouseY = gsap.quickSetter(root, '--mouse-y', 'px');
 		const layerSetters = mouseLayers.map((layer) => ({
 			depth: Number(layer.dataset.mouseLayer || 0.2),
 			x: gsap.quickSetter(layer, 'x', 'px'),
 			y: gsap.quickSetter(layer, 'y', 'px'),
 		}));
 
+		// store pixel coordinates (relative to root)
+		let targetMouseX = 0;
+		let targetMouseY = 0;
+		let currentMouseX = 0;
+		let currentMouseY = 0;
+		// initialize defaults after measuring
+		const initSpotDefaults = () => {
+			const r = root.getBoundingClientRect();
+			targetMouseX = currentMouseX = r.width * 0.5;
+			targetMouseY = currentMouseY = r.height * 0.45;
+		};
+		initSpotDefaults();
+		// write initial CSS vars immediately
+		setMouseX(currentMouseX);
+		setMouseY(currentMouseY);
+		let pointerActive = false;
+		const spotlightEase = 0.01;
+
+		const tickSpotlight = () => {
+			currentMouseX += (targetMouseX - currentMouseX) * spotlightEase;
+			currentMouseY += (targetMouseY - currentMouseY) * spotlightEase;
+			setMouseX(currentMouseX);
+			setMouseY(currentMouseY);
+		};
+
+		gsap.ticker.add(tickSpotlight);
+		addCleanup(() => {
+			gsap.ticker.remove(tickSpotlight);
+		});
+
 		const handleMove = (event) => {
 			const rect = root.getBoundingClientRect();
-			const relativeX = ((event.clientX - rect.left) / rect.width) * 100;
-			const relativeY = ((event.clientY - rect.top) / rect.height) * 100;
+			const pxX = event.clientX - rect.left;
+			const pxY = event.clientY - rect.top;
+			const relativeX = (pxX / rect.width) * 100;
+			const relativeY = (pxY / rect.height) * 100;
 			const offsetX = (relativeX - 50) / 50;
 			const offsetY = (relativeY - 50) / 50;
 
-			setMouseX(relativeX);
-			setMouseY(relativeY);
+			// target in pixels (clamped inside rect)
+			targetMouseX = Math.max(0, Math.min(rect.width, pxX));
+			targetMouseY = Math.max(0, Math.min(rect.height, pxY));
+			pointerActive = true;
 			layerSetters.forEach((layer) => {
 				layer.x(offsetX * 28 * layer.depth);
 				layer.y(offsetY * 28 * layer.depth);
@@ -896,8 +931,10 @@ export function initStoryAnimations() {
 		};
 
 		const handleLeave = () => {
-			setMouseX(50);
-			setMouseY(28);
+			const rect = root.getBoundingClientRect();
+			targetMouseX = rect.width * 0.5;
+			targetMouseY = rect.height * 0.45;
+			pointerActive = false;
 			layerSetters.forEach((layer) => {
 				layer.x(0);
 				layer.y(0);
