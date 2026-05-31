@@ -213,7 +213,7 @@ export type GameKey = keyof typeof ui['zh-tw'];
 
 const zhTrashItems = [
 	{
-		name: '塑膠袋',
+		name: '塑膠袋 (Plastic Bag)',
 		time: '500年',
 		message: '塑膠袋是海洋污染的主要元凶之一。它們易被海洋生物誤食，造成窒息或腸道損傷。',
 		variants: [
@@ -235,7 +235,7 @@ const zhTrashItems = [
 		],
 	},
 	{
-		name: '吸管',
+		name: '吸管 (Plastic Straw)',
 		time: '200年',
 		message: '拋棄式吸管每年造成數百萬噸海洋垃圾。許多海龜、海鳥因此受傷。',
 		variants: [
