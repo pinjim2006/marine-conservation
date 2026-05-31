@@ -2,7 +2,8 @@
 // ===== 導入模組 =====
 import Layout from "../../layouts/Layout.astro";
 import "../../styles/story.css";
-import { t } from "../../i18n/ui";
+import { t as tui } from "../../i18n/ui";
+import { t as tstory } from "../../i18n/story";
 
 // ===== 靜態路徑生成 =====
 export async function getStaticPaths() {
@@ -18,7 +19,7 @@ const currentLocale = Astro.currentLocale ?? "zh-tw";
 const localeUrl = (path: string) => `/${currentLocale}${path}`;
 ---
 
-<Layout title="養大我們的那片海 | 漁夫視角的海洋保育">
+<Layout title={tstory("story.meta.title", currentLocale)}>
   {/* ===== 故事頁面主容器 ===== */}
   <div class="story-page" data-story-root>
     {/* 動態背景色彩層 — GSAP scrub 驅動洗色 */}
@@ -65,15 +66,17 @@ const localeUrl = (path: string) => `/${currentLocale}${path}`;
       </div>
 
       <div class="story-hero__content" data-mouse-layer="0.12">
-        <p class="story-kicker">漁夫視角的海洋保育</p>
-        <h1 data-split>養大我們的那片海</h1>
+        <p class="story-kicker">{tstory("story.hero.kicker", currentLocale)}</p>
+        <h1 data-split>{tstory("story.hero.title", currentLocale)}</h1>
         <p class="story-lead" data-split>
-          海風的味道，以前對我來說，就是家裡飯菜的味道。
+          {tstory("story.hero.lead", currentLocale)}
         </p>
         <div class="story-hero__meta">
-          <span>一位老漁夫的獨白</span>
+          <span>{tstory("story.hero.meta", currentLocale)}</span>
         </div>
-        <div class="story-scroll-hint">向下滾動</div>
+        <div class="story-scroll-hint">
+          {tui("general.scrollDown", currentLocale)}
+        </div>
       </div>
     </section>
 
@@ -112,16 +115,18 @@ const localeUrl = (path: string) => `/${currentLocale}${path}`;
         {/* 中景層: 文字內容 */}
         <div class="story-section__inner" data-parallax-layer="mid">
           <div class="story-section__header">
-            <p class="story-section__label">第一章</p>
-            <h2 data-split>養大我們的那片海</h2>
+            <p class="story-section__label">
+              {tstory("story.scene1.label", currentLocale)}
+            </p>
+            <h2 data-split>{tstory("story.scene1.title", currentLocale)}</h2>
           </div>
           <div class="story-body">
-            <p data-reveal>海風的味道，以前對我來說，就是家裡飯菜的味道。</p>
+            <p data-reveal>{tstory("story.scene1.p1", currentLocale)}</p>
             <p data-reveal>
-              每天天還沒亮，我就得出海。做這行做了一輩子了，年輕時跟著我爸學，到現在自己帶船，這片海養活了我們一家好幾代。
+              {tstory("story.scene1.p2", currentLocale)}
             </p>
             <p data-reveal>
-              我年輕的時候，海不是現在這樣。那時候海水清得很，低頭看下去，底下魚群游過去都看得清清楚楚，陽光照進海裡，水是亮的，海風聞起來就是鹹鹹乾淨的味道。
+              {tstory("story.scene1.p3", currentLocale)}
             </p>
           </div>
           <div class="story-divider" aria-hidden="true"></div>
@@ -170,22 +175,26 @@ const localeUrl = (path: string) => `/${currentLocale}${path}`;
         {/* 文字層 */}
         <div class="story-section__inner" data-parallax-layer="mid">
           <div class="story-section__header">
-            <p class="story-section__label">第二章</p>
-            <h2 data-split>那時候，魚多到抓不完</h2>
+            <p class="story-section__label">
+              {tstory("story.scene2.label", currentLocale)}
+            </p>
+            <h2 data-split>{tstory("story.scene2.title", currentLocale)}</h2>
           </div>
           <div class="story-body">
-            <p data-reveal>以前討海雖然辛苦，但心裡踏實。</p>
+            <p data-reveal>{tstory("story.scene2.p1", currentLocale)}</p>
             <p data-reveal>
-              天剛黑的時候出去，撒個兩、三網，左右跑一跑，船艙就差不多滿了。回來把魚卸完，差不多晚上十一點，再出去一趟，常常又能再裝滿一船。那時候魚多到，你不用擔心今天有沒有收穫，只要擔心船<span
+              {tstory("story.scene2.p2.before", currentLocale)}<span
                 class="story-emphasis"
-                data-emphasis>裝不裝得下</span
-              >。
+                data-emphasis
+                >{tstory("story.scene2.p2.emphasis", currentLocale)}</span
+              >{tstory("story.scene2.p2.after", currentLocale)}
             </p>
             <p data-reveal>
-              那時候我們都覺得，海這麼大，<span
+              {tstory("story.scene2.p3.before", currentLocale)}<span
                 class="story-emphasis"
-                data-emphasis>魚怎麼抓都抓不完</span
-              >。
+                data-emphasis
+                >{tstory("story.scene2.p3.emphasis", currentLocale)}</span
+              >{tstory("story.scene2.p3.after", currentLocale)}
             </p>
           </div>
           <div class="story-divider" aria-hidden="true"></div>
@@ -225,20 +234,24 @@ const localeUrl = (path: string) => `/${currentLocale}${path}`;
         {/* 文字層 */}
         <div class="story-section__inner" data-parallax-layer="mid">
           <div class="story-section__header">
-            <p class="story-section__label">第三章</p>
-            <h2 data-split>網是沉的，魚卻沒了</h2>
+            <p class="story-section__label">
+              {tstory("story.scene3.label", currentLocale)}
+            </p>
+            <h2 data-split>{tstory("story.scene3.title", currentLocale)}</h2>
           </div>
           <div class="story-body">
-            <p class="story-break" data-reveal>可是現在不一樣了。</p>
-            <p data-reveal>
-              海還是那片海，浪聲也沒變，可海底下安靜了很多。以前下網，不用多久就能感覺到魚在掙扎，現在等半天，拉起來卻空空的。
+            <p class="story-break" data-reveal>
+              {tstory("story.scene3.p1", currentLocale)}
             </p>
             <p data-reveal>
-              有時候網還是很沉，心裡想著這次總算有了，結果拉上來，沉的不是魚，是塑膠袋、保特瓶，還有一堆不知道從哪漂來的垃圾。
+              {tstory("story.scene3.p2", currentLocale)}
+            </p>
+            <p data-reveal>
+              {tstory("story.scene3.p3", currentLocale)}
             </p>
             <p data-reveal>
               <span class="story-emphasis story-emphasis--strong" data-emphasis
-                >我們要撈的是魚，結果撈上來的，卻是人丟掉的東西。</span
+                >{tstory("story.scene3.p4", currentLocale)}</span
               >
             </p>
           </div>
@@ -281,26 +294,29 @@ const localeUrl = (path: string) => `/${currentLocale}${path}`;
         {/* 文字層 */}
         <div class="story-section__inner" data-parallax-layer="mid">
           <div class="story-section__header">
-            <p class="story-section__label">第四章</p>
-            <h2 data-split>海撐不住，我們也快撐不住了</h2>
+            <p class="story-section__label">
+              {tstory("story.scene4.label", currentLocale)}
+            </p>
+            <h2 data-split>{tstory("story.scene4.title", currentLocale)}</h2>
           </div>
           <div class="story-body">
-            <p data-reveal>有時候看到魚肚子裡卡著塑膠，心裡真的不是滋味。</p>
+            <p data-reveal>{tstory("story.scene4.p1", currentLocale)}</p>
             <p data-reveal>
-              魚活不下去，我們這些靠海吃飯的人，日子也越來越難過。網裡空了，口袋就跟著空。魚少了，賣不出價錢，家裡飯桌上的菜就少了一道，下趟出海的油錢也快湊不出來了。海裡的魚撐不住，我們這些靠海活著的人，也一樣快撐不住了。
+              {tstory("story.scene4.p2", currentLocale)}
             </p>
             <p data-reveal>
-              前幾天聽無線電，別的船也在說，最近漁獲都不好。跑遠洋的朋友也說，海上的魚沒以前那麼好找了。
+              {tstory("story.scene4.p3", currentLocale)}
             </p>
             <p data-reveal>
-              以前總覺得，海這麼大，魚怎麼抓都抓不完。現在才知道，再大的海，也<span
+              {tstory("story.scene4.p4.before", currentLocale)}<span
                 class="story-emphasis"
-                data-emphasis>經不起這樣糟蹋</span
-              >。這不只是那些海龜、海豚的事。
+                data-emphasis
+                >{tstory("story.scene4.p4.emphasis", currentLocale)}</span
+              >{tstory("story.scene4.p4.after", currentLocale)}
             </p>
             <p data-reveal>
               <span class="story-emphasis story-emphasis--strong" data-emphasis
-                >魚沒了，我們怎麼活？以後我的孩子、我的孫子，還能不能靠這片海吃飯？</span
+                >{tstory("story.scene4.p5", currentLocale)}</span
               >
             </p>
           </div>
@@ -357,25 +373,27 @@ const localeUrl = (path: string) => `/${currentLocale}${path}`;
         {/* 文字層 */}
         <div class="story-section__inner" data-parallax-layer="mid">
           <div class="story-section__header">
-            <p class="story-section__label">第五章</p>
-            <h2 data-split>海要是壞了，誰來修？</h2>
+            <p class="story-section__label">
+              {tstory("story.scene5.label", currentLocale)}
+            </p>
+            <h2 data-split>{tstory("story.scene5.title", currentLocale)}</h2>
           </div>
           <div class="story-body">
             <blockquote class="story-quote" data-reveal>
               <p>
                 <span class="story-emphasis" data-emphasis
-                  >船壞了，我還能修。</span
+                  >{tstory("story.scene5.quote.1", currentLocale)}</span
                 >
               </p>
               <p>
                 <span class="story-emphasis" data-emphasis
-                  >可要是海壞了，誰來修？</span
+                  >{tstory("story.scene5.quote.2", currentLocale)}</span
                 >
               </p>
             </blockquote>
-            <p data-reveal>我只希望，等我老到不能出海的那一天，這片海還在。</p>
+            <p data-reveal>{tstory("story.scene5.p1", currentLocale)}</p>
             <p data-reveal>
-              等我孫子長大的時候，還能看見海裡有魚，不是只有垃圾。
+              {tstory("story.scene5.p2", currentLocale)}
             </p>
           </div>
         </div>
@@ -384,15 +402,15 @@ const localeUrl = (path: string) => `/${currentLocale}${path}`;
       {/* ===== 行動呼籲區段 ===== */}
       <section class="story-cta" data-cta>
         <div class="story-cta__card">
-          <h3 data-split>保護我們的海洋</h3>
+          <h3 data-split>{tstory("story.cta.title", currentLocale)}</h3>
           <p data-reveal>
-            這不只是漁夫的故事，也是我們所有人的故事。海洋需要我們的行動。
+            {tstory("story.cta.desc", currentLocale)}
           </p>
           <a
             class="story-cta__button"
             data-cta-button
             href={`${localeUrl("/game")}#action-external`}
-            >{t("cta.join", currentLocale)}</a
+            >{tui("cta.join", currentLocale)}</a
           >
         </div>
       </section>
