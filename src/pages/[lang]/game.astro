@@ -106,7 +106,7 @@ const bootstrapScript = `window.GAME_TRASH_ITEMS = ${JSON.stringify(currentTrash
 					</div>
 
 					<div class="mt-6 pt-6 border-t border-white/10">
-						<p class="text-xs text-slate-400 text-center">{tgame('game.stats.probability', currentLocale)}</p>
+						<p class="text-xs text-slate-400 text-center" set:html={tgame('game.stats.probability', currentLocale)}></p>
 					</div>
 				</div>
 			</div>
